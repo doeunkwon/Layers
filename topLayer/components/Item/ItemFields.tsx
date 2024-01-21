@@ -79,7 +79,7 @@ const ItemFields = ({
 					/>
 					<ItemCell
 						imageUrl={clothingItem.image_url}
-						base64={clothingItem.image_url.slice(0, 5) !== 'https'}
+						base64={clothingItem.image_url.slice(0, 4) !== 'data'}
 					/>
 					<View
 						style={{ flexDirection: 'row', justifyContent: 'space-between' }}

@@ -150,7 +150,10 @@ const getUser = async (
 		const imgRef = userFields.profile_picture;
 		userFields.profile_picture = await downloadURLFromS3(imgRef);
 
-		console.log('signin result: ', userFields);
+		console.log(
+			'signin result: ',
+			userFields.profile_picture.substring(0, 100)
+		);
 
 		responseCallbackLogin(null, userFields, res);
 		next();

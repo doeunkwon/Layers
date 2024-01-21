@@ -17,8 +17,11 @@ const ItemCell = ({
 	onPress,
 	base64,
 }: ItemCellPropsType): ReactElement => {
-	const url = base64 === true ? `data:image/jpeg;base64,${imageUrl}` : imageUrl;
-
+	// const url = base64 === true ? `data:image/jpeg;base64,${imageUrl}` : imageUrl;
+	let url = imageUrl ?? '';
+	if (imageUrl.startsWith('/9j/')) {
+		url = `data:image/jpeg;base64,${imageUrl}`;
+	}
 	console.log('ItemCell url: ', url.substring(0, 100));
 	return (
 		<Pressable

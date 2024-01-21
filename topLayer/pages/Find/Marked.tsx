@@ -2,7 +2,7 @@ import React, { useState, useEffect, type ReactElement } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { find } from '../../constants/GlobalStrings';
-import { isUserArray, type User } from '../../types/User';
+import { isAnyUserArray, type privateUser, type User } from '../../types/User';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import { previewLength } from '../../constants/Find';
 import { useNavigation } from '@react-navigation/native';
@@ -11,7 +11,7 @@ import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 
 interface MarkedPropsType {
-	foreignUserIDs?: Array<string | User>; // foreignUserIDs is now optional
+	foreignUserIDs?: Array<string | User | privateUser>; // foreignUserIDs is now optional
 }
 
 const MarkedBar = ({ foreignUserIDs = [] }: MarkedPropsType): ReactElement => {
@@ -25,7 +25,7 @@ const MarkedBar = ({ foreignUserIDs = [] }: MarkedPropsType): ReactElement => {
 
 	useEffect(() => {
 		const preview = foreignUserIDs.slice(0, previewLength);
-		if (isUserArray(preview)) {
+		if (isAnyUserArray(preview)) {
 			setUsers(preview);
 		}
 	}, [foreignUserIDs]);

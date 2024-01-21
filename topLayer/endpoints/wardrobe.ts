@@ -11,6 +11,7 @@ export const getForeignAllOutfits = async (
 		url: `/api/outfits/u/${uid}?parse=categories`,
 	};
 	const successFunc = (data: UserOutfit[]): void => {
+		// console.log('foreignFits: ', data);
 		updateOutfits(data);
 	};
 	const failureFunc = (): void => {

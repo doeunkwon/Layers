@@ -49,15 +49,15 @@ export interface UserClothingPadding {
 export const isUserClothing = (obj: any): obj is UserClothing =>
 	obj !== null &&
 	obj !== undefined &&
-	typeof obj.ciid === 'string' &&
-	typeof obj.image_url === 'string' &&
-	typeof obj.category === 'string' &&
-	typeof obj.title === 'string' &&
-	typeof obj.uid === 'string' &&
+	typeof obj?.ciid === 'string' &&
+	typeof obj?.image_url === 'string' &&
+	typeof obj?.category === 'string' &&
+	typeof obj?.title === 'string' &&
+	typeof obj?.uid === 'string' &&
 	Array.isArray(obj.brands) &&
-	typeof obj.size === 'string' &&
+	typeof obj?.size === 'string' &&
 	Array.isArray(obj.color) &&
-	typeof obj.created_at === 'string';
+	typeof obj?.created_at === 'string';
 
 export const isUserClothingArray = (obj: any): obj is UserClothing[] =>
 	Array.isArray(obj) && obj.every(isUserClothing);

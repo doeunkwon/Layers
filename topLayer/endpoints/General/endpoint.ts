@@ -3,8 +3,14 @@ import {
 	axiosEndpointErrorHandler,
 	axiosEndpointErrorHandlerNoAlert,
 } from '../../utils/ErrorHandlers';
-import { type formUser, type User, type loginUser } from '../../types/User';
+import {
+	type formUser,
+	type User,
+	type loginUser,
+	isRetrievedUser,
+} from '../../types/User';
 import { baseUrl } from '../../utils/apiUtils';
+import { pictureProcessor } from '../../functions/General/UserRetrieval';
 
 interface configProps {
 	method: string;
@@ -33,14 +39,15 @@ export const endpoint = async ({
 		config.headers = {
 			'Content-Type': 'application/json',
 		};
-		console.log('config: ', config);
+		// console.log('config: ', config);
 		const { data, status } = await axios(config);
 
-		console.log('data response: ', data);
+		// console.log('data response: ', data);
 		if (status === 200) {
 			if (successFunc === null || successFunc === undefined) {
 				return data.data;
 			}
+
 			successFunc(data.data);
 		} else {
 			throw new Error(`An Error Has Occurred With Status: ${status}`);
