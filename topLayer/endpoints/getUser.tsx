@@ -5,9 +5,10 @@ import {
 	axiosEndpointErrorHandlerNoAlert,
 } from '../utils/ErrorHandlers';
 import { type Dispatch } from 'react';
-import { type User } from '../types/User';
+import { type retrievedUser, type User } from '../types/User';
 import { nullUser } from '../constants/baseUsers';
 import { type UserReducerProps } from '../Contexts/UserContext';
+import { pictureProcessor } from '../functions/General/UserRetrieval';
 
 export const getForeignUser = async (userId: string): Promise<User> => {
 	try {
@@ -43,10 +44,13 @@ export const getForeignUser2 = async (
 
 const returnGetUser = async (): Promise<User> => {
 	try {
-		const { data, status } = await axios.get(`${baseUrl}/api/private/users`);
+		const { data, status } = await axios.get<{ data: retrievedUser }>(
+			`${baseUrl}/api/private/users`
+		);
 
 		if (status === 200) {
-			return data.data;
+			// console.log('returngetuser: ', data.data);
+			return pictureProcessor(data.data);
 		} else {
 			throw Error('could not get user');
 		}
