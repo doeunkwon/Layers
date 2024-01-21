@@ -100,7 +100,7 @@ const SettingsFields = ({
 								>
 									<ProfilePicture
 										imageUrl={profile_picture}
-										base64={profile_picture.slice(0, 5) === 'data'}
+										base64={profile_picture.slice(0, 5) !== 'https'}
 									/>
 								</Pressable>
 							</View>

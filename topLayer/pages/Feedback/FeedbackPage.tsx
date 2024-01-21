@@ -33,8 +33,7 @@ const FeedbackPage: React.FC = () => {
 	const handleEmail = (values: FormValues): void => {
 		const email_address = 'layersapplication@gmail.com';
 		const mail = `mailto:${email_address}` + '?body=' + values.feedback;
-		Linking.openURL(mail).catch((err) => {
-			console.log(err);
+		Linking.openURL(mail).catch((_err) => {
 			showErrorToast(toast.anErrorHasOccurredWhileSendingFeedback);
 		});
 	};

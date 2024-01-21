@@ -1,15 +1,3 @@
-export interface retrievedUser {
-	uid: string;
-	first_name: string;
-	last_name: string;
-	email: string;
-	username: string;
-	private_option: boolean;
-	followers: string[];
-	following: string[];
-	profile_picture: ArrayBuffer;
-}
-
 export interface User {
 	uid: string;
 	first_name: string;

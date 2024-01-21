@@ -1,7 +1,8 @@
-import { Image, StyleSheet, View } from 'react-native';
-import React, { type ReactElement } from 'react';
+import { StyleSheet, View } from 'react-native';
+import React, { memo, type ReactElement } from 'react';
 import Icon from 'react-native-remix-icon';
 import GlobalStyles from '../../constants/GlobalStyles';
+import { Image } from 'expo-image';
 
 interface ProfilePicturePropsType {
 	imageUrl?: string;
@@ -18,16 +19,11 @@ const ProfilePicture = ({
 	size = GlobalStyles.sizing.pfp.regular,
 	border = false,
 }: ProfilePicturePropsType): ReactElement => {
-	let url = '';
-	if (imageUrl !== undefined && imageUrl !== null) {
-		if (base64) {
-			url = `data:image/jpeg;base64,${imageUrl}`;
-		} else {
-			url = imageUrl;
-		}
+	let url = imageUrl ?? '';
+	if (imageUrl !== undefined && imageUrl.startsWith('/9j/')) {
+		url = `data:image/jpeg;base64,${imageUrl}`;
 	}
 
-	console.log('profilePicture url: ', url.substring(0, 100));
 	return (
 		// <View style={shadow && GlobalStyles.utils.pfpShadow}> // uncomment for pfp shadow
 		<>
@@ -69,7 +65,7 @@ const ProfilePicture = ({
 	);
 };
 
-export default ProfilePicture;
+export default memo(ProfilePicture);
 
 const styles = StyleSheet.create({
 	profilePicture: {

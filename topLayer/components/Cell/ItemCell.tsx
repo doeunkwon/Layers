@@ -1,6 +1,7 @@
-import React, { memo, type ReactElement } from 'react';
-import { Image, type ImageStyle, Pressable, StyleSheet } from 'react-native';
+import React, { memo, MemoExoticComponent, type ReactElement } from 'react';
+import { type ImageStyle, Pressable, StyleSheet } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
+import MemoImage from '../../components/Image/memoImage';
 
 interface ItemCellPropsType {
 	imageUrl: string;
@@ -17,20 +18,18 @@ const ItemCell = ({
 	onPress,
 	base64,
 }: ItemCellPropsType): ReactElement => {
-	const url = base64 === true ? `data:image/jpeg;base64,${imageUrl}` : imageUrl;
+	let url = imageUrl ?? '';
+	if (imageUrl.startsWith('/9j/')) {
+		url = `data:image/jpeg;base64,${imageUrl}`;
+	}
 
-	console.log('ItemCell url: ', url.substring(0, 100));
 	return (
 		<Pressable
 			style={[styles.container]}
 			disabled={disablePress}
 			onPress={onPress}
 		>
-			<Image
-				source={{ uri: url }}
-				style={[styles.image, imageStyle]}
-				resizeMode="contain"
-			/>
+			<MemoImage url={url} imageStyle={imageStyle} />
 		</Pressable>
 	);
 };

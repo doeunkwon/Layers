@@ -32,7 +32,6 @@ const getAllOutfitsHandler = async (
 
 		if (status === 200) {
 			updateOutfits(data.data);
-			// console.log('outfits: ', data.data[0].clothing_items.outerwear);
 		} else {
 			throw new Error(`An Get All Outfits Error Has Occurred: ${status}`);
 		}

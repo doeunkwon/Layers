@@ -1,4 +1,7 @@
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {
+	createNativeStackNavigator,
+	type NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 import { type UserClothing } from '../types/Clothing';
 import { type outfitType, type UserOutfit } from '../types/Outfit';
 import { type markedUser } from '../types/User';
@@ -39,4 +42,4 @@ export interface StackTypes {
 	ForeignProfile: StackNavigatorType;
 }
 
-export const Stack = createStackNavigator<StackTypes>();
+export const Stack = createNativeStackNavigator<StackTypes>();

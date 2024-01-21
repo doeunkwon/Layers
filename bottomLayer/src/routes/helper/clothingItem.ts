@@ -31,7 +31,6 @@ export const getClothingById = async (
 		const imgRef = result.image_url;
 		result.image_url = await downloadURLFromS3(imgRef);
 
-		console.log('clothing item result: ', result);
 		responseCallbackGet(null, result, res, 'Clothing Item');
 	} catch (error) {
 		responseCallbackGet(error, null, res);
