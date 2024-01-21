@@ -1,21 +1,15 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import axios from 'axios';
 import Button from '../../components/Button/Button';
 import GlobalStyles from '../../constants/GlobalStyles';
-import { baseUrl } from '../../utils/apiUtils';
 import { toast } from '../../constants/GlobalStrings';
 import { showErrorToast } from '../../components/Toasts/Toasts';
 import { Loading } from '../../components/Loading/Loading';
 import { useUpdateUser } from '../../Contexts/UserContext';
 import LoginFields from '../../components/Settings/LogInFields';
-
-interface Form {
-	username: string;
-	email: string;
-	password: string;
-}
+import { type loginUser, type User } from '../../types/User';
+import { endpoint } from '../../endpoints/General/endpoint';
 
 const SignIn: React.FC = () => {
 	const updateUser = useUpdateUser();
@@ -27,51 +21,40 @@ const SignIn: React.FC = () => {
 		formState: { dirtyFields },
 	} = useForm({
 		defaultValues: {
-			username: '',
 			email: '',
 			password: '',
 		},
 	});
 
-	const onSubmit: SubmitHandler<Form> = (formData): void => {
-		let formValues: Record<string, string> = {};
-		if (formData.username !== '') {
-			formValues = {
-				username: formData.username,
-				password: formData.password,
-			};
-		} else if (formData.email !== '') {
-			formValues = {
-				email: formData.email,
-				password: formData.password,
-			};
-		} else {
-			throw new Error('No Username or Email');
-		}
-
-		const onSubmitInner = async (): Promise<void> => {
-			setIsLoading(true); // Start loading
-			try {
-				const { data: userData, status } = await axios.post(
-					`${baseUrl}/login`,
-					formValues
-				);
-
-				if (status === 200) {
-					updateUser({
-						type: 'change user',
-						user: userData.data,
-					});
-				} else {
-					throw new Error(`An Sign Up Error Has Occurred: ${status}`);
-				}
-				setIsLoading(false); // Stop loading on success
-			} catch (err: unknown) {
-				setIsLoading(false); // Stop loading on error
-				showErrorToast(toast.theEmailOrPasswordYouveEnteredIsIncorrect);
-			}
+	const onSubmit: SubmitHandler<loginUser> = (formData): void => {
+		const formValues: loginUser = {
+			password: formData.password,
+			email: formData.email,
 		};
-		void onSubmitInner();
+
+		const endpointConfig = {
+			method: 'post',
+			url: '/login',
+			data: formValues,
+		};
+		const successFunc = (data: User): void => {
+			updateUser({
+				type: 'change user',
+				user: data,
+			});
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.theEmailOrPasswordYouveEnteredIsIncorrect);
+		};
+
+		setIsLoading(true); // Start loading
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (

@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { baseUrl } from '../../utils/apiUtils';
 import { View, StyleSheet, Alert } from 'react-native';
 import React, {
 	useState,
@@ -17,12 +15,12 @@ import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import { toast } from '../../constants/GlobalStrings';
 import { Loading } from '../../components/Loading/Loading';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
 import {
 	showErrorToast,
 	showSuccessToast,
 } from '../../components/Toasts/Toasts';
 import ItemFields from '../../components/Item/ItemFields';
+import { endpoint } from '../../endpoints/General/endpoint';
 
 interface ItemCreatePropsType {
 	clothingItem: UserClothing;
@@ -60,25 +58,29 @@ const ItemCreate = ({
 			Alert.alert('Image Value Not Filled Out.');
 			return;
 		}
-		setIsLoading(true); // Start loading
-		try {
-			const { status } = await axios.post(
-				`${baseUrl}/api/private/clothing_items`,
-				values
-			);
 
-			if (status === 200) {
-				setShouldRefreshMainPage(true);
-				navigateToProfile();
-				showSuccessToast(toast.yourItemHasBeenCreated);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
-			}
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		const endpointConfig = {
+			method: 'post',
+			url: '/api/private/clothing_items',
+		};
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigateToProfile();
+			showSuccessToast(toast.yourItemHasBeenCreated);
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
+		};
+
+		setIsLoading(true); // Start loading
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+			alert: true,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (

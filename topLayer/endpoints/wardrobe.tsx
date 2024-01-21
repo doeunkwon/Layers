@@ -1,45 +1,46 @@
-import { baseUrl } from '../utils/apiUtils';
-import axios from 'axios';
-import { axiosEndpointErrorHandlerNoAlert } from '../utils/ErrorHandlers';
 import { type outfitClothingItemsType, type UserOutfit } from '../types/Outfit';
 import { type UserClothing } from '../types/Clothing';
+import { endpoint } from './General/endpoint';
 
 export const getForeignAllOutfits = async (
 	uid: string,
 	updateOutfits: (outfit: UserOutfit[]) => void
 ): Promise<void> => {
-	void getAllOutfitsHandler(
-		updateOutfits,
-		`${baseUrl}/api/outfits/u/${uid}?parse=categories`
-	);
+	const endpointConfig = {
+		method: 'get',
+		url: `/api/outfits/u/${uid}?parse=categories`,
+	};
+	const successFunc = (data: UserOutfit[]): void => {
+		updateOutfits(data);
+	};
+	const failureFunc = (): void => {
+		updateOutfits([]);
+	};
+	void endpoint({
+		config: endpointConfig,
+		successFunc: successFunc,
+		failureFunc: failureFunc,
+	});
 };
 
 export const getAllOutfits = async (
 	updateOutfits: (outfit: UserOutfit[]) => void
 ): Promise<void> => {
-	void getAllOutfitsHandler(
-		updateOutfits,
-		`${baseUrl}/api/private/outfits?parse=categories`
-	);
-};
-
-const getAllOutfitsHandler = async (
-	updateOutfits: (outfit: UserOutfit[]) => void,
-	query: string
-): Promise<void> => {
-	try {
-		const { data, status } = await axios.get<{ data: UserOutfit[] }>(query);
-
-		if (status === 200) {
-			updateOutfits(data.data);
-			// console.log('outfits: ', data.data[0].clothing_items.outerwear);
-		} else {
-			throw new Error(`An Get All Outfits Error Has Occurred: ${status}`);
-		}
-	} catch (err: unknown) {
-		axiosEndpointErrorHandlerNoAlert(err);
+	const endpointConfig = {
+		method: 'get',
+		url: '/api/private/outfits?parse=categories',
+	};
+	const successFunc = (data: UserOutfit[]): void => {
+		updateOutfits(data);
+	};
+	const failureFunc = (): void => {
 		updateOutfits([]);
-	}
+	};
+	void endpoint({
+		config: endpointConfig,
+		successFunc: successFunc,
+		failureFunc: failureFunc,
+	});
 };
 
 export const getForeignAllClothingItems = async (
@@ -49,13 +50,27 @@ export const getForeignAllClothingItems = async (
 	setAllBottoms: (wear: UserClothing[]) => void,
 	setAllShoes: (wear: UserClothing[]) => void
 ): Promise<void> => {
-	void getAllClothingItemsHandler(
-		setAllOuterwear,
-		setAllTops,
-		setAllBottoms,
-		setAllShoes,
-		`${baseUrl}/api/clothing_items/u/${uid}?parse=categories`
-	);
+	const endpointConfig = {
+		method: 'get',
+		url: `/api/clothing_items/u/${uid}?parse=categories`,
+	};
+	const successFunc = (data: outfitClothingItemsType): void => {
+		setAllOuterwear(data.outerwear);
+		setAllTops(data.tops);
+		setAllBottoms(data.bottoms);
+		setAllShoes(data.shoes);
+	};
+	const failureFunc = (): void => {
+		setAllOuterwear([]);
+		setAllTops([]);
+		setAllBottoms([]);
+		setAllShoes([]);
+	};
+	void endpoint({
+		config: endpointConfig,
+		successFunc: successFunc,
+		failureFunc: failureFunc,
+	});
 };
 
 export const getAllClothingItems = async (
@@ -64,42 +79,25 @@ export const getAllClothingItems = async (
 	setAllBottoms: (wear: UserClothing[]) => void,
 	setAllShoes: (wear: UserClothing[]) => void
 ): Promise<void> => {
-	void getAllClothingItemsHandler(
-		setAllOuterwear,
-		setAllTops,
-		setAllBottoms,
-		setAllShoes,
-		`${baseUrl}/api/private/clothing_items?parse=categories`
-	);
-};
-
-const getAllClothingItemsHandler = async (
-	setAllOuterwear: (wear: UserClothing[]) => void,
-	setAllTops: (wear: UserClothing[]) => void,
-	setAllBottoms: (wear: UserClothing[]) => void,
-	setAllShoes: (wear: UserClothing[]) => void,
-	query: string
-): Promise<void> => {
-	try {
-		const { data, status } = await axios.get<{ data: outfitClothingItemsType }>(
-			query
-		);
-
-		if (status === 200) {
-			setAllOuterwear(data.data.outerwear);
-			setAllTops(data.data.tops);
-			setAllBottoms(data.data.bottoms);
-			setAllShoes(data.data.shoes);
-		} else {
-			throw new Error(
-				`An Get All Clothing Items Error Has Occurred: ${status}`
-			);
-		}
-	} catch (err: unknown) {
-		axiosEndpointErrorHandlerNoAlert(err);
+	const endpointConfig = {
+		method: 'get',
+		url: '/api/private/clothing_items?parse=categories',
+	};
+	const successFunc = (data: outfitClothingItemsType): void => {
+		setAllOuterwear(data.outerwear);
+		setAllTops(data.tops);
+		setAllBottoms(data.bottoms);
+		setAllShoes(data.shoes);
+	};
+	const failureFunc = (): void => {
 		setAllOuterwear([]);
 		setAllTops([]);
 		setAllBottoms([]);
 		setAllShoes([]);
-	}
+	};
+	void endpoint({
+		config: endpointConfig,
+		successFunc: successFunc,
+		failureFunc: failureFunc,
+	});
 };

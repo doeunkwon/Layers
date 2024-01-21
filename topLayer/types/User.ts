@@ -33,7 +33,6 @@ export interface formUser {
 }
 
 export interface loginUser {
-	username: string;
 	email: string;
 	password: string;
 }
