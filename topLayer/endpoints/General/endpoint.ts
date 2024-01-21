@@ -33,8 +33,10 @@ export const endpoint = async ({
 		config.headers = {
 			'Content-Type': 'application/json',
 		};
+		console.log('config: ', config);
 		const { data, status } = await axios(config);
 
+		console.log('data response: ', data);
 		if (status === 200) {
 			if (successFunc === null || successFunc === undefined) {
 				return data.data;

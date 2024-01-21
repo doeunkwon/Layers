@@ -18,6 +18,7 @@ const ProfilePicture = ({
 	size = GlobalStyles.sizing.pfp.regular,
 	border = false,
 }: ProfilePicturePropsType): ReactElement => {
+	console.log(base64, imageUrl);
 	let url = '';
 	if (imageUrl !== undefined && imageUrl !== null) {
 		if (base64) {
@@ -27,7 +28,7 @@ const ProfilePicture = ({
 		}
 	}
 
-	console.log('profilePicture url: ', url.substring(0, 100));
+	console.log('profilePicture url2: ', url.substring(0, 100));
 	return (
 		// <View style={shadow && GlobalStyles.utils.pfpShadow}> // uncomment for pfp shadow
 		<>

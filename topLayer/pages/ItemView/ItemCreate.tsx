@@ -62,6 +62,7 @@ const ItemCreate = ({
 		const endpointConfig = {
 			method: 'post',
 			url: '/api/private/clothing_items',
+			data: values,
 		};
 		const successFunc = (): void => {
 			setShouldRefreshMainPage(true);

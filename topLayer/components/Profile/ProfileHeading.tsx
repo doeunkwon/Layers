@@ -19,7 +19,7 @@ const ProfileHeading = ({
 			<Pressable onPress={profilePicturePress}>
 				<ProfilePicture
 					imageUrl={user?.profile_picture ?? ''}
-					base64={user?.profile_picture.slice(0, 5) === 'data'}
+					base64={user?.profile_picture.slice(0, 5) !== 'https'}
 				/>
 			</Pressable>
 			<View>
