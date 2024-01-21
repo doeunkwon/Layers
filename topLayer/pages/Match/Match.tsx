@@ -28,7 +28,6 @@ import { emptyClothing } from '../../constants/Clothing';
 
 const Match: React.FC = () => {
 	const { allItems } = useContext(MainPageContext);
-	console.log('allItems match: ', allItems[1].data);
 
 	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const [selectedIndexes, setSelectedIndexes] =

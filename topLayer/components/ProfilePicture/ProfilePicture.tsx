@@ -18,17 +18,20 @@ const ProfilePicture = ({
 	size = GlobalStyles.sizing.pfp.regular,
 	border = false,
 }: ProfilePicturePropsType): ReactElement => {
-	const imgString: string =
-		imageUrl !== undefined && imageUrl !== null && imageUrl !== ''
-			? base64
-				? `data:image/jpeg;base64,${imageUrl}`
-				: imageUrl
-			: '';
+	let url = '';
+	if (imageUrl !== undefined && imageUrl !== null) {
+		if (base64) {
+			url = `data:image/jpeg;base64,${imageUrl}`;
+		} else {
+			url = imageUrl;
+		}
+	}
 
+	console.log('profilePicture url: ', url.substring(0, 100));
 	return (
 		// <View style={shadow && GlobalStyles.utils.pfpShadow}> // uncomment for pfp shadow
 		<>
-			{imgString !== '' ? (
+			{url !== '' ? (
 				<Image
 					style={[
 						styles.profilePicture,
@@ -40,7 +43,7 @@ const ProfilePicture = ({
 							borderColor: border ? 'white' : undefined,
 						},
 					]}
-					source={{ uri: imgString }}
+					source={{ uri: url }}
 				/>
 			) : (
 				<View

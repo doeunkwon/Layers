@@ -198,6 +198,7 @@ const signup = (req: Request, res: Response, next: NextFunction): any => {
 				'Unknown User Error, User Not Defined'
 			);
 		}
+		// console.log('signup user: ', user);
 		req.logIn(user, { session: true }, (err) => {
 			if (err !== null && err !== undefined) {
 				return responseCallbackSignUp(err, '', res);
