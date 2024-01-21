@@ -27,6 +27,7 @@ import { MainPageContext } from '../../pages/Main/MainPage';
 import { type RouteTypes } from '../../types/Routes';
 import OutfitBlockLayout from '../../components/Outfit/OutfitBlockLayout';
 import { endpoint } from '../../endpoints/General/endpoint';
+import GlobalStyles from '../../constants/GlobalStyles';
 
 const OutfitPreview = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
