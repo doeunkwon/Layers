@@ -29,6 +29,7 @@ router.get('/:uid', (req: Request, res: Response): void => {
 				delete user.password;
 			}
 			user.profile_picture = await async1;
+			console.log('public get user: ', user);
 
 			responseCallbackGet(null, user, res, 'User');
 		} catch (error) {

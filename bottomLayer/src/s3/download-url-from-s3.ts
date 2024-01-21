@@ -3,36 +3,27 @@ import { GetObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { jpegTest } from './jpeg';
 import axios from 'axios';
-import * as fs from 'fs';
 
 let url = jpegTest;
 
-async function loadImageFromS3(signedUrl: string, path: string): Promise<void> {
+async function loadImageFromS3(signedUrl: string): Promise<ArrayBuffer> {
 	try {
 		const response = await axios.get(signedUrl, {
 			responseType: 'arraybuffer',
 		});
 
 		console.log('axios url: ', response.headers);
-		// return new Promise((resolve, reject) => {
-		// 	const writer = fs.createWriteStream(path);
-		//
-		// 	response.data.pipe(writer);
-		// 	writer.on('finish', resolve);
-		// 	writer.on('error', reject);
-		// });
-		// return response;
-		// const blob = new Blob([new Uint8Array(response.data as number[])], {
-		// 	type: 'image/jpeg',
-		// });
+
+		return response.data;
 	} catch (error) {
 		console.error('Error loading image:', error);
+		throw error;
 	}
 }
 
-async function downloadURLFromS3(objectKey: string): Promise<string> {
+async function downloadURLFromS3(objectKey: string): Promise<ArrayBuffer> {
 	if (objectKey === '') {
-		return '';
+		return new ArrayBuffer(0);
 	}
 
 	const params = {
@@ -48,12 +39,12 @@ async function downloadURLFromS3(objectKey: string): Promise<string> {
 		// url = signedUrl;
 		// }
 
-		const path: string = './downloaded_image.jpeg';
-		await loadImageFromS3(signedUrl, path);
+		const image = await loadImageFromS3(signedUrl);
 		// const test = await fetch(signedUrl);
 		// console.log(test.headers.get('Content-Type'));
 
-		return signedUrl;
+		console.log('download: ', image);
+		return image;
 	} catch (error) {
 		console.error('Error generating signed URL:', error);
 		throw error;

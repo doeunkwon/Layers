@@ -26,6 +26,7 @@ router.get('/', (req: Request, res: Response): void => {
 			const result = user.rows[0];
 			const imgRef = result.profile_picture;
 			result.profile_picture = await downloadURLFromS3(imgRef);
+			console.log('private user result: ', result);
 
 			responseCallbackGet(null, result, res, 'User');
 		} catch (error) {
