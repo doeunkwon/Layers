@@ -1,4 +1,4 @@
-import React, { memo, MemoExoticComponent, type ReactElement } from 'react';
+import React, { memo, type ReactElement } from 'react';
 import { type ImageStyle, Pressable, StyleSheet } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
 import MemoImage from '../../components/Image/memoImage';
@@ -29,7 +29,7 @@ const ItemCell = ({
 			disabled={disablePress}
 			onPress={onPress}
 		>
-			<MemoImage url={url} imageStyle={imageStyle} />
+			<MemoImage source={url} style={{ ...imageStyle, ...styles.image }} />
 		</Pressable>
 	);
 };

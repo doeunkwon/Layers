@@ -24,7 +24,6 @@
 		"expo-crypto": "~12.4.1",
 		"expo-dev-client": "~2.4.12",
 		"expo-device": "~5.4.0",
-		"expo-image": "~1.3.5",
 		"expo-image-picker": "~14.3.2",
 		"expo-media-library": "~15.4.1",
 		"expo-status-bar": "~1.6.0",

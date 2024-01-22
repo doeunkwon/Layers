@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import React, { memo, type ReactElement } from 'react';
 import Icon from 'react-native-remix-icon';
 import GlobalStyles from '../../constants/GlobalStyles';
-import { Image } from 'expo-image';
+import MemoImage from '../../components/Image/memoImage';
 
 interface ProfilePicturePropsType {
 	imageUrl?: string;
@@ -28,18 +28,17 @@ const ProfilePicture = ({
 		// <View style={shadow && GlobalStyles.utils.pfpShadow}> // uncomment for pfp shadow
 		<>
 			{url !== '' ? (
-				<Image
-					style={[
-						styles.profilePicture,
-						{
-							width: size,
-							height: size,
-							borderRadius: size / 2,
-							borderWidth: border ? 1 : 0,
-							borderColor: border ? 'white' : undefined,
-						},
-					]}
-					source={{ uri: url }}
+				<MemoImage
+					source={url}
+					resizeMode="cover"
+					style={{
+						...styles.profilePicture,
+						width: size,
+						height: size,
+						borderRadius: size / 2,
+						borderWidth: border ? 1 : 0,
+						borderColor: border ? 'white' : undefined,
+					}}
 				/>
 			) : (
 				<View
@@ -72,6 +71,5 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.colorPalette.card[300],
 		justifyContent: 'center',
 		alignItems: 'center',
-		resizeMode: 'cover',
 	},
 });

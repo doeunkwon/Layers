@@ -36,5 +36,5 @@ export interface StackTypes {
 	ForeignProfile: StackNavigatorType;
 }
 
-enableScreens(false);
-export const Stack = createNativeStackNavigator<StackTypes>();
+enableScreens(true);
+export const Stack = createStackNavigator<StackTypes>();

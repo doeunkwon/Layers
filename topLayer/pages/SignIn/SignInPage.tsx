@@ -21,7 +21,10 @@ const SignInPage: React.FC = () => {
 			<Pressable onPress={Keyboard.dismiss} style={styles.container}>
 				<Image
 					style={styles.logo}
+					resizeMethod="scale"
+					resizeMode="contain"
 					source={require('../../assets/layers-logo.png')}
+					defaultSource={require('../../assets/layers-logo.png')}
 				/>
 				<SignIn />
 			</Pressable>
