@@ -31,7 +31,7 @@ const ItemPage = (): ReactElement => {
 	);
 
 	return (
-		<Stack.Navigator screenOptions={{ animationTypeForReplace: 'pop' }}>
+		<Stack.Navigator>
 			<Stack.Group>
 				<Stack.Screen
 					name={StackNavigation.ItemView}
