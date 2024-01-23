@@ -36,24 +36,24 @@ const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
 
 	const route = useRoute<RouteProp<RouteTypes, 'ItemCreate'>>();
-	const { clothingItem } = route.params;
+	const { item } = route.params;
 
 	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { control, handleSubmit, setValue } = useForm({
 		defaultValues: {
-			image: clothingItem.image_url,
-			category: clothingItem.category,
-			title: clothingItem.title,
-			size: clothingItem.size,
-			color: clothingItem.color,
+			image: item.image_url,
+			category: item.category,
+			title: item.title,
+			size: item.size,
+			color: item.color,
 		},
 	});
 
 	useEffect(() => {
-		setValue('image', clothingItem.image_url);
-	}, [clothingItem.image_url]);
+		setValue('image', item.image_url);
+	}, [item.image_url]);
 
 	const handleCreate = async (values: creationClothingTypes): Promise<void> => {
 		if (values.category === '') {
@@ -95,11 +95,7 @@ const ItemCreate = (): ReactElement => {
 				rightStepOverType={StepOverTypes.done}
 				rightButtonAction={handleSubmit(handleCreate)}
 			/>
-			<ItemFields
-				control={control}
-				setValue={setValue}
-				clothingItem={clothingItem}
-			/>
+			<ItemFields control={control} setValue={setValue} clothingItem={item} />
 			{isLoading ? <Loading /> : null}
 		</View>
 	);

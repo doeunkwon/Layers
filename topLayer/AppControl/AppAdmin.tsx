@@ -17,8 +17,9 @@ const SUPPRESSED_WARNINGS = [
 
 console.error = function filterWarnings(msg: string, errorType, ...args) {
 	if (!SUPPRESSED_WARNINGS.some((entry) => msg.startsWith(entry))) {
-		console.log(msg, errorType);
 		consoleWarn(msg, ...args);
+	} else {
+		console.log(msg, errorType);
 	}
 };
 

@@ -23,6 +23,6 @@ export interface RouteTypes {
 		item: UserClothing;
 	};
 	ItemCreate: {
-		clothingItem: UserClothing;
+		item: UserClothing;
 	};
 }
