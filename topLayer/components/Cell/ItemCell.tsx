@@ -24,7 +24,7 @@ const ItemCell = ({
 		url = `data:image/jpeg;base64,${imageUrl}`;
 	}
 
-	console.log('Itemcell URL: ', url.substring(0, 100));
+	// console.log('Itemcell URL: ', url.substring(0, 100));
 
 	return (
 		<Pressable

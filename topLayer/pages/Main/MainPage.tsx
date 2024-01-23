@@ -21,6 +21,7 @@ export const MainPageContext = createContext({
 	navigationArray: [() => {}],
 	allItems: [] as UserAllItems[],
 	setShouldRefreshMainPage: (() => {}) as Dispatch<SetStateAction<boolean>>,
+	isLoading: 2,
 });
 
 const MainPage: React.FC = () => {
@@ -75,6 +76,7 @@ const MainPage: React.FC = () => {
 				navigationArray: [navigateToProfile, navigateToMatch, navigateToFind],
 				allItems: allItems,
 				setShouldRefreshMainPage: setShouldRefreshMainPage,
+				isLoading: isLoading,
 			}}
 		>
 			<PagerView style={styles.pager} ref={ref} initialPage={1}>
@@ -82,7 +84,7 @@ const MainPage: React.FC = () => {
 					<MatchPage />
 				</View>
 				<View collapsable={false}>
-					<ProfilePage isLoading={isLoading} />
+					<ProfilePage />
 				</View>
 				<View collapsable={false}>
 					<FindPage />

@@ -113,7 +113,7 @@ const ForeignProfile = (): ReactElement => {
 			<View style={{ paddingVertical: GlobalStyles.layout.modalTopPadding }} />
 			<View style={{ flex: 1 }}>
 				<ProfileHeading user={user} />
-				{isLoading >= 0 ? (
+				{isLoading > 0 ? (
 					<Loading />
 				) : user.private_option ? (
 					<PrivateProfile />

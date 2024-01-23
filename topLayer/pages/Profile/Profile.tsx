@@ -23,13 +23,10 @@ import {
 import { type UserAllItems } from '../../types/AllItems';
 import { Loading } from '../../components/Loading/Loading';
 
-interface ProfileProps {
-	isLoading: number;
-}
-
-const Profile = ({ isLoading }: ProfileProps): ReactElement => {
+const Profile = (): ReactElement => {
 	const data = useUser();
-	const { allItems } = useContext(MainPageContext);
+	const { allItems, isLoading } = useContext(MainPageContext);
+	console.log('Loading? ', isLoading);
 
 	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const flatListRef = useRef<FlatList<UserAllItems>>(null);
@@ -57,7 +54,7 @@ const Profile = ({ isLoading }: ProfileProps): ReactElement => {
 		<SafeAreaView style={styles.container}>
 			<Navbar />
 			<ProfileHeading user={data} profilePicturePress={toggleSettingsModal} />
-			{isLoading >= 0 ? (
+			{isLoading > 0 ? (
 				<Loading />
 			) : (
 				<CategoryComponent

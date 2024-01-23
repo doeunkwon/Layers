@@ -11,21 +11,13 @@ import { Stack } from '../../utils/StackNavigation';
 import ItemCreate from '../../pages/ItemView/ItemCreate';
 import CameraComponent from '../../components/Camera/Camera';
 
-interface ProfilePageProps {
-	isLoading: number;
-}
-
-const ProfilePage = ({ isLoading }: ProfilePageProps): ReactElement => {
+const ProfilePage = (): ReactElement => {
 	const CameraComponents: React.FC = () => <CameraComponent mode={1} />;
-	const ProfileComponents: React.FC = () => <Profile isLoading={isLoading} />;
 
 	return (
 		<NavigationContainer independent={true}>
 			<Stack.Navigator screenOptions={{ headerShown: false }}>
-				<Stack.Screen
-					name={StackNavigation.Profile}
-					component={ProfileComponents}
-				/>
+				<Stack.Screen name={StackNavigation.Profile} component={Profile} />
 				<Stack.Group
 					screenOptions={{
 						presentation: 'modal',
