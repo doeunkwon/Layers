@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { type ReactElement } from 'react';
 import { StackNavigation } from '../../constants/Enums';
 import Profile from './Profile';
 import SettingsPage from './SettingsPage';
@@ -11,13 +11,21 @@ import { Stack } from '../../utils/StackNavigation';
 import ItemCreate from '../../pages/ItemView/ItemCreate';
 import CameraComponent from '../../components/Camera/Camera';
 
-const ProfilePage: React.FC = () => {
+interface ProfilePageProps {
+	isLoading: number;
+}
+
+const ProfilePage = ({ isLoading }: ProfilePageProps): ReactElement => {
 	const CameraComponents: React.FC = () => <CameraComponent mode={1} />;
+	const ProfileComponents: React.FC = () => <Profile isLoading={isLoading} />;
 
 	return (
 		<NavigationContainer independent={true}>
 			<Stack.Navigator screenOptions={{ headerShown: false }}>
-				<Stack.Screen name={StackNavigation.Profile} component={Profile} />
+				<Stack.Screen
+					name={StackNavigation.Profile}
+					component={ProfileComponents}
+				/>
 				<Stack.Group
 					screenOptions={{
 						presentation: 'modal',

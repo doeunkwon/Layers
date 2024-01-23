@@ -8,10 +8,7 @@ import React, {
 	type ReactElement,
 } from 'react';
 import { StepOverTypes, StackNavigation } from '../../constants/Enums';
-import {
-	type creationClothingTypes,
-	type UserClothing,
-} from '../../types/Clothing';
+import { type creationClothingTypes } from '../../types/Clothing';
 import { useForm } from 'react-hook-form';
 import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
@@ -30,7 +27,7 @@ import {
 } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
-import { type RouteTypes } from 'types/Routes';
+import { type RouteTypes } from '../../types/Routes';
 
 const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);

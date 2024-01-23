@@ -35,6 +35,7 @@ import {
 	handleCategoryChange,
 	handleForeignItemPress,
 } from '../../functions/Profile/Profile';
+import { Loading } from '../../components/Loading/Loading';
 
 const ForeignProfile = (): ReactElement => {
 	const route = useRoute<RouteProp<RouteTypes, 'ForeignProfile'>>();
@@ -44,6 +45,7 @@ const ForeignProfile = (): ReactElement => {
 	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const flatListRef = useRef<FlatList<UserAllItems>>(null);
 
+	const [isLoading, setIsLoading] = useState(2); // Add loading state
 	const [allOutfits, setAllOutfits] = useState<UserOutfit[]>([]);
 	const [allOuterwear, setAllOuterwear] = useState<UserClothing[]>([]);
 	const [allTops, setAllTops] = useState<UserClothing[]>([]);
@@ -82,13 +84,15 @@ const ForeignProfile = (): ReactElement => {
 	).current;
 
 	useEffect(() => {
-		void getForeignAllOutfits(user.uid, setAllOutfits);
+		setIsLoading(2);
+		void getForeignAllOutfits(user.uid, setAllOutfits, setIsLoading);
 		void getForeignAllClothingItems(
 			user.uid,
 			setAllOuterwear,
 			setAllTops,
 			setAllBottoms,
-			setAllShoes
+			setAllShoes,
+			setIsLoading
 		);
 	}, []);
 
@@ -109,7 +113,9 @@ const ForeignProfile = (): ReactElement => {
 			<View style={{ paddingVertical: GlobalStyles.layout.modalTopPadding }} />
 			<View style={{ flex: 1 }}>
 				<ProfileHeading user={user} />
-				{user.private_option ? (
+				{isLoading >= 0 ? (
+					<Loading />
+				) : user.private_option ? (
 					<PrivateProfile />
 				) : (
 					<CategoryComponent

@@ -1,7 +1,8 @@
 import React, { memo, type ReactElement } from 'react';
-import { type ImageStyle, Pressable, StyleSheet } from 'react-native';
+import { type ImageStyle, Pressable, StyleSheet, View } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
 import MemoImage from '../../components/Image/memoImage';
+import Icon from 'react-native-remix-icon';
 
 interface ItemCellPropsType {
 	imageUrl: string;
@@ -23,13 +24,25 @@ const ItemCell = ({
 		url = `data:image/jpeg;base64,${imageUrl}`;
 	}
 
+	console.log('Itemcell URL: ', url.substring(0, 100));
+
 	return (
 		<Pressable
 			style={[styles.container]}
 			disabled={disablePress}
 			onPress={onPress}
 		>
-			<MemoImage source={url} style={{ ...imageStyle, ...styles.image }} />
+			{url.startsWith('data') ? (
+				<MemoImage source={url} style={{ ...imageStyle, ...styles.image }} />
+			) : (
+				<View style={{ ...imageStyle, ...styles.image }}>
+					<Icon
+						name={GlobalStyles.icons.shirtOutline}
+						color={GlobalStyles.colorPalette.primary[300]}
+						size={GlobalStyles.sizing.icon.regular}
+					/>
+				</View>
+			)}
 		</Pressable>
 	);
 };

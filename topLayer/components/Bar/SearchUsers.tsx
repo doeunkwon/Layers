@@ -12,6 +12,7 @@ import {
 import SearchBar from './SearchBar';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { screenHeight } from '../../utils/modalMaxShow';
+import { Loading } from '../../components/Loading/Loading';
 
 interface SearchBarPropsType {
 	placeholder: string;
@@ -24,6 +25,7 @@ const SearchUsers = ({
 	handleEmptyString,
 	handleNonEmptyString,
 }: SearchBarPropsType): ReactElement => {
+	const [isLoading, setIsLoading] = useState(false); // Add loading state
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState<
 		Array<markedUser | markedPrivateUser>
@@ -33,6 +35,7 @@ const SearchUsers = ({
 	// Create an instance of AbortController
 	const abortController = useRef(new AbortController());
 	const allSearch = async (text: string): Promise<void> => {
+		setIsLoading(true);
 		try {
 			const { data, status } = await axios.get<{
 				data: Array<markedUser | markedPrivateUser>;
@@ -41,6 +44,7 @@ const SearchUsers = ({
 			});
 			if (status === 200) {
 				setSearchResults(data.data);
+				setIsLoading(false);
 			}
 		} catch (error) {
 			axiosEndpointErrorHandlerNoAlert(error);
@@ -73,6 +77,7 @@ const SearchUsers = ({
 		setSearchQuery(text);
 		if (text === '') {
 			setSearchResults([]);
+			setIsLoading(false);
 			if (handleEmptyString != null) {
 				handleEmptyString(userRelations.current);
 			}
@@ -118,19 +123,25 @@ const SearchUsers = ({
 
 			{whiteSpaceBG()}
 
-			<FlatList
-				data={searchResults}
-				renderItem={renderProfile}
-				keyExtractor={(item) => item.uid}
-				showsVerticalScrollIndicator={false}
-				ListHeaderComponent={<View style={{ height: 35 }} />}
-				ListFooterComponent={() => {
-					if (searchQuery === '') {
-						return null;
-					}
-					return <View style={{ height: screenHeight * 0.13 }} />;
-				}}
-			/>
+			{isLoading ? (
+				<View style={{ height: '100%' }}>
+					<Loading />
+				</View>
+			) : (
+				<FlatList
+					data={searchResults}
+					renderItem={renderProfile}
+					keyExtractor={(item) => item.uid}
+					showsVerticalScrollIndicator={false}
+					ListHeaderComponent={<View style={{ height: 35 }} />}
+					ListFooterComponent={() => {
+						if (searchQuery === '') {
+							return null;
+						}
+						return <View style={{ height: screenHeight * 0.13 }} />;
+					}}
+				/>
+			)}
 		</View>
 	);
 };

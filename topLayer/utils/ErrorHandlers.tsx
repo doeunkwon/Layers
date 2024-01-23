@@ -2,6 +2,7 @@ import axios, { type AxiosError } from 'axios';
 import { Alert } from 'react-native';
 
 export const axiosEndpointErrorHandler = (err: unknown): void => {
+	console.log('Error Handler');
 	const error = err as Error | AxiosError;
 	if (
 		axios.isAxiosError(error) &&
@@ -18,7 +19,7 @@ export const axiosEndpointErrorHandler = (err: unknown): void => {
 };
 
 export const axiosEndpointErrorHandlerNoAlert = (err: unknown): void => {
-	console.log(err);
+	console.log('Error Handler');
 	const error = err as Error | AxiosError;
 	if (
 		axios.isAxiosError(error) &&

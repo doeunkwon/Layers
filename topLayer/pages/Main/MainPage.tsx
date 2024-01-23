@@ -24,6 +24,7 @@ export const MainPageContext = createContext({
 });
 
 const MainPage: React.FC = () => {
+	const [isLoading, setIsLoading] = useState(2); // Add loading state
 	const [shouldRefreshMainPage, setShouldRefreshMainPage] = useState(true);
 	const [allOutfits, setAllOutfits] = useState<UserOutfit[]>([]);
 	const [allOuterwear, setAllOuterwear] = useState<UserClothing[]>([]);
@@ -43,12 +44,13 @@ const MainPage: React.FC = () => {
 	// fetched all the outfits and clothings
 	useEffect(() => {
 		if (shouldRefreshMainPage) {
-			void getAllOutfits(setAllOutfits);
+			void getAllOutfits(setAllOutfits, setIsLoading);
 			void getAllClothingItems(
 				setAllOuterwear,
 				setAllTops,
 				setAllBottoms,
-				setAllShoes
+				setAllShoes,
+				setIsLoading
 			);
 		}
 		if (shouldRefreshMainPage) {
@@ -80,7 +82,7 @@ const MainPage: React.FC = () => {
 					<MatchPage />
 				</View>
 				<View collapsable={false}>
-					<ProfilePage />
+					<ProfilePage isLoading={isLoading} />
 				</View>
 				<View collapsable={false}>
 					<FindPage />

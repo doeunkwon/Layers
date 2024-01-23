@@ -31,7 +31,7 @@ import Animated, {
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { openCropper } from 'react-native-image-crop-picker';
-import { CameraFunc } from 'functions/Components/Camera';
+import { CameraFunc } from '../../functions/Components/Camera';
 
 interface CameraPropType {
 	cameraFunction?: (photo: string) => void;
@@ -88,6 +88,7 @@ export default function CameraComponent({
 					width: 800,
 					height: 800,
 					cropping: true,
+					forceJpg: true,
 					includeBase64: true,
 					mediaType: 'photo',
 				})
