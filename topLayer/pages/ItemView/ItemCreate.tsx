@@ -28,6 +28,7 @@ import {
 import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { type RouteTypes } from '../../types/Routes';
+import GlobalStyles from 'constants/GlobalStyles';
 
 const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
@@ -100,7 +101,7 @@ const ItemCreate = (): ReactElement => {
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: 'white',
+		backgroundColor: GlobalStyles.colorPalette.background,
 		flex: 1,
 		gap: 15,
 		paddingTop: 20,
