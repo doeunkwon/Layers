@@ -21,7 +21,7 @@ import {
 	useNavigation,
 	useRoute,
 } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { Loading } from '../../components/Loading/Loading';
 import { StackNavigation, StepOverTypes } from '../../constants/Enums';
@@ -35,7 +35,7 @@ const OutfitPreview = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
 
 	const route = useRoute<RouteProp<RouteTypes, 'OutfitPreview'>>();
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 
 	const { matchItems } = route.params;
 

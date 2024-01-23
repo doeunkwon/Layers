@@ -24,7 +24,7 @@ import {
 } from '../../components/Toasts/Toasts';
 import ItemFields from '../../components/Item/ItemFields';
 import { useNavigation } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 
 interface ItemCreatePropsType {
@@ -34,7 +34,7 @@ interface ItemCreatePropsType {
 const ItemCreate = ({ clothingItem }: ItemCreatePropsType): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
 
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { control, handleSubmit, setValue } = useForm({

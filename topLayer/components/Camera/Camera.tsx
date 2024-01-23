@@ -11,7 +11,7 @@ import Icon from 'react-native-remix-icon';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { screenHeight, screenWidth } from '../../utils/modalMaxShow';
 import { useNavigation } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import ExpoStatusBar from 'expo-status-bar/build/ExpoStatusBar';
 import {
@@ -53,7 +53,7 @@ export default function CameraComponent({
 	const scale = useSharedValue(0);
 	const shutterWidth = useSharedValue(0);
 	const rippleOpacity = useSharedValue(1);
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const cameraRef = useRef<Camera>(null);
 	const aRef = useAnimatedRef<View>();
 	const canTakePictureRef = useRef(true);

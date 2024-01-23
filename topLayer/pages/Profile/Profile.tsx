@@ -7,7 +7,7 @@ import {
 	ClothingTypes,
 } from '../../constants/Enums';
 import { useNavigation } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { type UserClothing } from '../../types/Clothing';
 import { type UserOutfit } from '../../types/Outfit';
@@ -26,7 +26,7 @@ const Profile: React.FC = () => {
 	const data = useUser();
 	const { allItems } = useContext(MainPageContext);
 
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const flatListRef = useRef<FlatList<UserAllItems>>(null);
 	const [selectedCategory, setSelectedCategory] = useState(
 		ClothingTypes.outfits as string

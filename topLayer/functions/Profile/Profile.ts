@@ -4,7 +4,7 @@ import { type UserOutfit } from '../../types/Outfit';
 import { CategoryToIndex, StackNavigation } from '../../constants/Enums';
 import { type Dispatch, type RefObject, type SetStateAction } from 'react';
 import { type FlatList } from 'react-native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 
 export const handleIndexChange = (
@@ -27,7 +27,7 @@ export const handleCategoryChange = (
 
 export const handleForeignItemPress = (
 	item: UserClothing | UserOutfit,
-	navigation: NativeStackNavigationProp<StackTypes>
+	navigation: StackNavigationProp<StackTypes>
 ): void => {
 	if ('oid' in item) {
 		navigation.navigate(StackNavigation.OutfitViewPage, {
@@ -42,7 +42,7 @@ export const handleForeignItemPress = (
 
 export const handleItemChange = (
 	item: UserClothing | UserOutfit,
-	navigation: NativeStackNavigationProp<StackTypes>
+	navigation: StackNavigationProp<StackTypes>
 ): void => {
 	if ('oid' in item) {
 		navigation.navigate(StackNavigation.OutfitPage, {

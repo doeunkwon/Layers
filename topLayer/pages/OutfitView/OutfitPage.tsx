@@ -5,7 +5,7 @@ import OutfitEdit from './OutfitEdit';
 import { Stack } from '../../utils/StackNavigation';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigation } from '../../constants/Enums';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { useRoute, type RouteProp } from '@react-navigation/native';
 import { type RouteTypes } from '../../types/Routes';
@@ -13,7 +13,7 @@ import { getFlatArrayOfValues } from '../../functions/Outfit/Outfit';
 
 const OutfitPage = (): ReactElement => {
 	const route = useRoute<RouteProp<RouteTypes, 'OutfitPage'>>();
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const { item } = route.params;
 	const { oid, clothing_items, title } = item;
 	const clothingItems = getFlatArrayOfValues(clothing_items);

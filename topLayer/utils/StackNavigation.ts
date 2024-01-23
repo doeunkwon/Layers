@@ -1,4 +1,3 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { type UserClothing } from '../types/Clothing';
 import { type outfitType, type UserOutfit } from '../types/Outfit';
 import { type markedUser } from '../types/User';

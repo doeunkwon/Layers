@@ -15,7 +15,7 @@ import {
 import { match } from '../../constants/GlobalStrings';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { type UserAllItems } from '../../types/AllItems';
 
@@ -30,7 +30,7 @@ import { emptyClothing } from '../../constants/Clothing';
 const Match: React.FC = () => {
 	const { allItems } = useContext(MainPageContext);
 
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const [selectedIndexes, setSelectedIndexes] =
 		useState<UserSelectedClothingList>({
 			outerwear: 0,

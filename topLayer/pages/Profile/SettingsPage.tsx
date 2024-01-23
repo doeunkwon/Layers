@@ -16,7 +16,7 @@ import {
 import { handleLogout } from '../../endpoints/getUser';
 import { useUpdateUser, useUser } from '../../Contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import SettingsFields from '../../components/Settings/SettingsFields';
 import { Loading } from '../../components/Loading/Loading';
@@ -32,7 +32,7 @@ const SettingsPage: React.FC = () => {
 	const profile_picture = useRef(data.profile_picture);
 
 	const [isLoading, setIsLoading] = useState(false); // Add loading state
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 
 	const defaultForm: formUser = {
 		first_name: first_name,

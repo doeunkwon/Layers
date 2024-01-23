@@ -18,7 +18,7 @@ require('dotenv').config();
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb' }));
-app.use(timeout(5000));
+app.use(timeout(20000));
 
 app.use(
 	session({

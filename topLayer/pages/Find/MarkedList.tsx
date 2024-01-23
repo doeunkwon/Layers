@@ -7,7 +7,7 @@ import FetchProfileCell from '../../components/Cell/LoadProfileCell';
 import { find } from '../../constants/GlobalStrings';
 import { previewLength } from '../../constants/Find';
 import { useNavigation } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import Header from '../../components/Header/Header';
 import { screenHeight } from '../../utils/modalMaxShow';
@@ -22,7 +22,7 @@ const MarkedList = ({
 	foreignUserIDs,
 	updateFollowed,
 }: MarkedListPropsType): ReactElement => {
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const [preLoad, setPreLoad] = useState(false);
 	const unmarked = useRef<string[]>([]);
 	const [count, setCount] = useState<number>(foreignUserIDs.length);

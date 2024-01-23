@@ -4,14 +4,14 @@ import ItemCreate from '../../pages/ItemView/ItemCreate';
 import { Stack, type StackTypes } from '../../utils/StackNavigation';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigation } from '../../constants/Enums';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { emptyClothing } from '../../constants/Clothing';
 
 const dummyId = 'createID: ';
 let createCount = 0;
 
 const ItemCamera = (): ReactElement => {
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 
 	const [clothingItem, setClothingItem] = useState({ ...emptyClothing });
 

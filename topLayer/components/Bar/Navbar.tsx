@@ -4,13 +4,13 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import Icon from 'react-native-remix-icon';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { MainPageContext } from '../../pages/Main/MainPage';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { StackNavigation } from '../../constants/Enums';
 
 const Navbar = (): ReactElement => {
 	const { navigationArray } = useContext(MainPageContext);
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 
 	return (
 		<View style={styles.container}>

@@ -14,7 +14,7 @@ import {
 	useNavigation,
 	useRoute,
 } from '@react-navigation/native';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { type UserClothing } from '../../types/Clothing';
 import { type UserOutfit } from '../../types/Outfit';
@@ -41,7 +41,7 @@ const ForeignProfile = (): ReactElement => {
 	const user: markedUser = route.params.markedUser;
 	const markUserFunc = useMarkUserFunc();
 
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const flatListRef = useRef<FlatList<UserAllItems>>(null);
 
 	const [allOutfits, setAllOutfits] = useState<UserOutfit[]>([]);
