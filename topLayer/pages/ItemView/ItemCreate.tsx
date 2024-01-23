@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { baseUrl } from '../../utils/apiUtils';
 import { View, StyleSheet, Alert } from 'react-native';
 import React, {
 	useState,
@@ -14,7 +12,6 @@ import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import { toast } from '../../constants/GlobalStrings';
 import { Loading } from '../../components/Loading/Loading';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
 import {
 	showErrorToast,
 	showSuccessToast,
@@ -28,7 +25,8 @@ import {
 import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { type RouteTypes } from '../../types/Routes';
-import GlobalStyles from 'constants/GlobalStyles';
+import GlobalStyles from '../../constants/GlobalStyles';
+import { endpoint } from '../../endpoints/General/endpoint';
 
 const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
@@ -62,25 +60,30 @@ const ItemCreate = (): ReactElement => {
 			Alert.alert('Image Value Not Filled Out.');
 			return;
 		}
-		setIsLoading(true); // Start loading
-		try {
-			const { status } = await axios.post(
-				`${baseUrl}/api/private/clothing_items`,
-				values
-			);
 
-			if (status === 200) {
-				setShouldRefreshMainPage(true);
-				navigation.navigate(StackNavigation.Profile, {});
-				showSuccessToast(toast.yourItemHasBeenCreated);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
-			}
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		const endpointConfig = {
+			method: 'post',
+			url: '/api/private/clothing_items',
+			data: values,
+		};
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigation.navigate(StackNavigation.Profile, {});
+			showSuccessToast(toast.yourItemHasBeenCreated);
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
+		};
+
+		setIsLoading(true); // Start loading
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+			alert: true,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (

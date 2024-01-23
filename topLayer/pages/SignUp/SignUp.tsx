@@ -1,10 +1,7 @@
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 import GlobalStyles from '../../constants/GlobalStyles';
-import { baseUrl } from '../../utils/apiUtils';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
 import {
 	showErrorToast,
 	showSuccessToast,
@@ -16,7 +13,8 @@ import { useUpdateUser } from '../../Contexts/UserContext';
 import { usePhoto } from '../../Contexts/CameraContext';
 import SettingsFields from '../../components/Settings/SettingsFields';
 import { View } from 'react-native';
-import { type formUser } from '../../types/User';
+import { type User, type formUser } from '../../types/User';
+import { endpoint } from '../../endpoints/General/endpoint';
 
 const SignUp: React.FC = () => {
 	const updateUser = useUpdateUser();
@@ -44,32 +42,30 @@ const SignUp: React.FC = () => {
 			private_option: values.private_option,
 		};
 
-		const onSubmitInner = async (): Promise<void> => {
-			setIsLoading(true); // Start loading
-			try {
-				const { data: userData, status } = await axios.post(
-					`${baseUrl}/signup`,
-					formValues
-				);
-
-				if (status === 200) {
-					updateUser({
-						type: 'change user',
-						user: userData.data,
-					});
-				} else {
-					throw new Error(`An Sign Up Error Has Occurred: ${status}`);
-				}
-
-				showSuccessToast(toast.yourProfileHasBeenCreated);
-				setIsLoading(false); // Stop loading on success
-			} catch (err: unknown) {
-				setIsLoading(false); // Stop loading on error
-				showErrorToast(toast.anErrorHasOccurredWhileCreatingProfile);
-				axiosEndpointErrorHandler(err);
-			}
+		const endpointConfig = {
+			method: 'post',
+			url: '/signup',
+			data: formValues,
 		};
-		void onSubmitInner();
+		const successFunc = (data: User): void => {
+			updateUser({
+				type: 'change user',
+				user: data,
+			});
+			showSuccessToast(toast.yourProfileHasBeenCreated);
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.anErrorHasOccurredWhileCreatingProfile);
+		};
+
+		setIsLoading(true); // Start loading
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (

@@ -53,6 +53,8 @@ const SettingsFields = ({
 		navigation.navigate(StackNavigation.CameraPfp, {});
 	};
 
+	console.log('settings field pp: ', profile_picture.substring(0, 100));
+	console.log(profile_picture.slice(0, 4));
 	const showProfileOptions = (): void => {
 		Alert.alert(settings.editProfilePicture, '', [
 			{

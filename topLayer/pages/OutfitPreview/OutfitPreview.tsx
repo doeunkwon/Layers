@@ -5,12 +5,8 @@ import React, {
 	useContext,
 	type ReactElement,
 } from 'react';
-import { baseUrl } from '../../utils/apiUtils';
-import axios from 'axios';
-import GlobalStyles from '../../constants/GlobalStyles';
 import StackedTextbox from '../../components/Textbox/StackedTextbox';
 import { type UserClothing } from '../../types/Clothing';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
 import { toast, match as matchHeading } from '../../constants/GlobalStrings';
 import {
 	showErrorToast,
@@ -30,6 +26,8 @@ import { emptyClothing } from '../../constants/Clothing';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import { type RouteTypes } from '../../types/Routes';
 import OutfitBlockLayout from '../../components/Outfit/OutfitBlockLayout';
+import { endpoint } from '../../endpoints/General/endpoint';
+import GlobalStyles from '../../constants/GlobalStyles';
 
 const OutfitPreview = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
@@ -97,28 +95,32 @@ const OutfitPreview = (): ReactElement => {
 				: null,
 		].filter((item) => item !== null);
 
-		const onSubmitInner = async (): Promise<void> => {
-			try {
-				const response = await axios.post(`${baseUrl}/api/private/outfits`, {
-					title: match.matchName,
-					clothing_items: clothingItems,
-				});
-
-				setIsLoading(false); // Stop loading
-				if (response.status === 200) {
-					navigation.goBack();
-					setShouldRefreshMainPage(true);
-					showSuccessToast(toast.yourOutfitHasBeenCreated);
-				} else {
-					showErrorToast(toast.anErrorHasOccurredWhileCreatingOutfit);
-				}
-			} catch (error) {
-				setIsLoading(false); // Stop loading
-				axiosEndpointErrorHandler(error);
-			}
+		const endpointConfig = {
+			method: 'post',
+			url: '/api/private/outfits',
+			data: {
+				title: match.matchName,
+				clothing_items: clothingItems,
+			},
 		};
+		const successFunc = (): void => {
+			navigation.goBack();
+			setShouldRefreshMainPage(true);
+			showSuccessToast(toast.yourOutfitHasBeenCreated);
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.anErrorHasOccurredWhileCreatingOutfit);
+		};
+
 		setIsLoading(true); // Start loading
-		void onSubmitInner();
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+			alert: true,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 	return (
 		<View style={styles.container}>

@@ -40,13 +40,13 @@ async function downloadURLFromS3(objectKey: string): Promise<string> {
 		// }
 
 		const image = await loadImageFromS3(signedUrl);
-		// const test = await fetch(signedUrl);
-		// console.log(test.headers.get('Content-Type'));
+		const test = await fetch(signedUrl);
+		console.log(test.headers.get('Content-Type'));
 
-		const url = base64ArrayBuffer(image);
-		// }
+		const base64 = base64ArrayBuffer(image);
+
 		// console.log('download: ', image);
-		return url;
+		return base64;
 	} catch (error) {
 		console.error('Error generating signed URL:', error);
 		throw error;

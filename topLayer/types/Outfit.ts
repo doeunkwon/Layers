@@ -38,10 +38,10 @@ export const isUserOutfit = (obj: any): obj is UserOutfit =>
 	typeof obj === 'object' &&
 	obj !== null &&
 	obj !== undefined &&
-	typeof obj.oid === 'string' &&
-	typeof obj.title === 'string' &&
-	typeof obj.uid === 'string' &&
-	typeof obj.created_at === 'string' &&
+	typeof obj?.oid === 'string' &&
+	typeof obj?.title === 'string' &&
+	typeof obj?.uid === 'string' &&
+	typeof obj?.created_at === 'string' &&
 	isOutfitClothingItemsType(obj.clothing_items);
 
 export const isUserOutfitArray = (obj: any): obj is UserOutfit[] =>

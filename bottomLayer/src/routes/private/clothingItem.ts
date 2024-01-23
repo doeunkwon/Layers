@@ -38,7 +38,7 @@ router.post('/', (req: Request, res: Response): void => {
 
 			const ciid = uuidv4();
 			query += `'${ciid}', `;
-			const imgRef = await convertImage(image, ciid, false);
+			const imgRef = await convertImage(image, ciid, true);
 			query += `'${imgRef}', `;
 			query += `'${category}', `;
 			if (title !== undefined && title !== null) {

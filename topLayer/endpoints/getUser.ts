@@ -1,59 +1,37 @@
-import { baseUrl } from '../utils/apiUtils';
-import axios from 'axios';
-import {
-	axiosEndpointErrorHandler,
-	axiosEndpointErrorHandlerNoAlert,
-} from '../utils/ErrorHandlers';
 import { type Dispatch } from 'react';
 import { type User } from '../types/User';
 import { nullUser } from '../constants/baseUsers';
 import { type UserReducerProps } from '../Contexts/UserContext';
+import { endpoint } from './General/endpoint';
 
 export const getForeignUser = async (userId: string): Promise<User> => {
-	try {
-		const { data, status } = await axios.get<{ data: User }>(
-			`${baseUrl}/api/users/${userId}`
-		);
+	const endpointConfig = {
+		method: 'get',
+		url: `/api/users/${userId}`,
+	};
 
-		if (status === 200) {
-			return data.data;
-		}
-	} catch (error) {
-		axiosEndpointErrorHandler(error);
-	}
-	return { ...nullUser };
-};
+	const failureFunc = (): User => {
+		return { ...nullUser };
+	};
 
-export const getForeignUser2 = async (
-	id: string,
-	func: (data: User) => void
-): Promise<void> => {
-	try {
-		const { data, status } = await axios.get<{ data: User }>(
-			`${baseUrl}/api/users/${id}`
-		);
-
-		if (status === 200) {
-			func(data.data);
-		}
-	} catch (error) {
-		axiosEndpointErrorHandlerNoAlert(error);
-	}
+	return await endpoint({
+		config: endpointConfig,
+		failureFunc: failureFunc,
+	});
 };
 
 const returnGetUser = async (): Promise<User> => {
-	try {
-		const { data, status } = await axios.get(`${baseUrl}/api/private/users`);
-
-		if (status === 200) {
-			return data.data;
-		} else {
-			throw Error('could not get user');
-		}
-	} catch (error) {
-		axiosEndpointErrorHandlerNoAlert(error);
-	}
-	return { ...nullUser };
+	const endpointConfig = {
+		method: 'get',
+		url: '/api/private/users',
+	};
+	const failureFunc = (): User => {
+		return { ...nullUser };
+	};
+	return await endpoint({
+		config: endpointConfig,
+		failureFunc: failureFunc,
+	});
 };
 
 export const updateUser = async (
@@ -69,8 +47,18 @@ export const updateUser = async (
 export const handleLogout = async (
 	dispatch: Dispatch<UserReducerProps>
 ): Promise<void> => {
-	await axios(`${baseUrl}/logout`);
-	dispatch({
-		type: 'logout',
+	const endpointConfig = {
+		method: 'get',
+		url: '/logout',
+	};
+	const successFunc = (): void => {
+		dispatch({
+			type: 'logout',
+		});
+	};
+	void endpoint({
+		config: endpointConfig,
+		successFunc: successFunc,
+		alert: true,
 	});
 };

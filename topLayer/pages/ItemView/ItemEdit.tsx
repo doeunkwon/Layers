@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { baseUrl } from '../../utils/apiUtils';
 import { View, StyleSheet, Pressable, Alert } from 'react-native';
 import React, { useState, useContext, type ReactElement } from 'react';
 import { StepOverTypes } from '../../constants/Enums';
@@ -13,7 +11,6 @@ import Icon from 'react-native-remix-icon';
 import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import { toast, itemEdit } from '../../constants/GlobalStrings';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
 import { Loading } from '../../components/Loading/Loading';
 import {
 	showErrorToast,
@@ -21,6 +18,7 @@ import {
 } from '../../components/Toasts/Toasts';
 import { areArraysEqual } from '../../functions/General/array';
 import ItemFields from '../../components/Item/ItemFields';
+import { endpoint } from '../../endpoints/General/endpoint';
 
 interface ItemEditPropsType {
 	clothingItem: UserClothing;
@@ -83,52 +81,54 @@ const ItemEdit = ({
 			return;
 		}
 
-		setIsLoading(true); // Start loading
-		try {
-			const response = await axios.put(
-				`${baseUrl}/api/private/clothing_items/${clothingItem.ciid}`,
-				dataToUpdate,
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			);
-			if (response.status === 200) {
-				setShouldRefreshMainPage(true);
-				navigateToProfile();
-				showSuccessToast(toast.yourItemHasBeenUpdated);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileUpdatingItem);
-			}
+		const endpointConfig = {
+			method: 'put',
+			url: `/api/private/clothing_items/${clothingItem.ciid}`,
+			data: dataToUpdate,
+		};
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigateToProfile();
+			showSuccessToast(toast.yourItemHasBeenUpdated);
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.anErrorHasOccurredWhileUpdatingItem);
+		};
 
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		setIsLoading(true); // Start loading
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+			alert: true,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	const handleDelete = async (): Promise<void> => {
-		setIsLoading(true); // Start loading
-		try {
-			const response = await axios.delete(
-				`${baseUrl}/api/private/clothing_items/${clothingItem.ciid}`
-			);
+		const endpointConfig = {
+			method: 'delete',
+			url: `/api/private/clothing_items/${clothingItem.ciid}`,
+		};
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigateToProfile();
+			showSuccessToast(toast.yourItemHasBeenUpdated);
+		};
+		const failureFunc = (): void => {
+			showErrorToast(toast.anErrorHasOccurredWhileDeletingItem);
+		};
 
-			if (response.status === 200) {
-				setShouldRefreshMainPage(true);
-				navigateToProfile();
-				showSuccessToast(toast.yourItemHasBeenDeleted);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileDeletingItem);
-				throw new Error('An error has occurred while deleting outfit');
-			}
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		setIsLoading(true); // Start loading
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+			alert: true,
+		}).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (

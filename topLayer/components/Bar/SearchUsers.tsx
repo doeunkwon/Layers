@@ -1,9 +1,6 @@
 import React, { useState, useRef, type ReactElement } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
-import axios from 'axios';
 import ProfileCell from '../../components/Cell/ProfileCell';
-import { baseUrl } from '../../utils/apiUtils';
 import {
 	type markedPrivateUser,
 	type markedUser,
@@ -13,6 +10,7 @@ import SearchBar from './SearchBar';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { screenHeight } from '../../utils/modalMaxShow';
 import { Loading } from '../../components/Loading/Loading';
+import { endpoint } from '../../endpoints/General/endpoint';
 
 interface SearchBarPropsType {
 	placeholder: string;
@@ -36,20 +34,23 @@ const SearchUsers = ({
 	const abortController = useRef(new AbortController());
 	const allSearch = async (text: string): Promise<void> => {
 		setIsLoading(true);
-		try {
-			const { data, status } = await axios.get<{
-				data: Array<markedUser | markedPrivateUser>;
-			}>(`${baseUrl}/api/private/search/${text}`, {
-				signal: abortController.current.signal,
-			});
-			if (status === 200) {
-				setSearchResults(data.data);
-				setIsLoading(false);
-			}
-		} catch (error) {
-			axiosEndpointErrorHandlerNoAlert(error);
+		const endpointConfig = {
+			method: 'get',
+			url: `/api/private/search/${text}`,
+			signal: abortController.current.signal,
+		};
+		const successFunc = (data: Array<markedUser | markedPrivateUser>): void => {
+			setSearchResults(data);
+			setIsLoading(false);
+		};
+		const failureFunc = (): void => {
 			setSearchResults([]);
-		}
+		};
+		void endpoint({
+			config: endpointConfig,
+			successFunc: successFunc,
+			failureFunc: failureFunc,
+		});
 	};
 
 	const handleMarking = (
