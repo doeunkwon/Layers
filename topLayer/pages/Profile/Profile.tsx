@@ -26,7 +26,6 @@ import { Loading } from '../../components/Loading/Loading';
 const Profile = (): ReactElement => {
 	const data = useUser();
 	const { allItems, isLoading } = useContext(MainPageContext);
-	console.log('Loading? ', isLoading);
 
 	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const flatListRef = useRef<FlatList<UserAllItems>>(null);
