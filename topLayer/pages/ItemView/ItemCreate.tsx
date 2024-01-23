@@ -23,16 +23,20 @@ import {
 	showSuccessToast,
 } from '../../components/Toasts/Toasts';
 import ItemFields from '../../components/Item/ItemFields';
-import { useNavigation } from '@react-navigation/native';
+import {
+	type RouteProp,
+	useNavigation,
+	useRoute,
+} from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
 import { type StackTypes } from '../../utils/StackNavigation';
+import { type RouteTypes } from 'types/Routes';
 
-interface ItemCreatePropsType {
-	clothingItem: UserClothing;
-}
-
-const ItemCreate = ({ clothingItem }: ItemCreatePropsType): ReactElement => {
+const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
+
+	const route = useRoute<RouteProp<RouteTypes, 'ItemCreate'>>();
+	const { clothingItem } = route.params;
 
 	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 	const [isLoading, setIsLoading] = useState(false);

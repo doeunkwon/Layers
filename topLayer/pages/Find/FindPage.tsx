@@ -72,14 +72,8 @@ const FindPage: React.FC = () => {
 	return (
 		<MarkUserFuncProvider>
 			<NavigationContainer independent={true}>
-				<Stack.Navigator>
-					<Stack.Screen
-						name={StackNavigation.Find}
-						component={FindHomePage}
-						options={{
-							headerShown: false,
-						}}
-					/>
+				<Stack.Navigator screenOptions={{ headerShown: false }}>
+					<Stack.Screen name={StackNavigation.Find} component={FindHomePage} />
 					<Stack.Group
 						screenOptions={{
 							presentation: 'modal',
@@ -88,30 +82,18 @@ const FindPage: React.FC = () => {
 						<Stack.Screen
 							name={StackNavigation.MarkedList}
 							component={MarkedListComponent}
-							options={{
-								headerShown: false,
-							}}
 						/>
 						<Stack.Screen
 							name={StackNavigation.ForeignProfile}
 							component={ForeignProfile}
-							options={{
-								headerShown: false,
-							}}
 						/>
 						<Stack.Screen
 							name={StackNavigation.ItemViewPage}
 							component={ItemViewPage}
-							options={{
-								headerShown: false,
-							}}
 						/>
 						<Stack.Screen
 							name={StackNavigation.OutfitViewPage}
 							component={OutfitViewPage}
-							options={{
-								headerShown: false,
-							}}
 						/>
 					</Stack.Group>
 				</Stack.Navigator>

@@ -31,21 +31,15 @@ const ItemPage = (): ReactElement => {
 	);
 
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Group>
 				<Stack.Screen
 					name={StackNavigation.ItemView}
 					component={ItemViewComponent}
-					options={{
-						headerShown: false,
-					}}
 				/>
 				<Stack.Screen
 					name={StackNavigation.ItemEdit}
 					component={ItemEditComponent}
-					options={{
-						headerShown: false,
-					}}
 				/>
 			</Stack.Group>
 		</Stack.Navigator>

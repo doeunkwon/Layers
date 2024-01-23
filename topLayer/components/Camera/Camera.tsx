@@ -31,16 +31,16 @@ import Animated, {
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { openCropper } from 'react-native-image-crop-picker';
-import { StackNavigation } from 'constants/Enums';
+import { CameraFunc } from 'functions/Components/Camera';
 
 interface CameraPropType {
-	cameraFunction: (photo: string) => void;
-	navigate?: boolean;
+	cameraFunction?: (photo: string) => void;
+	mode?: number;
 }
 
 export default function CameraComponent({
 	cameraFunction,
-	navigate,
+	mode,
 }: CameraPropType): ReactElement {
 	const [orientation, setOrientation] = useState(CameraType.back);
 	const [flashMode, setFlashMode] = useState(FlashMode.off);
@@ -97,13 +97,13 @@ export default function CameraComponent({
 							croppedImage?.data !== undefined &&
 							croppedImage?.data !== ''
 						) {
-							if (navigate === true) {
-								navigation.goBack();
-								setTimeout(() => {
-									navigation.navigate(StackNavigation.ItemCreate, {});
-								}, 100);
+							if (typeof mode === 'number') {
+								CameraFunc(croppedImage.data, navigation, mode);
+							} else {
+								if (cameraFunction !== undefined) {
+									cameraFunction(croppedImage.data);
+								}
 							}
-							cameraFunction(croppedImage.data);
 						}
 					})
 					.catch((error) => {
@@ -190,13 +190,13 @@ export default function CameraComponent({
 			result.assets[0].base64 !== undefined &&
 			result.assets[0].base64 !== ''
 		) {
-			if (navigate === true) {
-				navigation.goBack();
-				setTimeout(() => {
-					navigation.navigate(StackNavigation.ItemCreate, {});
-				}, 100);
+			if (typeof mode === 'number') {
+				CameraFunc(result.assets[0].base64, navigation, mode);
+			} else {
+				if (cameraFunction !== undefined) {
+					cameraFunction(result.assets[0].base64);
+				}
 			}
-			cameraFunction(result.assets[0].base64);
 		} else {
 			console.log('result.assets[0].base64 is undefined!');
 		}

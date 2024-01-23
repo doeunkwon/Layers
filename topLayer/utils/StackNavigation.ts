@@ -26,7 +26,6 @@ export interface StackTypes {
 	OutfitEdit: StackNavigatorType;
 	Feedback: StackNavigatorType;
 	Find: StackNavigatorType;
-	ItemCamera: StackNavigatorType;
 	CameraPfp: StackNavigatorType;
 	CameraComponents: StackNavigatorType;
 	Settings: StackNavigatorType;

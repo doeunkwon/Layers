@@ -43,7 +43,6 @@ export const StackNavigation = {
 	OutfitViewPage: 'OutfitViewPage',
 	OutfitView: 'OutfitView',
 	OutfitEdit: 'OutfitEdit',
-	ItemCamera: 'ItemCamera',
 	CameraPfp: 'CameraPfp',
 	CameraComponents: 'CameraComponents',
 	Settings: 'Settings',

@@ -32,3 +32,5 @@ export const clothingItemTypes = [
 		value: ClothingTypes.shoes,
 	},
 ];
+
+export const dummyId = 'createID: ';

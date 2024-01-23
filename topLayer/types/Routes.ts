@@ -2,8 +2,6 @@ import { type UserClothing } from './Clothing';
 import { type UserOutfit, type outfitType } from './Outfit';
 import { type markedUser } from './User';
 
-type empty = Record<PropertyKey, never>;
-
 export interface RouteTypes {
 	[key: string]: object;
 	ForeignProfile: {
@@ -24,6 +22,7 @@ export interface RouteTypes {
 	ItemPage: {
 		item: UserClothing;
 	};
-	ItemCamera: empty;
-	CameraPfp: empty;
+	ItemCreate: {
+		clothingItem: UserClothing;
+	};
 }
