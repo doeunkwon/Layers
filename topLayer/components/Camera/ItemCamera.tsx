@@ -25,16 +25,8 @@ const ItemCamera = (): ReactElement => {
 		});
 		navigation.navigate(StackNavigation.ItemCreate, {});
 	};
-
-	const redirectToProfile = (): void => {
-		navigation.navigate(StackNavigation.Profile, {});
-	};
-
 	const ItemCreateComponent: React.FC = () => (
-		<ItemCreate
-			clothingItem={clothingItem}
-			navigateToProfile={redirectToProfile}
-		/>
+		<ItemCreate clothingItem={clothingItem} />
 	);
 
 	const CameraComponents: React.FC = () => (
@@ -45,13 +37,15 @@ const ItemCamera = (): ReactElement => {
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false,
-				cardStyle: { backgroundColor: 'black', opacity: 1 },
 			}}
 		>
 			<Stack.Group>
 				<Stack.Screen
 					name={StackNavigation.CameraComponents}
 					component={CameraComponents}
+					options={{
+						cardStyle: { backgroundColor: 'black', opacity: 1 },
+					}}
 				/>
 				<Stack.Screen
 					name={StackNavigation.ItemCreate}

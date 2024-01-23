@@ -15,6 +15,7 @@ import Toast from 'react-native-toast-message';
 import { useUser } from '../Contexts/UserContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import CameraPfp from '../components/Camera/CameraPfp';
+import { TransitionPresets } from '@react-navigation/stack';
 
 const AppHome: React.FC = () => {
 	const user: User = useUser();
@@ -41,11 +42,8 @@ const AppHome: React.FC = () => {
 									name={StackNavigation.CameraPfp}
 									component={CameraPfp}
 									options={{
-										presentation: 'fullScreenModal',
-										animation: 'slide_from_bottom',
-										gestureEnabled: true,
-										gestureDirection: 'vertical',
-										headerShown: false,
+										...TransitionPresets.ModalSlideFromBottomIOS,
+										presentation: 'transparentModal',
 									}}
 								/>
 							</>

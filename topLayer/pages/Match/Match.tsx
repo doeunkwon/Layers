@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header/Header';
 import Selector from './Selector';
 import Button from '../../components/Button/Button';

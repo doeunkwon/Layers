@@ -1,12 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { type ReactElement, useContext } from 'react';
-import { View, StyleSheet, Pressable, SafeAreaView } from 'react-native';
-
+import { View, StyleSheet, Pressable } from 'react-native';
 import Icon from 'react-native-remix-icon';
 import GlobalStyles from '../../constants/GlobalStyles';
-
 import { MainPageContext } from '../../pages/Main/MainPage';
-
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { StackNavigation } from '../../constants/Enums';
@@ -16,7 +13,7 @@ const Navbar = (): ReactElement => {
 	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<View style={styles.icons}>
 				<Pressable
 					onPress={() => {
@@ -33,7 +30,7 @@ const Navbar = (): ReactElement => {
 			<View style={styles.icons}>
 				<Pressable
 					onPress={() => {
-						navigation.navigate(StackNavigation.ItemCamera, {});
+						navigation.navigate(StackNavigation.CameraComponents, {});
 					}}
 				>
 					<Icon
@@ -54,7 +51,7 @@ const Navbar = (): ReactElement => {
 					/>
 				</Pressable>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

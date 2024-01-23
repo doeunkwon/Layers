@@ -1,10 +1,5 @@
-import {
-	StyleSheet,
-	View,
-	SafeAreaView,
-	Pressable,
-	type ViewStyle,
-} from 'react-native';
+import { StyleSheet, View, Pressable, type ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useCallback, useRef, useState, type ReactElement } from 'react';
 import {
 	Camera,
@@ -36,13 +31,16 @@ import Animated, {
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { openCropper } from 'react-native-image-crop-picker';
+import { StackNavigation } from 'constants/Enums';
 
 interface CameraPropType {
 	cameraFunction: (photo: string) => void;
+	navigate?: boolean;
 }
 
 export default function CameraComponent({
 	cameraFunction,
+	navigate,
 }: CameraPropType): ReactElement {
 	const [orientation, setOrientation] = useState(CameraType.back);
 	const [flashMode, setFlashMode] = useState(FlashMode.off);
@@ -99,6 +97,12 @@ export default function CameraComponent({
 							croppedImage?.data !== undefined &&
 							croppedImage?.data !== ''
 						) {
+							if (navigate === true) {
+								navigation.goBack();
+								setTimeout(() => {
+									navigation.navigate(StackNavigation.ItemCreate, {});
+								}, 100);
+							}
 							cameraFunction(croppedImage.data);
 						}
 					})
@@ -186,6 +190,12 @@ export default function CameraComponent({
 			result.assets[0].base64 !== undefined &&
 			result.assets[0].base64 !== ''
 		) {
+			if (navigate === true) {
+				navigation.goBack();
+				setTimeout(() => {
+					navigation.navigate(StackNavigation.ItemCreate, {});
+				}, 100);
+			}
 			cameraFunction(result.assets[0].base64);
 		} else {
 			console.log('result.assets[0].base64 is undefined!');
@@ -243,7 +253,7 @@ export default function CameraComponent({
 				style={{
 					position: 'absolute',
 					width: screenWidth,
-					height: screenHeight,
+					height: '100%',
 					alignItems: 'center',
 					justifyContent: 'space-between',
 				}}
@@ -340,6 +350,7 @@ const styles = StyleSheet.create({
 		...GlobalStyles.utils.fullRadius,
 	},
 	topContainer: {
+		// backgroundColor: 'white',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		width: screenWidth,

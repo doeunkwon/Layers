@@ -7,7 +7,7 @@ import React, {
 	useContext,
 	type ReactElement,
 } from 'react';
-import { StepOverTypes } from '../../constants/Enums';
+import { StepOverTypes, StackNavigation } from '../../constants/Enums';
 import {
 	type creationClothingTypes,
 	type UserClothing,
@@ -23,18 +23,18 @@ import {
 	showSuccessToast,
 } from '../../components/Toasts/Toasts';
 import ItemFields from '../../components/Item/ItemFields';
+import { useNavigation } from '@react-navigation/native';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackTypes } from '../../utils/StackNavigation';
 
 interface ItemCreatePropsType {
 	clothingItem: UserClothing;
-	navigateToProfile: () => void;
 }
 
-const ItemCreate = ({
-	clothingItem,
-	navigateToProfile,
-}: ItemCreatePropsType): ReactElement => {
+const ItemCreate = ({ clothingItem }: ItemCreatePropsType): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
 
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { control, handleSubmit, setValue } = useForm({
@@ -69,7 +69,7 @@ const ItemCreate = ({
 
 			if (status === 200) {
 				setShouldRefreshMainPage(true);
-				navigateToProfile();
+				navigation.navigate(StackNavigation.Profile, {});
 				showSuccessToast(toast.yourItemHasBeenCreated);
 			} else {
 				showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
