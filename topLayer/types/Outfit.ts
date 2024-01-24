@@ -22,6 +22,11 @@ export interface UserOutfit {
 	created_at: string;
 }
 
+export interface createdOutfitProps {
+	title: string;
+	clothing_items: string[];
+}
+
 function isOutfitClothingItemsType(
 	clothingItems: any
 ): clothingItems is outfitClothingItemsType {

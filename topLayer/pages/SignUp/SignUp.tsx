@@ -2,11 +2,6 @@ import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 import GlobalStyles from '../../constants/GlobalStyles';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
-import { toast } from '../../constants/GlobalStrings';
 import { defaultFormUser } from '../../constants/baseUsers';
 import { Loading } from '../../components/Loading/Loading';
 import { useUpdateUser } from '../../Contexts/UserContext';
@@ -14,7 +9,7 @@ import { usePhoto } from '../../Contexts/CameraContext';
 import SettingsFields from '../../components/Settings/SettingsFields';
 import { View } from 'react-native';
 import { type User, type formUser } from '../../types/User';
-import { endpoint } from '../../endpoints/General/endpoint';
+import { EndpointSignup } from 'endpoints/authentication';
 
 const SignUp: React.FC = () => {
 	const updateUser = useUpdateUser();
@@ -31,7 +26,7 @@ const SignUp: React.FC = () => {
 		defaultValues: { ...defaultFormUser },
 	});
 
-	const onSubmit = (values: formUser): void => {
+	const signUp = (values: formUser): void => {
 		const formValues: formUser = {
 			first_name: values.first_name,
 			last_name: values.last_name,
@@ -42,28 +37,15 @@ const SignUp: React.FC = () => {
 			private_option: values.private_option,
 		};
 
-		const endpointConfig = {
-			method: 'post',
-			url: '/signup',
-			data: formValues,
-		};
 		const successFunc = (data: User): void => {
 			updateUser({
 				type: 'change user',
 				user: data,
 			});
-			showSuccessToast(toast.yourProfileHasBeenCreated);
-		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileCreatingProfile);
 		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-		}).finally(() => {
+		void EndpointSignup(formValues, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -80,7 +62,7 @@ const SignUp: React.FC = () => {
 			<Button
 				text="Sign up"
 				onPress={() => {
-					void handleSubmit(onSubmit)();
+					void handleSubmit(signUp)();
 				}}
 				style={{
 					position: 'absolute',

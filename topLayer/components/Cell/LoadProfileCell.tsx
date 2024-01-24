@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { type markedUser, type User } from '../../types/User';
 import ProfileCell from './ProfileCell';
 import { nullUser } from '../../constants/baseUsers';
-import { endpoint } from '../../endpoints/General/endpoint';
+import { EndpointGetUserPublic } from 'endpoints/public/user';
 
 interface FetchProfileCellPropsType {
 	userID: string;
@@ -27,10 +27,6 @@ const FetchProfileCell = ({
 	});
 	const rendered = useRef('not rendered');
 
-	const endpointConfig = {
-		method: 'get',
-		url: `/api/users/${userID}`,
-	};
 	const setUserFunc = (data: User): void => {
 		rendered.current = 'rendered';
 		setUser({
@@ -40,7 +36,7 @@ const FetchProfileCell = ({
 	};
 
 	useEffect(() => {
-		void endpoint({ config: endpointConfig, successFunc: setUserFunc });
+		void EndpointGetUserPublic(userID, setUserFunc);
 	}, []);
 
 	return (

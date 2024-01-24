@@ -8,8 +8,8 @@ import React, {
 	useContext,
 } from 'react';
 import { useImmerReducer } from 'use-immer';
-import { updateUser } from '../endpoints/getUser';
 import { nullUser } from '../constants/baseUsers';
+import { EndpointGetUserPrivate } from 'endpoints/private/user';
 
 interface UserProviderProps {
 	children: ReactNode;
@@ -58,7 +58,7 @@ export const UserProvider = ({ children }: UserProviderProps): ReactElement => {
 	const [tasks, dispatch] = useImmerReducer(userReducer, nullUser);
 
 	useEffect(() => {
-		void updateUser(dispatch);
+		void EndpointGetUserPrivate(dispatch);
 	}, []);
 	return (
 		<UserContext.Provider value={tasks}>

@@ -3,13 +3,11 @@ import { View } from 'react-native';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../../components/Button/Button';
 import GlobalStyles from '../../constants/GlobalStyles';
-import { toast } from '../../constants/GlobalStrings';
-import { showErrorToast } from '../../components/Toasts/Toasts';
 import { Loading } from '../../components/Loading/Loading';
 import { useUpdateUser } from '../../Contexts/UserContext';
 import LoginFields from '../../components/Settings/LogInFields';
 import { type loginUser, type User } from '../../types/User';
-import { endpoint } from '../../endpoints/General/endpoint';
+import { EndpointLogin } from 'endpoints/authentication';
 
 const SignIn: React.FC = () => {
 	const updateUser = useUpdateUser();
@@ -26,16 +24,10 @@ const SignIn: React.FC = () => {
 		},
 	});
 
-	const onSubmit: SubmitHandler<loginUser> = (formData): void => {
+	const signIn: SubmitHandler<loginUser> = (formData): void => {
 		const formValues: loginUser = {
 			password: formData.password,
 			email: formData.email,
-		};
-
-		const endpointConfig = {
-			method: 'post',
-			url: '/login',
-			data: formValues,
 		};
 		const successFunc = (data: User): void => {
 			updateUser({
@@ -43,16 +35,9 @@ const SignIn: React.FC = () => {
 				user: data,
 			});
 		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.theEmailOrPasswordYouveEnteredIsIncorrect);
-		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-		}).finally(() => {
+		void EndpointLogin(formValues, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -64,7 +49,7 @@ const SignIn: React.FC = () => {
 				<Button
 					text="Sign in"
 					onPress={() => {
-						void handleSubmit(onSubmit)();
+						void handleSubmit(signIn)();
 					}}
 					disabled={isLoading || Object.keys(dirtyFields).length < 2}
 					bgColor={GlobalStyles.colorPalette.primary[500]}

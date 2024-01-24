@@ -2,19 +2,18 @@ import { View, StyleSheet, Pressable, Alert } from 'react-native';
 import React, { useState, useContext, type ReactElement } from 'react';
 import GlobalStyles from '../../constants/GlobalStyles';
 import StackedTextbox from '../../components/Textbox/StackedTextbox';
-import { outfitEdit, toast } from '../../constants/GlobalStrings';
+import { outfitEdit } from '../../constants/GlobalStrings';
 import Icon from 'react-native-remix-icon';
 import { type UserClothing } from '../../types/Clothing';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import Header from '../../components/Header/Header';
 import { StepOverTypes } from '../../constants/Enums';
 import { Loading } from '../../components/Loading/Loading';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
 import OutfitBlockLayout from '../../components/Outfit/OutfitBlockLayout';
-import { endpoint } from '../../endpoints/General/endpoint';
+import {
+	EndpointDeleteOutfit,
+	EndpointUpdateOutfit,
+} from 'endpoints/private/outfit';
 
 interface OutfitEditPropsType {
 	id: string;
@@ -44,7 +43,7 @@ const OutfitEdit = ({
 			{
 				text: outfitEdit.delete,
 				onPress: () => {
-					void handleDelete();
+					void deleteOutfit();
 				},
 				style: 'destructive',
 			},
@@ -52,55 +51,29 @@ const OutfitEdit = ({
 	};
 
 	// Only updates title
-	const handleUpdate = async (): Promise<void> => {
-		const endpointConfig = {
-			method: 'put',
-			url: `/api/private/outfits/${id}`,
-			data: {
-				title: text,
-			},
+	const updateOutfit = async (): Promise<void> => {
+		const input = {
+			title: text,
 		};
 		const successFunc = (): void => {
 			setShouldRefreshMainPage(true);
 			navigateToProfile();
-			showSuccessToast(toast.yourOutfitHasBeenUpdated);
-		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileUpdatingOutfit);
 		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointUpdateOutfit(input, id, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
 
-	const handleDelete = async (): Promise<void> => {
-		const endpointConfig = {
-			method: 'delete',
-			url: `/api/private/outfits/${id}`,
-		};
+	const deleteOutfit = async (): Promise<void> => {
 		const successFunc = (): void => {
 			setShouldRefreshMainPage(true);
 			navigateToProfile();
-			showSuccessToast(toast.yourOutfitHasBeenDeleted);
-		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileDeletingOutfit);
 		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointDeleteOutfit(id, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -113,7 +86,7 @@ const OutfitEdit = ({
 				leftButton={true}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
-				rightButtonAction={handleUpdate}
+				rightButtonAction={updateOutfit}
 			/>
 			<View style={styles.editContainer}>
 				<StackedTextbox

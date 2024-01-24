@@ -7,12 +7,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigation } from '../../constants/Enums';
 import ItemViewPage from '../../pages/ItemView/ItemViewPage';
 import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
-import { getForeignUser } from '../../endpoints/getUser';
 import { type User } from '../../types/User';
 import { previewLength } from '../../constants/Find';
 import { MarkUserFuncProvider } from '../../Contexts/ForeignUserContext';
 import { useUser } from '../../Contexts/UserContext';
 import OutfitViewPage from '../../pages/OutfitView/OutfitViewPage';
+import { EndpointGetUserPublicMarkedBar } from 'endpoints/public/user';
 
 const FindPage: React.FC = () => {
 	const data = useUser();
@@ -33,7 +33,7 @@ const FindPage: React.FC = () => {
 						.slice(0, previewLength)
 						.map(async (user: string | User) => {
 							if (typeof user === 'string') {
-								return await getForeignUser(user);
+								return await EndpointGetUserPublicMarkedBar(user);
 							} else {
 								return user;
 							}

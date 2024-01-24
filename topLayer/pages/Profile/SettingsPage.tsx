@@ -6,11 +6,7 @@ import Header from '../../components/Header/Header';
 import { StackNavigation, StepOverTypes } from '../../constants/Enums';
 import { useForm } from 'react-hook-form';
 import { settings, toast } from '../../constants/GlobalStrings';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
-import { handleLogout } from '../../endpoints/getUser';
+import { showSuccessToast } from '../../components/Toasts/Toasts';
 import { useUpdateUser, useUser } from '../../Contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { type StackNavigationProp } from '@react-navigation/stack';
@@ -19,7 +15,8 @@ import SettingsFields from '../../components/Settings/SettingsFields';
 import { Loading } from '../../components/Loading/Loading';
 import Button from '../../components/Button/Button';
 import { type formUser } from '../../types/User';
-import { endpoint } from '../../endpoints/General/endpoint';
+import { EndpointDeleteUser, EndpointUpdateUser } from 'endpoints/private/user';
+import { EndpointLogout } from 'endpoints/authentication';
 
 const SettingsPage: React.FC = () => {
 	const data = useUser();
@@ -96,11 +93,6 @@ const SettingsPage: React.FC = () => {
 			return;
 		}
 
-		const endpointConfig = {
-			method: 'put',
-			url: '/api/private/users',
-			data: updatedFields,
-		};
 		const successFunc = (): void => {
 			refreshUser({
 				type: 'change fields',
@@ -110,19 +102,10 @@ const SettingsPage: React.FC = () => {
 				profile_picture.current = photo;
 			}
 			navigation.goBack();
-			showSuccessToast(toast.yourProfileHasBeenUpdated);
-		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileUpdatingProfile);
 		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointUpdateUser(updatedFields, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -137,35 +120,23 @@ const SettingsPage: React.FC = () => {
 			{
 				text: settings.delete,
 				onPress: () => {
-					void handleDelete();
+					void deleteUser();
 				},
 				style: 'destructive',
 			},
 		]);
 	};
 
-	const handleDelete = async (): Promise<void> => {
-		const endpointConfig = {
-			method: 'delete',
-			url: '/api/private/users',
-		};
+	const deleteUser = async (): Promise<void> => {
 		const successFunc = (): void => {
 			refreshUser({
 				type: 'logout',
 			});
 			showSuccessToast(toast.yourProfileHasBeenDeleted);
 		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileDeletingProfile);
-		};
 
 		setIsLoading(true);
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointDeleteUser(successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -177,7 +148,7 @@ const SettingsPage: React.FC = () => {
 				leftButton={true}
 				leftStepOverType={StepOverTypes.logout}
 				leftButtonAction={() => {
-					void handleLogout(refreshUser);
+					void EndpointLogout(refreshUser);
 				}}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.update}

@@ -7,11 +7,7 @@ import React, {
 } from 'react';
 import StackedTextbox from '../../components/Textbox/StackedTextbox';
 import { type UserClothing } from '../../types/Clothing';
-import { toast, match as matchHeading } from '../../constants/GlobalStrings';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
+import { match as matchHeading } from '../../constants/GlobalStrings';
 import {
 	type RouteProp,
 	useNavigation,
@@ -26,8 +22,8 @@ import { emptyClothing } from '../../constants/Clothing';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import { type RouteTypes } from '../../types/Routes';
 import OutfitBlockLayout from '../../components/Outfit/OutfitBlockLayout';
-import { endpoint } from '../../endpoints/General/endpoint';
 import GlobalStyles from '../../constants/GlobalStyles';
+import { EndpointCreateOutfit } from 'endpoints/private/outfit';
 
 const OutfitPreview = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
@@ -77,48 +73,44 @@ const OutfitPreview = (): ReactElement => {
 		setData(rawData.filter(Boolean));
 	}, [rawData]);
 
-	const onSubmit = (): void => {
-		const clothingItems = [
+	const createOutfit = (): void => {
+		const clothingItems: string[] = [];
+		if (
 			match.previewData.outerwear !== null &&
 			match.previewData.outerwear !== undefined
-				? match.previewData.outerwear.ciid
-				: null,
-			match.previewData.tops !== null && match.previewData.tops !== undefined
-				? match.previewData.tops.ciid
-				: null,
+		) {
+			clothingItems.push(match.previewData.outerwear.ciid);
+		}
+		if (
+			match.previewData.tops !== null &&
+			match.previewData.tops !== undefined
+		) {
+			clothingItems.push(match.previewData.tops.ciid);
+		}
+		if (
 			match.previewData.bottoms !== null &&
 			match.previewData.bottoms !== undefined
-				? match.previewData.bottoms.ciid
-				: null,
-			match.previewData.shoes !== null && match.previewData.shoes !== undefined
-				? match.previewData.shoes.ciid
-				: null,
-		].filter((item) => item !== null);
+		) {
+			clothingItems.push(match.previewData.bottoms.ciid);
+		}
+		if (
+			match.previewData.shoes !== null &&
+			match.previewData.shoes !== undefined
+		) {
+			clothingItems.push(match.previewData.shoes.ciid);
+		}
 
-		const endpointConfig = {
-			method: 'post',
-			url: '/api/private/outfits',
-			data: {
-				title: match.matchName,
-				clothing_items: clothingItems,
-			},
+		const input = {
+			title: match.matchName,
+			clothing_items: clothingItems,
 		};
 		const successFunc = (): void => {
 			navigation.goBack();
 			setShouldRefreshMainPage(true);
-			showSuccessToast(toast.yourOutfitHasBeenCreated);
-		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileCreatingOutfit);
 		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointCreateOutfit(input, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -129,7 +121,7 @@ const OutfitPreview = (): ReactElement => {
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
 				rightButtonAction={() => {
-					onSubmit();
+					createOutfit();
 				}}
 			/>
 			<View style={styles.containerInner}>

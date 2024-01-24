@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { screenHeight } from '../../utils/modalMaxShow';
 import { Loading } from '../../components/Loading/Loading';
-import { endpoint } from '../../endpoints/General/endpoint';
+import { EndpointAllSearch } from 'endpoints/private/search';
 
 interface SearchBarPropsType {
 	placeholder: string;
@@ -23,7 +23,7 @@ const SearchUsers = ({
 	handleEmptyString,
 	handleNonEmptyString,
 }: SearchBarPropsType): ReactElement => {
-	const [isLoading, setIsLoading] = useState(false); // Add loading state
+	const [isLoading, setIsLoading] = useState(0); // Add loading state
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState<
 		Array<markedUser | markedPrivateUser>
@@ -33,24 +33,13 @@ const SearchUsers = ({
 	// Create an instance of AbortController
 	const abortController = useRef(new AbortController());
 	const allSearch = async (text: string): Promise<void> => {
-		setIsLoading(true);
-		const endpointConfig = {
-			method: 'get',
-			url: `/api/private/search/${text}`,
-			signal: abortController.current.signal,
-		};
+		setIsLoading((n) => n + 1);
 		const successFunc = (data: Array<markedUser | markedPrivateUser>): void => {
 			setSearchResults(data);
-			setIsLoading(false);
+			setIsLoading((n) => n + 1);
 		};
-		const failureFunc = (): void => {
-			setSearchResults([]);
-		};
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-		});
+
+		void EndpointAllSearch(text, successFunc, abortController.current.signal);
 	};
 
 	const handleMarking = (
@@ -75,10 +64,11 @@ const SearchUsers = ({
 
 	const handleSearch = (text: string): void => {
 		abortController.current.abort();
+
 		setSearchQuery(text);
 		if (text === '') {
 			setSearchResults([]);
-			setIsLoading(false);
+			setIsLoading(0);
 			if (handleEmptyString != null) {
 				handleEmptyString(userRelations.current);
 			}
@@ -124,7 +114,7 @@ const SearchUsers = ({
 
 			{whiteSpaceBG()}
 
-			{isLoading ? (
+			{isLoading === 1 ? (
 				<View style={{ height: '100%' }}>
 					<Loading />
 				</View>

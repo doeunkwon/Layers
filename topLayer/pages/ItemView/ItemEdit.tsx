@@ -10,15 +10,14 @@ import { useForm } from 'react-hook-form';
 import Icon from 'react-native-remix-icon';
 import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
-import { toast, itemEdit } from '../../constants/GlobalStrings';
+import { itemEdit } from '../../constants/GlobalStrings';
 import { Loading } from '../../components/Loading/Loading';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
 import { areArraysEqual } from '../../functions/General/array';
 import ItemFields from '../../components/Item/ItemFields';
-import { endpoint } from '../../endpoints/General/endpoint';
+import {
+	EndpointDeleteItem,
+	EndpointUpdateItem,
+} from 'endpoints/private/clothingItem';
 
 interface ItemEditPropsType {
 	clothingItem: UserClothing;
@@ -53,14 +52,14 @@ const ItemEdit = ({
 			{
 				text: itemEdit.delete,
 				onPress: () => {
-					void handleDelete();
+					void deleteItem();
 				},
 				style: 'destructive',
 			},
 		]);
 	};
 
-	const handleUpdate = async (values: editableClothingTypes): Promise<void> => {
+	const UpdateItem = async (values: editableClothingTypes): Promise<void> => {
 		const dataToUpdate: Partial<editableClothingTypes> = {};
 
 		// Add fields to dataToUpdate only if they have been set
@@ -76,57 +75,32 @@ const ItemEdit = ({
 		if (!areArraysEqual(values.color, clothingItem.color)) {
 			dataToUpdate.color = values.color;
 		}
-
 		if (Object.keys(dataToUpdate).length === 0) {
 			return;
 		}
 
-		const endpointConfig = {
-			method: 'put',
-			url: `/api/private/clothing_items/${clothingItem.ciid}`,
-			data: dataToUpdate,
-		};
 		const successFunc = (): void => {
 			setShouldRefreshMainPage(true);
 			navigateToProfile();
-			showSuccessToast(toast.yourItemHasBeenUpdated);
-		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileUpdatingItem);
 		};
 
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointUpdateItem(
+			dataToUpdate,
+			clothingItem.ciid,
+			successFunc
+		).finally(() => {
 			setIsLoading(false);
 		});
 	};
 
-	const handleDelete = async (): Promise<void> => {
-		const endpointConfig = {
-			method: 'delete',
-			url: `/api/private/clothing_items/${clothingItem.ciid}`,
-		};
+	const deleteItem = async (): Promise<void> => {
 		const successFunc = (): void => {
 			setShouldRefreshMainPage(true);
 			navigateToProfile();
-			showSuccessToast(toast.yourItemHasBeenUpdated);
 		};
-		const failureFunc = (): void => {
-			showErrorToast(toast.anErrorHasOccurredWhileDeletingItem);
-		};
-
 		setIsLoading(true); // Start loading
-		void endpoint({
-			config: endpointConfig,
-			successFunc: successFunc,
-			failureFunc: failureFunc,
-			alert: true,
-		}).finally(() => {
+		void EndpointDeleteItem(clothingItem.ciid, successFunc).finally(() => {
 			setIsLoading(false);
 		});
 	};
@@ -139,7 +113,7 @@ const ItemEdit = ({
 				leftButton={true}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
-				rightButtonAction={handleSubmit(handleUpdate)}
+				rightButtonAction={handleSubmit(UpdateItem)}
 			/>
 			<ItemFields
 				control={control}
