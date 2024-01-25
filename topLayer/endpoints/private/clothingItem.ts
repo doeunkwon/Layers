@@ -2,17 +2,20 @@ import axios from 'axios';
 import { Methods } from '../Methods';
 import { Routers } from '../Routers';
 import { type outfitClothingItemsType } from '../../types/Outfit';
-import { showErrorToast, showSuccessToast } from 'components/Toasts/Toasts';
-import { toast } from 'constants/GlobalStrings';
+import {
+	showErrorToast,
+	showSuccessToast,
+} from '../../components/Toasts/Toasts';
+import { toast } from '../../constants/GlobalStrings';
 import {
 	axiosEndpointErrorHandler,
 	axiosEndpointErrorHandlerNoAlert,
-} from 'utils/ErrorHandlers';
+} from '../../utils/ErrorHandlers';
 import {
 	type creationClothingTypes,
 	type editableClothingTypes,
-} from 'types/Clothing';
-import { ContentType } from 'endpoints/constants';
+} from '../../types/Clothing';
+import { ContentType } from '../../endpoints/constants';
 
 export const EndpointCreateItem = async (
 	input: creationClothingTypes,
@@ -38,6 +41,7 @@ export const EndpointCreateItem = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
+		console.log('An Error Has Occurred -- Creating Item');
 		axiosEndpointErrorHandler(err);
 	}
 };
@@ -67,6 +71,7 @@ export const EndpointUpdateItem = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileUpdatingItem);
+		console.log('An Error Has Occurred -- Updating Item');
 		axiosEndpointErrorHandler(err);
 	}
 };
@@ -91,6 +96,7 @@ export const EndpointDeleteItem = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileDeletingItem);
+		console.log('An Error Has Occurred -- Deleting Item');
 		axiosEndpointErrorHandler(err);
 	}
 };
@@ -111,12 +117,13 @@ export const EndpointGetAllClothingItems = async (
 			successFunc(data.data);
 		} else {
 			throw new Error(
-				`An Error Has Occurred -- Fetching ClothingItems: ${status}`
+				`An Error Has Occurred -- Fetching Clothing Items: ${status}`
 			);
 		}
 	} catch (err: unknown) {
+		// showErrorToast(toast.anErrorHasOccurredWhileFetchingClothingItems);
+		console.log('An Error Has Occurred -- Fetching Clothing Items');
 		axiosEndpointErrorHandlerNoAlert(err);
-		showErrorToast(toast.anErrorHasOccurredWhileFetchingClothingItems);
 		failureFunc();
 	}
 };

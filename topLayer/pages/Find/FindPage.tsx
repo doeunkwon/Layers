@@ -6,13 +6,12 @@ import { Stack } from '../../utils/StackNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import { StackNavigation } from '../../constants/Enums';
 import ItemViewPage from '../../pages/ItemView/ItemViewPage';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
 import { type User } from '../../types/User';
 import { previewLength } from '../../constants/Find';
 import { MarkUserFuncProvider } from '../../Contexts/ForeignUserContext';
 import { useUser } from '../../Contexts/UserContext';
 import OutfitViewPage from '../../pages/OutfitView/OutfitViewPage';
-import { EndpointGetUserPublicMarkedBar } from 'endpoints/public/user';
+import { EndpointGetUserPublicMarkedBar } from '../../endpoints/public/user';
 
 const FindPage: React.FC = () => {
 	const data = useUser();
@@ -27,22 +26,18 @@ const FindPage: React.FC = () => {
 
 	useEffect(() => {
 		const get3Users = async (): Promise<void> => {
-			try {
-				const top3Users: Array<User | string> = await Promise.all(
-					followedUsersData
-						.slice(0, previewLength)
-						.map(async (user: string | User) => {
-							if (typeof user === 'string') {
-								return await EndpointGetUserPublicMarkedBar(user);
-							} else {
-								return user;
-							}
-						})
-				);
-				setFollowed(top3Users.concat(followedUsersData.slice(previewLength)));
-			} catch (error) {
-				axiosEndpointErrorHandler(error);
-			}
+			const top3Users: Array<User | string> = await Promise.all(
+				followedUsersData
+					.slice(0, previewLength)
+					.map(async (user: string | User) => {
+						if (typeof user === 'string') {
+							return await EndpointGetUserPublicMarkedBar(user);
+						} else {
+							return user;
+						}
+					})
+			);
+			setFollowed(top3Users.concat(followedUsersData.slice(previewLength)));
 		};
 
 		if (

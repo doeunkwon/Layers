@@ -82,9 +82,9 @@ export const toast = {
 	anErrorHasOccurredWhileCreatingProfile:
 		'An error has occurred while creating your profile.',
 	anErrorHasOccurredWhileFetchingClothingItems:
-		'An error has occurred while fetching foreign clothing items.',
-	anErrorHasOccurredWhileFetchingForeignClothingItems:
 		'An error has occurred while fetching clothing items.',
+	anErrorHasOccurredWhileFetchingForeignClothingItems:
+		'An error has occurred while fetching foreign clothing items.',
 	anErrorHasOccurredWhileFetchingOutfits:
 		'An error has occurred while fetching outfits.',
 	anErrorHasOccurredWhileFetchingForeignOutfits:

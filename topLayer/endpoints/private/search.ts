@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { Methods } from '../Methods';
 import { Routers } from '../Routers';
-import { axiosEndpointErrorHandlerNoAlert } from 'utils/ErrorHandlers';
-import { type markedUser, type markedPrivateUser } from 'types/User';
+import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
+import { type markedUser, type markedPrivateUser } from '../../types/User';
 
 export const EndpointAllSearch = async (
 	text: string,
@@ -28,6 +28,7 @@ export const EndpointAllSearch = async (
 			);
 		}
 	} catch (err: unknown) {
+		console.log('An Error Has Occurred -- Searching for Users');
 		axiosEndpointErrorHandlerNoAlert(err);
 	}
 };

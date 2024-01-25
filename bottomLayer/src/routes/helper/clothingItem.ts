@@ -34,6 +34,7 @@ export const getClothingById = async (
 		console.log('clothing item result: ', result.image_url.substring(0, 100));
 		responseCallbackGet(null, result, res, 'Clothing Item');
 	} catch (error) {
+		console.log('Get Clothing Item By ID Error: ', error);
 		responseCallbackGet(error, null, res);
 	}
 };
@@ -71,6 +72,7 @@ export const getAllClothing = async (
 		}
 		responseCallbackGetAll(items, res, 'Clothing Items');
 	} catch (error) {
+		console.log('Get All Clothing Items By User Error: ', error);
 		responseCallbackGet(error, null, res);
 	} finally {
 		if (client !== null) {
@@ -119,6 +121,7 @@ export const getAllClothingCate = async (
 		}
 		responseCallbackGetAll(categories, res, 'Clothing Items');
 	} catch (error) {
+		console.log('Get All Clothing Items By User Cate Error: ', error);
 		responseCallbackGet(error, null, res);
 	} finally {
 		if (client !== null) {

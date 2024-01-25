@@ -2,9 +2,9 @@ import axios from 'axios';
 import { Methods } from '../Methods';
 import { Routers } from '../Routers';
 import { type outfitClothingItemsType } from '../../types/Outfit';
-import { axiosEndpointErrorHandlerNoAlert } from 'utils/ErrorHandlers';
-import { showErrorToast } from 'components/Toasts/Toasts';
-import { toast } from 'constants/GlobalStrings';
+import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
+import { showErrorToast } from '../../components/Toasts/Toasts';
+import { toast } from '../../constants/GlobalStrings';
 
 export const EndpointGetForeignAllClothingItems = async (
 	uid: string,
@@ -28,7 +28,11 @@ export const EndpointGetForeignAllClothingItems = async (
 		}
 	} catch (err: unknown) {
 		axiosEndpointErrorHandlerNoAlert(err);
-		showErrorToast(toast.anErrorHasOccurredWhileFetchingForeignClothingItems);
+		console.log(
+			'An Error Has Occurred -- Fetching User ClothingItems, User -- ',
+			uid
+		);
+		// showErrorToast(toast.anErrorHasOccurredWhileFetchingForeignClothingItems);
 		failureFunc();
 	}
 };

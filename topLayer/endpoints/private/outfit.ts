@@ -2,13 +2,16 @@ import axios from 'axios';
 import { Methods } from '../Methods';
 import { Routers } from '../Routers';
 import { type UserOutfit, type createdOutfitProps } from '../../types/Outfit';
-import { showErrorToast, showSuccessToast } from 'components/Toasts/Toasts';
-import { toast } from 'constants/GlobalStrings';
+import {
+	showErrorToast,
+	showSuccessToast,
+} from '../../components/Toasts/Toasts';
+import { toast } from '../../constants/GlobalStrings';
 import {
 	axiosEndpointErrorHandler,
 	axiosEndpointErrorHandlerNoAlert,
-} from 'utils/ErrorHandlers';
-import { ContentType } from 'endpoints/constants';
+} from '../../utils/ErrorHandlers';
+import { ContentType } from '../../endpoints/constants';
 
 export const EndpointCreateOutfit = async (
 	input: createdOutfitProps,
@@ -36,6 +39,7 @@ export const EndpointCreateOutfit = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileCreatingOutfit);
+		console.log('An Error Has Occurred -- Creating a new Outfit');
 		axiosEndpointErrorHandler(err);
 	}
 };
@@ -65,6 +69,7 @@ export const EndpointUpdateOutfit = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileUpdatingOutfit);
+		console.log('An Error Has Occurred -- Updating Outfit');
 		axiosEndpointErrorHandler(err);
 	}
 };
@@ -89,6 +94,7 @@ export const EndpointDeleteOutfit = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileDeletingOutfit);
+		console.log('An Error Has Occurred -- Deleting Outfit');
 		axiosEndpointErrorHandler(err);
 	}
 };
@@ -112,7 +118,8 @@ export const EndpointGetAllOutfits = async (
 		}
 	} catch (err: unknown) {
 		axiosEndpointErrorHandlerNoAlert(err);
-		showErrorToast(toast.anErrorHasOccurredWhileFetchingOutfits);
+		console.log('An Error Has Occurred -- Fetching Outfits');
+		// showErrorToast(toast.anErrorHasOccurredWhileFetchingOutfits);
 		failureFunc();
 	}
 };

@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { Methods } from './Methods';
 import { Routers } from './Routers';
-import { showErrorToast, showSuccessToast } from 'components/Toasts/Toasts';
-import { toast } from 'constants/GlobalStrings';
-import { axiosEndpointErrorHandlerNoAlert } from 'utils/ErrorHandlers';
-import { type loginUser, type formUser, type User } from 'types/User';
+import { showErrorToast, showSuccessToast } from '../components/Toasts/Toasts';
+import { toast } from '../constants/GlobalStrings';
+import { axiosEndpointErrorHandlerNoAlert } from '../utils/ErrorHandlers';
+import { type loginUser, type formUser, type User } from '../types/User';
 import { ContentType } from './constants';
 import { type Dispatch } from 'react';
-import { type UserReducerProps } from 'Contexts/UserContext';
+import { type UserReducerProps } from '../Contexts/UserContext';
 
 export const EndpointLogin = async (
 	input: loginUser,
@@ -32,6 +32,7 @@ export const EndpointLogin = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.theEmailOrPasswordYouveEnteredIsIncorrect);
+		console.log('An Error Has Occurred -- Logging In');
 		axiosEndpointErrorHandlerNoAlert(err);
 	}
 };
@@ -60,6 +61,7 @@ export const EndpointSignup = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileCreatingProfile);
+		console.log('An Error Has Occurred -- Signing In');
 		axiosEndpointErrorHandlerNoAlert(err);
 	}
 };
@@ -85,6 +87,7 @@ export const EndpointLogout = async (
 		}
 	} catch (err: unknown) {
 		showErrorToast(toast.anErrorHasOccurredWhileLoggingOut);
+		console.log('An Error Has Occurred -- Logging Out');
 		axiosEndpointErrorHandlerNoAlert(err);
 	}
 };

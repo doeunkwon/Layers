@@ -13,8 +13,6 @@ export const asyncHandler = async (
 	try {
 		const result = await downloadURLFromS3(imgRef);
 
-		console.log('async handler result: ', result.substring(0, 100));
-
 		switch (
 			condition // switch case for different download conditions
 		) {

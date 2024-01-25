@@ -33,6 +33,7 @@ router.get('/:uid', (req: Request, res: Response): void => {
 
 			responseCallbackGet(null, user, res, 'User');
 		} catch (error) {
+			console.log('Public Get User By Uid Error: ', error);
 			responseCallbackGet(error, null, res);
 		}
 	};

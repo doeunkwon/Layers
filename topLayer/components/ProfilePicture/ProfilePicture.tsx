@@ -24,7 +24,6 @@ const ProfilePicture = ({
 		url = `data:image/jpeg;base64,${imageUrl}`;
 	}
 
-	// console.log('profilePicture url2: ', url.substring(0, 100));
 	return (
 		<>
 			{url !== '' ? (

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Methods } from '../Methods';
 import { Routers } from '../Routers';
-import { axiosEndpointErrorHandlerNoAlert } from 'utils/ErrorHandlers';
+import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 
 export const EndpointFollowUser = async (input: string): Promise<void> => {
 	const method = Methods.POST;
@@ -21,6 +21,7 @@ export const EndpointFollowUser = async (input: string): Promise<void> => {
 		}
 	} catch (err: unknown) {
 		axiosEndpointErrorHandlerNoAlert(err);
+		console.log('An Error Has Occurred -- Following A User');
 	}
 };
 
@@ -42,5 +43,6 @@ export const EndpointUnfollowUser = async (input: string): Promise<void> => {
 		}
 	} catch (err: unknown) {
 		axiosEndpointErrorHandlerNoAlert(err);
+		console.log('An Error Has Occurred -- Unfollowing A User');
 	}
 };

@@ -150,14 +150,10 @@ const getUser = async (
 		const imgRef = userFields.profile_picture;
 		userFields.profile_picture = await downloadURLFromS3(imgRef);
 
-		console.log(
-			'signin result: ',
-			userFields.profile_picture.substring(0, 100)
-		);
-
 		responseCallbackLogin(null, userFields, res);
 		next();
 	} catch (error) {
+		console.log('Get User Error: ', error);
 		responseCallbackLogin(error, '', res);
 	}
 };
@@ -180,6 +176,7 @@ const login = (req: Request, res: Response, next: NextFunction): any => {
 		}
 		req.logIn(user, { session: true }, (err) => {
 			if (err !== null && err !== undefined) {
+				console.log('Login Error: ', err);
 				return responseCallbackLogin(err, '', res);
 			}
 			void getUser(user, res, next);
@@ -206,6 +203,7 @@ const signup = (req: Request, res: Response, next: NextFunction): any => {
 		// console.log('signup user: ', user);
 		req.logIn(user, { session: true }, (err) => {
 			if (err !== null && err !== undefined) {
+				console.log('Signup Error: ', err);
 				return responseCallbackSignUp(err, '', res);
 			}
 			void getUser(user, res, next);
@@ -222,6 +220,7 @@ router.post('/signup', signup);
 router.get('/logout', (req: Request, res: Response, next: NextFunction) => {
 	req.logOut((err: Error) => {
 		if (err !== null && err !== undefined) {
+			console.log('Logout Error: ', err);
 			next(err);
 		} else {
 			res.send('Logged Out');

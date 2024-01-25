@@ -27,10 +27,9 @@ router.get('/', (req: Request, res: Response): void => {
 			const imgRef = result.profile_picture;
 			result.profile_picture = await downloadURLFromS3(imgRef);
 
-			console.log('private user result: ', result.substring(0, 100));
-
 			responseCallbackGet(null, result, res, 'User');
 		} catch (error) {
+			console.log('Private Get User Error: ', error);
 			responseCallbackGet(error, null, res);
 		}
 	};
@@ -64,6 +63,7 @@ router.delete('/', (req: Request, res: Response): void => {
 
 			responseCallbackDelete(null, userId, res, 'User', deleteUser.rowCount);
 		} catch (error) {
+			console.log('Private Delete User Error: ', error);
 			responseCallbackDelete(error, userId, res, 'User');
 		} finally {
 			(await client).release();
@@ -162,6 +162,7 @@ router.put(
 				// Not sure if this returns updated user data also not sure if returning the new user data is needed
 				responseCallbackUpdate(null, userId, res, 'User', update.rowCount);
 			} catch (error) {
+				console.log('Private Update User Error: ', error);
 				responseCallbackUpdate(error, userId, res, 'User');
 			}
 		};
