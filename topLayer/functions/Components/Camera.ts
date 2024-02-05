@@ -11,7 +11,6 @@ export const CameraFunc = (
 	mode: number
 ): void => {
 	if (mode === 1) {
-		navigation.goBack();
 		createCount += 1;
 		const newId = dummyId + createCount.toString();
 		const clothingItem = {
@@ -19,10 +18,8 @@ export const CameraFunc = (
 			image_url: photo,
 			ciid: newId,
 		};
-		setTimeout(() => {
-			navigation.navigate(StackNavigation.ItemCreate, {
-				item: clothingItem,
-			});
-		}, 100);
+		navigation.navigate(StackNavigation.ItemCreate, {
+			item: clothingItem,
+		});
 	}
 };

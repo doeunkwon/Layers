@@ -10,8 +10,6 @@ import {
 	type NativeSyntheticEvent,
 } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import { type UserOutfit } from '../../types/Outfit';
-import { type UserClothing } from '../../types/Clothing';
 
 const DismissableFlatList = (
 	props: PropsWithChildren<FlatListProps<any>>

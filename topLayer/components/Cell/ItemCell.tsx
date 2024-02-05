@@ -23,10 +23,6 @@ const ItemCell = ({
 	let url = imageUrl ?? '';
 	if (!url.startsWith('data')) {
 		const localUrl = photos.get(url);
-		// const keys = photos.keys();
-		// for (const key of keys) {
-		// 	console.log(key);
-		// }
 		console.log('local url: ', localUrl?.substring(0, 100));
 		if (localUrl !== undefined) {
 			url = localUrl;

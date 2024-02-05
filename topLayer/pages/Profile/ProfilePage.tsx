@@ -32,24 +32,31 @@ const ProfilePage = (): ReactElement => {
 						name={StackNavigation.OutfitPage}
 						component={OutfitPage}
 					/>
-					<Stack.Screen
-						name={StackNavigation.ItemCreate}
-						component={ItemCreate}
-					/>
+
 					<Stack.Group
 						screenOptions={{
-							...TransitionPresets.ModalSlideFromBottomIOS,
 							presentation: 'transparentModal',
 						}}
 					>
 						<Stack.Screen
-							name={StackNavigation.CameraPfp}
-							component={CameraPfp}
+							name={StackNavigation.ItemCreate}
+							component={ItemCreate}
+							options={{ ...TransitionPresets.SlideFromRightIOS }}
 						/>
-						<Stack.Screen
-							name={StackNavigation.CameraComponents}
-							component={CameraComponents}
-						/>
+						<Stack.Group
+							screenOptions={{
+								...TransitionPresets.ModalSlideFromBottomIOS,
+							}}
+						>
+							<Stack.Screen
+								name={StackNavigation.CameraPfp}
+								component={CameraPfp}
+							/>
+							<Stack.Screen
+								name={StackNavigation.CameraComponents}
+								component={CameraComponents}
+							/>
+						</Stack.Group>
 					</Stack.Group>
 				</Stack.Group>
 			</Stack.Navigator>

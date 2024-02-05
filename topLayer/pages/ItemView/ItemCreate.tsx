@@ -22,6 +22,7 @@ import { type StackTypes } from '../../utils/StackNavigation';
 import { type RouteTypes } from '../../types/Routes';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { EndpointCreateItem } from 'endpoints/private/clothingItem';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
@@ -68,7 +69,7 @@ const ItemCreate = (): ReactElement => {
 	};
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<Header
 				text={'Create'}
 				leftBack={true}
@@ -79,7 +80,7 @@ const ItemCreate = (): ReactElement => {
 			/>
 			<ItemFields control={control} setValue={setValue} clothingItem={item} />
 			{isLoading ? <Loading /> : null}
-		</View>
+		</SafeAreaView>
 	);
 };
 
