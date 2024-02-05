@@ -10,7 +10,7 @@ import SearchBar from './SearchBar';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { screenHeight } from '../../utils/modalMaxShow';
 import { Loading } from '../../components/Loading/Loading';
-import { EndpointAllSearch } from 'endpoints/private/search';
+import { EndpointAllSearch } from '../../endpoints/private/search';
 
 interface SearchBarPropsType {
 	placeholder: string;

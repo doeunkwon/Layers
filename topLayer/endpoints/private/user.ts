@@ -14,6 +14,7 @@ import { type formUser, type User } from '../../types/User';
 import { ContentType } from '../../endpoints/constants';
 import { type Dispatch } from 'react';
 import { type UserReducerProps } from '../../Contexts/UserContext';
+import { userPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointGetUserPrivate = async (
 	dispatch: Dispatch<UserReducerProps>
@@ -27,9 +28,10 @@ export const EndpointGetUserPrivate = async (
 			url: url,
 		});
 		if (status === 200) {
+			const user = await userPictureProcessor(data.data);
 			dispatch({
 				type: 'change user',
-				user: data.data,
+				user: user,
 			});
 		} else {
 			throw new Error(`An Error Has Occurred -- Fetching the User: ${status}`);

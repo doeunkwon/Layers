@@ -3,6 +3,7 @@ import { type ImageStyle, Pressable, StyleSheet, View } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
 import MemoImage from '../../components/Image/memoImage';
 import Icon from 'react-native-remix-icon';
+import { photos } from '../../endpoints/General/pictureProcessor';
 
 interface ItemCellPropsType {
 	imageUrl: string;
@@ -17,14 +18,24 @@ const ItemCell = ({
 	disablePress = true,
 	imageStyle,
 	onPress,
-	base64,
 }: ItemCellPropsType): ReactElement => {
+	console.log('Itemcell Initial URL: ', imageUrl.substring(0, 100));
 	let url = imageUrl ?? '';
-	if (imageUrl.startsWith('/9j/')) {
-		url = `data:image/jpeg;base64,${imageUrl}`;
+	if (!url.startsWith('data')) {
+		const localUrl = photos.get(url);
+		// const keys = photos.keys();
+		// for (const key of keys) {
+		// 	console.log(key);
+		// }
+		console.log('local url: ', localUrl?.substring(0, 100));
+		if (localUrl !== undefined) {
+			url = localUrl;
+		} else {
+			url = '';
+		}
 	}
 
-	// console.log('Itemcell URL: ', url.substring(0, 100));
+	console.log('Itemcell URL: ', url.substring(0, 100));
 
 	return (
 		<Pressable
@@ -32,7 +43,7 @@ const ItemCell = ({
 			disabled={disablePress}
 			onPress={onPress}
 		>
-			{url.startsWith('data') ? (
+			{url !== '' ? (
 				<MemoImage source={url} style={{ ...imageStyle, ...styles.image }} />
 			) : (
 				<View style={{ ...imageStyle, ...styles.image }}>

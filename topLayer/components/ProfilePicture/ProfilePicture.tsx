@@ -1,8 +1,9 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import React, { memo, type ReactElement } from 'react';
 import Icon from 'react-native-remix-icon';
 import GlobalStyles from '../../constants/GlobalStyles';
 import MemoImage from '../../components/Image/memoImage';
+import { photos } from '../../endpoints/General/pictureProcessor';
 
 interface ProfilePicturePropsType {
 	imageUrl?: string;
@@ -14,15 +15,23 @@ interface ProfilePicturePropsType {
 
 const ProfilePicture = ({
 	imageUrl,
-	base64 = false,
 	shadow = true,
 	size = GlobalStyles.sizing.pfp.regular,
 	border = false,
 }: ProfilePicturePropsType): ReactElement => {
+	console.log('profile picture image: ', imageUrl?.substring(0, 100));
 	let url = imageUrl ?? '';
-	if (imageUrl !== undefined && imageUrl.startsWith('/9j/')) {
-		url = `data:image/jpeg;base64,${imageUrl}`;
+	if (!url.startsWith('data')) {
+		const localUrl = photos.get(url);
+		console.log('local url: ', localUrl?.substring(0, 100));
+		if (localUrl !== undefined) {
+			url = localUrl;
+		} else {
+			url = '';
+		}
 	}
+
+	console.log('profile picture final image: ', url.substring(0, 100));
 
 	return (
 		<>

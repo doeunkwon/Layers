@@ -16,6 +16,7 @@ import {
 	type editableClothingTypes,
 } from '../../types/Clothing';
 import { ContentType } from '../../endpoints/constants';
+import { outfitClothingItemsPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointCreateItem = async (
 	input: creationClothingTypes,
@@ -114,7 +115,10 @@ export const EndpointGetAllClothingItems = async (
 			url: url,
 		});
 		if (status === 200) {
-			successFunc(data.data);
+			const outfitClothingItems = await outfitClothingItemsPictureProcessor(
+				data.data
+			);
+			successFunc(outfitClothingItems);
 		} else {
 			throw new Error(
 				`An Error Has Occurred -- Fetching Clothing Items: ${status}`

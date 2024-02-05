@@ -15,8 +15,11 @@ import SettingsFields from '../../components/Settings/SettingsFields';
 import { Loading } from '../../components/Loading/Loading';
 import Button from '../../components/Button/Button';
 import { type formUser } from '../../types/User';
-import { EndpointDeleteUser, EndpointUpdateUser } from 'endpoints/private/user';
-import { EndpointLogout } from 'endpoints/authentication';
+import {
+	EndpointDeleteUser,
+	EndpointUpdateUser,
+} from '../../endpoints/private/user';
+import { EndpointLogout } from '../../endpoints/authentication';
 
 const SettingsPage: React.FC = () => {
 	const data = useUser();
@@ -26,6 +29,7 @@ const SettingsPage: React.FC = () => {
 	const { first_name, last_name, email, username, private_option } = data;
 	const profile_picture = useRef(data.profile_picture);
 
+	console.log('settings pp: ', profile_picture);
 	const [isLoading, setIsLoading] = useState(false); // Add loading state
 	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
 

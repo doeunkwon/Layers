@@ -4,6 +4,7 @@ import { Routers } from '../Routers';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 import { type User } from '../../types/User';
 import { nullUser } from '../../constants/baseUsers';
+import { userPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointGetUserPublic = async (
 	userID: string,
@@ -18,7 +19,8 @@ export const EndpointGetUserPublic = async (
 			url: url,
 		});
 		if (status === 200) {
-			successFunc(data.data);
+			const user = await userPictureProcessor(data.data);
+			successFunc(user);
 		} else {
 			throw new Error(
 				`An Error Has Occurred -- Fetching User ${userID}: ${status}`
@@ -41,7 +43,8 @@ export const EndpointGetUserPublicMarkedBar = async (
 			url: url,
 		});
 		if (status === 200) {
-			return data.data;
+			const user = await userPictureProcessor(data.data);
+			return user;
 		} else {
 			throw new Error(
 				`An Error Has Occurred -- Fetching MarkedBar User ${userID}: ${status}`

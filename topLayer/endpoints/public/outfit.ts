@@ -3,8 +3,7 @@ import { Methods } from '../Methods';
 import { Routers } from '../Routers';
 import { type UserOutfit } from '../../types/Outfit';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
-import { showErrorToast } from '../../components/Toasts/Toasts';
-import { toast } from '../../constants/GlobalStrings';
+import { outfitPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointGetForeignAllOutfits = async (
 	uid: string,
@@ -20,6 +19,7 @@ export const EndpointGetForeignAllOutfits = async (
 			url: url,
 		});
 		if (status === 200) {
+			// const outfit = await outfitPictureProcessor(data.data);
 			successFunc(data.data);
 		} else {
 			throw new Error(

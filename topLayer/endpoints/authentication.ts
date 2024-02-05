@@ -8,6 +8,7 @@ import { type loginUser, type formUser, type User } from '../types/User';
 import { ContentType } from './constants';
 import { type Dispatch } from 'react';
 import { type UserReducerProps } from '../Contexts/UserContext';
+import { userPictureProcessor } from './General/Specialized/pictureProcessors';
 
 export const EndpointLogin = async (
 	input: loginUser,
@@ -26,7 +27,8 @@ export const EndpointLogin = async (
 			},
 		});
 		if (status === 200) {
-			successFunc(data.data);
+			const user = await userPictureProcessor(data.data);
+			successFunc(user);
 		} else {
 			throw new Error(`An Error Has Occurred -- Logging In: ${status}`);
 		}
@@ -54,7 +56,8 @@ export const EndpointSignup = async (
 			},
 		});
 		if (status === 200) {
-			successFunc(data.data);
+			const user = await userPictureProcessor(data.data);
+			successFunc(user);
 			showSuccessToast(toast.yourProfileHasBeenCreated);
 		} else {
 			throw new Error(`An Error Has Occurred -- Signing In: ${status}`);

@@ -1,5 +1,7 @@
-import { EventEmitter } from 'node:events';
-import { NotFoundError } from '../Errors/NotFoundError';
+import EventEmitter from 'react-native/Libraries/vendor/emitter/EventEmitter';
+import { NotFoundError } from '../../Errors/NotFoundError';
+
+export type resolutionType = [string, number];
 
 export class AsyncManager extends EventEmitter {
 	calls: number;

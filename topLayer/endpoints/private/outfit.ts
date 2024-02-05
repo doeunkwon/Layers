@@ -12,6 +12,7 @@ import {
 	axiosEndpointErrorHandlerNoAlert,
 } from '../../utils/ErrorHandlers';
 import { ContentType } from '../../endpoints/constants';
+import { outfitPictureProcessor } from 'endpoints/General/Specialized/pictureProcessors';
 
 export const EndpointCreateOutfit = async (
 	input: createdOutfitProps,
@@ -112,7 +113,10 @@ export const EndpointGetAllOutfits = async (
 			url: url,
 		});
 		if (status === 200) {
-			successFunc(data.data);
+			console.log('outfits data: ', data.data);
+			const outfits = await outfitPictureProcessor(data.data);
+			console.log('test: ', outfits);
+			successFunc(outfits);
 		} else {
 			throw new Error(`An Error Has Occurred -- Fetching Outfits: ${status}`);
 		}

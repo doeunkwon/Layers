@@ -30,6 +30,7 @@ import {
 	type creationClothingTypes,
 	type UserClothing,
 } from '../../types/Clothing';
+import { base64Prefix } from 'utils/Base64Prefix';
 
 interface ItemFieldProps {
 	control: Control<creationClothingTypes>;
@@ -77,9 +78,13 @@ const ItemFields = ({
 						)}
 						name="title"
 					/>
+
 					<ItemCell
-						imageUrl={clothingItem.image_url}
-						base64={clothingItem.image_url.slice(0, 5) !== 'https'}
+						imageUrl={
+							clothingItem.image_url.startsWith('/9j/')
+								? base64Prefix + clothingItem.image_url
+								: clothingItem.image_url
+						}
 					/>
 					<View
 						style={{ flexDirection: 'row', justifyContent: 'space-between' }}

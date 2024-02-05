@@ -3,6 +3,7 @@ import { Methods } from '../Methods';
 import { Routers } from '../Routers';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 import { type markedUser, type markedPrivateUser } from '../../types/User';
+import { markedUsersPictureProcessor } from '../../endpoints/General/Specialized/pictureProcessors';
 
 export const EndpointAllSearch = async (
 	text: string,
@@ -21,7 +22,8 @@ export const EndpointAllSearch = async (
 			signal: signal,
 		});
 		if (status === 200) {
-			successFunc(data.data);
+			const users = await markedUsersPictureProcessor(data.data);
+			successFunc(users);
 		} else {
 			throw new Error(
 				`An Error Has Occurred -- Searching for Users: ${status}`

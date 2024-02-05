@@ -33,6 +33,7 @@ import {
 import { userFieldRules } from '../../constants/userConstraints';
 import { usePhotoUpdate } from '../../Contexts/CameraContext';
 import { type formUser } from '../../types/User';
+import { base64Prefix } from 'utils/Base64Prefix';
 
 interface SettingsFieldsType {
 	control: Control<formUser>;
@@ -99,8 +100,11 @@ const SettingsFields = ({
 									}
 								>
 									<ProfilePicture
-										imageUrl={profile_picture}
-										base64={profile_picture.slice(0, 5) !== 'https'}
+										imageUrl={
+											profile_picture.startsWith('/9j/')
+												? base64Prefix + profile_picture
+												: profile_picture
+										}
 									/>
 								</Pressable>
 							</View>

@@ -33,6 +33,10 @@ export async function downloadURLFromS3(objectKey: string): Promise<string> {
 	};
 
 	try {
+		// const signedUrl = await getSignedUrl(s3, new GetObjectCommand(params), {
+		// 	expiresIn: 10800,
+		// }); // TTL for presigned URL: 3 hours
+		// return signedUrl;
 		const response = await s3.send(new GetObjectCommand(params));
 		if (response.Body !== undefined) {
 			return await response.Body.transformToString('base64');

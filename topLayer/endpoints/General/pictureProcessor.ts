@@ -1,30 +1,49 @@
-import axios from 'axios';
-import { Methods } from '../../endpoints/Methods';
+import { base64Prefix } from 'utils/Base64Prefix';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 
-export const pictureProcessor = async (url: string): Promise<string> => {
-	const method = Methods.GET;
-	try {
-		// const data2 = await fetch(url).blob();
-		const { data, status } = await axios<{ data: Blob }>({
-			method: method,
-			url: url,
-			responseType: 'blob',
-		});
-		if (status === 200) {
-			const imageBlob = data.data;
-			console.log('blob created: ', imageBlob, imageBlob instanceof Blob);
+export const photos = new Map<string, string>();
+export const blobs = new Map<string, Blob>();
 
-			const url = URL.createObjectURL(imageBlob);
-			console.log('url: ', url);
-			return url;
-		} else {
-			throw new Error(
-				`An Error Has Occurred -- Processing Image ${url}: ${status}`
-			);
+export const pictureProcessor = async (
+	url: string,
+	id: string
+): Promise<string> => {
+	try {
+		console.log('base64 url: ', url.substring(0, 100));
+		if (url !== '' && photos.get(id) === undefined) {
+			photos.set(id, `${base64Prefix}${url}`);
 		}
+		return id;
 	} catch (err: unknown) {
+		console.log(
+			'Image Url Error Hit: ',
+			err,
+			'\n Url: ',
+			url.substring(0, 100)
+		);
 		axiosEndpointErrorHandlerNoAlert(err);
 		return '';
 	}
+};
+
+export const deletePicture = (id: string): void => {
+	const url = photos.get(id);
+	photos.delete(id);
+	blobs.delete(id);
+	if (url !== undefined) {
+		URL.revokeObjectURL(url);
+	}
+};
+
+export const updatePicture = async (
+	newUrl: string,
+	id: string
+): Promise<void> => {
+	deletePicture(id);
+	const response = await fetch(newUrl);
+	const blob = await response.blob();
+	console.log('blob created: ', blob, blob instanceof Blob);
+	const localurl = URL.createObjectURL(blob);
+	photos.set(id, localurl);
+	blobs.set(id, blob);
 };
