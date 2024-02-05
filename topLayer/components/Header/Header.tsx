@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import React, { type ReactElement, useContext } from 'react';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { StepOverTypes } from '../../constants/Enums';
 
@@ -42,7 +42,7 @@ const Header: React.FC<HeaderPropType> = ({
 }: HeaderPropType) => {
 	const { navigationArray } = useContext(MainPageContext);
 
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const handleRightPress = (): void => {
 		if (rightButtonAction !== null && rightButtonAction !== undefined) {
 			rightButtonAction();

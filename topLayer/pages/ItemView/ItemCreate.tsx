@@ -1,4 +1,4 @@
-import { View, StyleSheet, Alert } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import React, {
 	useState,
 	useEffect,
@@ -17,7 +17,7 @@ import {
 	useNavigation,
 	useRoute,
 } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { type RouteTypes } from '../../types/Routes';
 import GlobalStyles from '../../constants/GlobalStyles';
@@ -30,7 +30,7 @@ const ItemCreate = (): ReactElement => {
 	const route = useRoute<RouteProp<RouteTypes, 'ItemCreate'>>();
 	const { item } = route.params;
 
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { control, handleSubmit, setValue } = useForm({
@@ -73,6 +73,7 @@ const ItemCreate = (): ReactElement => {
 			<Header
 				text={'Create'}
 				leftBack={true}
+				leftStepOverType={StepOverTypes.down}
 				leftButton={true}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
@@ -89,7 +90,6 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.colorPalette.background,
 		flex: 1,
 		gap: 15,
-		paddingTop: 20,
 	},
 });
 

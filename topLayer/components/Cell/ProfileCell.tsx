@@ -14,7 +14,7 @@ import {
 	type markedUser,
 } from '../../types/User';
 import { useNavigation } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { StackNavigation } from '../../constants/Enums';
 import { useMarkUserFuncDispatch } from '../../Contexts/ForeignUserContext';
@@ -39,7 +39,7 @@ const ProfileCell = ({
 }: ProfileCellPropsType): ReactElement => {
 	const setUserMarkFunc = useMarkUserFuncDispatch();
 
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const [iconName, setIconName] = useState(
 		user.marked
 			? GlobalStyles.icons.bookmarkFill

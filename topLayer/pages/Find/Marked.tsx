@@ -7,7 +7,7 @@ import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import { previewLength } from '../../constants/Find';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigation } from '../../constants/Enums';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 
 interface MarkedPropsType {
@@ -17,7 +17,7 @@ interface MarkedPropsType {
 const MarkedBar = ({ foreignUserIDs = [] }: MarkedPropsType): ReactElement => {
 	// Default to an empty array if foreignUserIDs is undefined
 	const [users, setUsers] = useState<User[]>([]);
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 
 	const handlePress = (): void => {
 		navigation.navigate(StackNavigation.MarkedList, {});

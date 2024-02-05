@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Methods } from '../Methods';
-import { Routers } from '../Routers';
+import { Methods, Routers, ContentType } from '../constants';
 import { type UserOutfit, type createdOutfitProps } from '../../types/Outfit';
 import {
 	showErrorToast,
@@ -11,7 +10,6 @@ import {
 	axiosEndpointErrorHandler,
 	axiosEndpointErrorHandlerNoAlert,
 } from '../../utils/ErrorHandlers';
-import { ContentType } from '../../endpoints/constants';
 import { outfitPictureProcessor } from 'endpoints/General/Specialized/pictureProcessors';
 
 export const EndpointCreateOutfit = async (

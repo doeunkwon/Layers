@@ -7,13 +7,13 @@ import {
 	useRoute,
 } from '@react-navigation/native';
 import { StackNavigation } from '../../constants/Enums';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { type ReactElement } from 'react';
 import { type RouteTypes } from '../../types/Routes';
 
 const ItemPage = (): ReactElement => {
 	const route = useRoute<RouteProp<RouteTypes, 'ItemPage'>>();
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const { item } = route.params;
 
 	const redirectToProfile = (): void => {

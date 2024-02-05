@@ -9,13 +9,13 @@ import {
 } from 'react-native';
 import { StackNavigation } from '../../constants/Enums';
 import { useNavigation } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import GlobalStyles from '../../constants/GlobalStyles';
 import SignIn from './SignIn';
 
 const SignInPage: React.FC = () => {
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	return (
 		<>
 			<Pressable onPress={Keyboard.dismiss} style={styles.container}>

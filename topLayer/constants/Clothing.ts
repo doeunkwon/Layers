@@ -14,13 +14,6 @@ export const emptyClothing: UserClothing = {
 	created_at: '',
 };
 
-export const emptyOutfitClothingItems = {
-	outerwear: [],
-	tops: [],
-	bottoms: [],
-	shoes: [],
-};
-
 export const clothingItemTypes = [
 	{
 		label: capitalizeFirstLetter(ClothingTypes.outerwear),

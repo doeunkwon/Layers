@@ -6,7 +6,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import CameraPfp from '../../components/Camera/CameraPfp';
 import OutfitPage from '../OutfitView/OutfitPage';
 import ItemPage from '../../pages/ItemView/ItemPage';
-import { TransitionPresets } from '@react-navigation/stack';
 import { Stack } from '../../utils/StackNavigation';
 import ItemCreate from '../../pages/ItemView/ItemCreate';
 import CameraComponent from '../../components/Camera/Camera';
@@ -35,28 +34,25 @@ const ProfilePage = (): ReactElement => {
 
 					<Stack.Group
 						screenOptions={{
-							presentation: 'transparentModal',
+							presentation: 'fullScreenModal',
+							animation: 'slide_from_bottom',
+							gestureEnabled: true,
+							gestureDirection: 'vertical',
 						}}
 					>
 						<Stack.Screen
 							name={StackNavigation.ItemCreate}
 							component={ItemCreate}
-							options={{ ...TransitionPresets.SlideFromRightIOS }}
 						/>
-						<Stack.Group
-							screenOptions={{
-								...TransitionPresets.ModalSlideFromBottomIOS,
-							}}
-						>
-							<Stack.Screen
-								name={StackNavigation.CameraPfp}
-								component={CameraPfp}
-							/>
-							<Stack.Screen
-								name={StackNavigation.CameraComponents}
-								component={CameraComponents}
-							/>
-						</Stack.Group>
+
+						<Stack.Screen
+							name={StackNavigation.CameraPfp}
+							component={CameraPfp}
+						/>
+						<Stack.Screen
+							name={StackNavigation.CameraComponents}
+							component={CameraComponents}
+						/>
 					</Stack.Group>
 				</Stack.Group>
 			</Stack.Navigator>

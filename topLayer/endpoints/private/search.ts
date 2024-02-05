@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Methods } from '../Methods';
-import { Routers } from '../Routers';
+import { Methods, Routers } from '../constants';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 import { type markedUser, type markedPrivateUser } from '../../types/User';
 import { markedUsersPictureProcessor } from '../../endpoints/General/Specialized/pictureProcessors';

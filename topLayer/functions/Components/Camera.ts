@@ -1,6 +1,6 @@
 import { dummyId, emptyClothing } from 'constants/Clothing';
 import { StackNavigation } from '../../constants/Enums';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from 'utils/StackNavigation';
 
 let createCount = 0;

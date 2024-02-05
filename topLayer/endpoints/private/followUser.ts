@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Methods } from '../Methods';
-import { Routers } from '../Routers';
+import { Methods, Routers } from '../constants';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 
 export const EndpointFollowUser = async (input: string): Promise<void> => {

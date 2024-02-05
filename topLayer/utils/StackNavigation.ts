@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { type UserClothing } from '../types/Clothing';
 import { type outfitType, type UserOutfit } from '../types/Outfit';
 import { type markedUser } from '../types/User';
-import { createStackNavigator } from '@react-navigation/stack';
+// import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 
 // DO NOT ADD ANY FUNCTIONS UNDER StackNavigatorType

@@ -72,6 +72,16 @@ export function headerButtons({
 				</Pressable>
 			);
 		}
+		case StepOverTypes.down: {
+			return (
+				<Pressable
+					onPress={handlePress}
+					style={left ? styles.leftButton : styles.rightButton}
+				>
+					<Text style={styles.textButton}>{StepOverTypes.down}</Text>
+				</Pressable>
+			);
+		}
 		case StepOverTypes.logout: {
 			return (
 				<Pressable

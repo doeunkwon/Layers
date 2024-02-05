@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Methods } from '../Methods';
-import { Routers } from '../Routers';
+import { Methods, Routers, ContentType } from '../constants';
 import { type outfitClothingItemsType } from '../../types/Outfit';
 import {
 	showErrorToast,
@@ -15,7 +14,6 @@ import {
 	type creationClothingTypes,
 	type editableClothingTypes,
 } from '../../types/Clothing';
-import { ContentType } from '../../endpoints/constants';
 import { outfitClothingItemsPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointCreateItem = async (

@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { Methods } from '../Methods';
-import { Routers } from '../Routers';
+import { Methods, Routers, ContentType } from '../constants';
 import {
 	showErrorToast,
 	showSuccessToast,
@@ -11,7 +10,6 @@ import {
 	axiosEndpointErrorHandlerNoAlert,
 } from '../../utils/ErrorHandlers';
 import { type formUser, type User } from '../../types/User';
-import { ContentType } from '../../endpoints/constants';
 import { type Dispatch } from 'react';
 import { type UserReducerProps } from '../../Contexts/UserContext';
 import { userPictureProcessor } from '../General/Specialized/pictureProcessors';

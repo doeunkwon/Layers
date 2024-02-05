@@ -9,7 +9,7 @@ import { settings, toast } from '../../constants/GlobalStrings';
 import { showSuccessToast } from '../../components/Toasts/Toasts';
 import { useUpdateUser, useUser } from '../../Contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import SettingsFields from '../../components/Settings/SettingsFields';
 import { Loading } from '../../components/Loading/Loading';
@@ -31,7 +31,7 @@ const SettingsPage: React.FC = () => {
 
 	console.log('settings pp: ', profile_picture);
 	const [isLoading, setIsLoading] = useState(false); // Add loading state
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 
 	const defaultForm: formUser = {
 		first_name: first_name,

@@ -12,7 +12,7 @@ import React, {
 } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
-import { type StackNavigationProp } from '@react-navigation/stack';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { StackNavigation } from '../../constants/Enums';
 import { ITEM_SIZE } from '../../utils/GapCalc';
@@ -48,7 +48,7 @@ const SettingsFields = ({
 	errors,
 	profile_picture,
 }: SettingsFieldsType): ReactElement => {
-	const navigation = useNavigation<StackNavigationProp<StackTypes>>();
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const resetPhoto = usePhotoUpdate();
 	const navigateToCamera = (): void => {
 		navigation.navigate(StackNavigation.CameraPfp, {});

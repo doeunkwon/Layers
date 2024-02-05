@@ -13,6 +13,7 @@ export const StepOverTypes = {
 	next: 'Next',
 	update: 'Update',
 	logout: 'Logout',
+	down: 'Down',
 	rightArrow: 'Right Arrow',
 	leftArrow: 'Left Arrow',
 } as const;

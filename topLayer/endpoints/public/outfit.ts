@@ -1,9 +1,7 @@
 import axios from 'axios';
-import { Methods } from '../Methods';
-import { Routers } from '../Routers';
+import { Methods, Routers } from '../constants';
 import { type UserOutfit } from '../../types/Outfit';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
-import { outfitPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointGetForeignAllOutfits = async (
 	uid: string,
