@@ -73,7 +73,7 @@ const ItemCreate = (): ReactElement => {
 			<Header
 				text={'Create'}
 				leftBack={true}
-				leftStepOverType={StepOverTypes.down}
+				// leftStepOverType={StepOverTypes.down}
 				leftButton={true}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
