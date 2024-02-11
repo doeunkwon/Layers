@@ -1,10 +1,5 @@
-import {
-	StyleSheet,
-	View,
-	SafeAreaView,
-	Pressable,
-	type ViewStyle,
-} from 'react-native';
+import { StyleSheet, View, Pressable, type ViewStyle } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useCallback, useRef, useState, type ReactElement } from 'react';
 import {
 	Camera,
@@ -36,13 +31,16 @@ import Animated, {
 import * as MediaLibrary from 'expo-media-library';
 import * as ImagePicker from 'expo-image-picker';
 import { openCropper } from 'react-native-image-crop-picker';
+import { CameraFunc } from '../../functions/Components/Camera';
 
 interface CameraPropType {
-	cameraFunction: (photo: string) => void;
+	cameraFunction?: (photo: string) => void;
+	mode?: number;
 }
 
 export default function CameraComponent({
 	cameraFunction,
+	mode,
 }: CameraPropType): ReactElement {
 	const [orientation, setOrientation] = useState(CameraType.back);
 	const [flashMode, setFlashMode] = useState(FlashMode.off);
@@ -90,6 +88,7 @@ export default function CameraComponent({
 					width: 800,
 					height: 800,
 					cropping: true,
+					forceJpg: true,
 					includeBase64: true,
 					mediaType: 'photo',
 				})
@@ -99,7 +98,13 @@ export default function CameraComponent({
 							croppedImage?.data !== undefined &&
 							croppedImage?.data !== ''
 						) {
-							cameraFunction(croppedImage.data);
+							if (typeof mode === 'number') {
+								CameraFunc(croppedImage.data, navigation, mode);
+							} else {
+								if (cameraFunction !== undefined) {
+									cameraFunction(croppedImage.data);
+								}
+							}
 						}
 					})
 					.catch((error) => {
@@ -186,7 +191,13 @@ export default function CameraComponent({
 			result.assets[0].base64 !== undefined &&
 			result.assets[0].base64 !== ''
 		) {
-			cameraFunction(result.assets[0].base64);
+			if (typeof mode === 'number') {
+				CameraFunc(result.assets[0].base64, navigation, mode);
+			} else {
+				if (cameraFunction !== undefined) {
+					cameraFunction(result.assets[0].base64);
+				}
+			}
 		} else {
 			console.log('result.assets[0].base64 is undefined!');
 		}
@@ -243,7 +254,7 @@ export default function CameraComponent({
 				style={{
 					position: 'absolute',
 					width: screenWidth,
-					height: screenHeight,
+					height: '100%',
 					alignItems: 'center',
 					justifyContent: 'space-between',
 				}}

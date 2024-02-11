@@ -108,6 +108,7 @@ export const userSearchMarked = async (
 
 		responseCallbackGetAll(users, res, 'Users');
 	} catch (err) {
+		console.log('Private User Search Marked Error: ', err);
 		responseCallbackGet(err, null, res);
 	}
 };
@@ -165,6 +166,7 @@ export const userSearch = async (
 
 		responseCallbackGetAll(users, res, 'Users');
 	} catch (err) {
+		console.log('User Search Error: ', err);
 		responseCallbackGet(err, null, res);
 	}
 };

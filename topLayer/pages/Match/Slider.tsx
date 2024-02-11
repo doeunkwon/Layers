@@ -83,7 +83,7 @@ const Slider = ({
 								...data.slice(0, data.length - 1),
 								emptyItem,
 								...data.slice(data.length - 1, data.length),
-							] // eslint-disable-line no-mixed-spaces-and-tabs
+							]
 						: null
 				}
 				renderItem={({ item, index }) => {

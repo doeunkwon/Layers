@@ -17,8 +17,11 @@ import { useNavigation } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { type StackTypes } from '../../utils/StackNavigation';
 import { StackNavigation } from '../../constants/Enums';
-import { followUser, unFollowUser } from '../../endpoints/followUser';
 import { useMarkUserFuncDispatch } from '../../Contexts/ForeignUserContext';
+import {
+	EndpointFollowUser,
+	EndpointUnfollowUser,
+} from 'endpoints/private/followUser';
 
 interface ProfileCellPropsType {
 	user: markedPrivateUser | markedUser;
@@ -69,7 +72,7 @@ const ProfileCell = ({
 		if (marked) {
 			setIconName(GlobalStyles.icons.bookmarkOutline);
 			userProcessed.current.marked = false;
-			void unFollowUser(userProcessed.current.uid);
+			void EndpointUnfollowUser(userProcessed.current.uid);
 			index.current = handleRelationRender(
 				userProcessed.current.uid,
 				false,
@@ -79,7 +82,7 @@ const ProfileCell = ({
 		} else {
 			setIconName(GlobalStyles.icons.bookmarkFill);
 			userProcessed.current.marked = true;
-			void followUser(userProcessed.current.uid);
+			void EndpointFollowUser(userProcessed.current.uid);
 			index.current = handleRelationRender(
 				userProcessed.current.uid,
 				true,

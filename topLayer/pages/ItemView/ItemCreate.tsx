@@ -1,58 +1,53 @@
-import axios from 'axios';
-import { baseUrl } from '../../utils/apiUtils';
-import { View, StyleSheet, Alert } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import React, {
 	useState,
 	useEffect,
 	useContext,
 	type ReactElement,
 } from 'react';
-import { StepOverTypes } from '../../constants/Enums';
-import {
-	type creationClothingTypes,
-	type UserClothing,
-} from '../../types/Clothing';
+import { StepOverTypes, StackNavigation } from '../../constants/Enums';
+import { type creationClothingTypes } from '../../types/Clothing';
 import { useForm } from 'react-hook-form';
 import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
-import { toast } from '../../constants/GlobalStrings';
 import { Loading } from '../../components/Loading/Loading';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
 import ItemFields from '../../components/Item/ItemFields';
-import GlobalStyles from 'constants/GlobalStyles';
+import {
+	type RouteProp,
+	useNavigation,
+	useRoute,
+} from '@react-navigation/native';
+import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { type StackTypes } from '../../utils/StackNavigation';
+import { type RouteTypes } from '../../types/Routes';
+import GlobalStyles from '../../constants/GlobalStyles';
+import { EndpointCreateItem } from 'endpoints/private/clothingItem';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-interface ItemCreatePropsType {
-	clothingItem: UserClothing;
-	navigateToProfile: () => void;
-}
-
-const ItemCreate = ({
-	clothingItem,
-	navigateToProfile,
-}: ItemCreatePropsType): ReactElement => {
+const ItemCreate = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
 
+	const route = useRoute<RouteProp<RouteTypes, 'ItemCreate'>>();
+	const { item } = route.params;
+
+	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { control, handleSubmit, setValue } = useForm({
 		defaultValues: {
-			image: clothingItem.image_url,
-			category: clothingItem.category,
-			title: clothingItem.title,
-			size: clothingItem.size,
-			color: clothingItem.color,
+			image: item.image_url,
+			category: item.category,
+			title: item.title,
+			size: item.size,
+			color: item.color,
 		},
 	});
 
 	useEffect(() => {
-		setValue('image', clothingItem.image_url);
-	}, [clothingItem.image_url]);
+		setValue('image', item.image_url);
+	}, [item.image_url]);
 
-	const handleCreate = async (values: creationClothingTypes): Promise<void> => {
+	const CreateItem = async (values: creationClothingTypes): Promise<void> => {
 		if (values.category === '') {
 			Alert.alert('Category Value Not Filled Out.');
 			return;
@@ -61,44 +56,32 @@ const ItemCreate = ({
 			Alert.alert('Image Value Not Filled Out.');
 			return;
 		}
-		setIsLoading(true); // Start loading
-		try {
-			const { status } = await axios.post(
-				`${baseUrl}/api/private/clothing_items`,
-				values
-			);
 
-			if (status === 200) {
-				setShouldRefreshMainPage(true);
-				navigateToProfile();
-				showSuccessToast(toast.yourItemHasBeenCreated);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileCreatingItem);
-			}
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigation.navigate(StackNavigation.Profile, {});
+		};
+
+		setIsLoading(true); // Start loading
+		void EndpointCreateItem(values, successFunc).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<Header
 				text={'Create'}
 				leftBack={true}
+				// leftStepOverType={StepOverTypes.down}
 				leftButton={true}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
-				rightButtonAction={handleSubmit(handleCreate)}
+				rightButtonAction={handleSubmit(CreateItem)}
 			/>
-			<ItemFields
-				control={control}
-				setValue={setValue}
-				clothingItem={clothingItem}
-			/>
+			<ItemFields control={control} setValue={setValue} clothingItem={item} />
 			{isLoading ? <Loading /> : null}
-		</View>
+		</SafeAreaView>
 	);
 };
 
@@ -107,7 +90,6 @@ const styles = StyleSheet.create({
 		backgroundColor: GlobalStyles.colorPalette.background,
 		flex: 1,
 		gap: 15,
-		paddingTop: 20,
 	},
 });
 

@@ -1,8 +1,5 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 async function removeBackground(imageData: Buffer): Promise<Buffer> {
 	try {
@@ -27,9 +24,11 @@ async function removeBackground(imageData: Buffer): Promise<Buffer> {
 		const response = await axios.post(process.env.CLIPDROP_ENDPOINT, formData, {
 			headers: {
 				'x-api-key': process.env.CLIPDROP_API_KEY,
+				Accept: 'image/jpeg',
 			},
 			responseType: 'arraybuffer',
 		});
+		// console.log('removeBackground response: ', response.headers);
 
 		return Buffer.from(response.data);
 	} catch (error) {

@@ -15,12 +15,12 @@ export class AsyncManager extends EventEmitter {
 	}
 
 	// All async calls are complete
-	allComplete() {
+	allComplete(): void {
 		this.emit('proceed', 'All Queries Were Completed', this.result);
 	}
 
 	// One query completed
-	complete(call: string) {
+	complete(call: string): void {
 		this.calls--;
 		this.emit('Async Call Completed', call);
 		if (this.calls === 0) {
@@ -29,7 +29,7 @@ export class AsyncManager extends EventEmitter {
 	}
 
 	// One async call failed and the failure is predicted
-	failure(failure: string, call: string) {
+	failure(failure: string, call: string): void {
 		this.calls--;
 		this.result--;
 		this.failures.push(failure);

@@ -12,6 +12,14 @@ export interface outfitClothingItemsType {
 	tops: UserClothing[];
 	bottoms: UserClothing[];
 	shoes: UserClothing[];
+	[key: string]: UserClothing[];
+}
+
+export enum itemCategories {
+	Outerwear = 'outerwear',
+	Tops = 'tops',
+	Bottoms = 'bottoms',
+	Shoes = 'shoes',
 }
 
 export interface UserOutfit {
@@ -20,6 +28,11 @@ export interface UserOutfit {
 	clothing_items: outfitClothingItemsType;
 	uid: string;
 	created_at: string;
+}
+
+export interface createdOutfitProps {
+	title: string;
+	clothing_items: string[];
 }
 
 function isOutfitClothingItemsType(
@@ -38,10 +51,10 @@ export const isUserOutfit = (obj: any): obj is UserOutfit =>
 	typeof obj === 'object' &&
 	obj !== null &&
 	obj !== undefined &&
-	typeof obj.oid === 'string' &&
-	typeof obj.title === 'string' &&
-	typeof obj.uid === 'string' &&
-	typeof obj.created_at === 'string' &&
+	typeof obj?.oid === 'string' &&
+	typeof obj?.title === 'string' &&
+	typeof obj?.uid === 'string' &&
+	typeof obj?.created_at === 'string' &&
 	isOutfitClothingItemsType(obj.clothing_items);
 
 export const isUserOutfitArray = (obj: any): obj is UserOutfit[] =>

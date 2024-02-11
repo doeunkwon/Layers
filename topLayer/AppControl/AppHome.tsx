@@ -18,7 +18,6 @@ import CameraPfp from '../components/Camera/CameraPfp';
 
 const AppHome: React.FC = () => {
 	const user: User = useUser();
-
 	return (
 		<GestureHandlerRootView style={{ flex: 1 }}>
 			<NavigationContainer ref={navigationRef}>

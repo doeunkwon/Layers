@@ -48,6 +48,7 @@ export const settings = {
 export const toast = {
 	success: 'Success',
 	error: 'Error',
+	youhaveloggedOut: 'You have logged out.',
 	yourOutfitHasBeenCreated: 'Your outfit has been created.',
 	yourOutfitHasBeenDeleted: 'Your outfit has been deleted.',
 	yourOutfitHasBeenUpdated: 'Your outfit has been updated.',
@@ -59,6 +60,7 @@ export const toast = {
 	yourItemHasBeenDeleted: 'Your item has been deleted.',
 	theEmailOrPasswordYouveEnteredIsIncorrect:
 		"The email or password you've entered is incorrect.",
+	anErrorHasOccurredWhileLoggingOut: 'An error has occurred while logging out.',
 	anErrorHasOccurredWhileCreatingOutfit:
 		'An error has occurred while creating your outfit.',
 	anErrorHasOccurredWhileDeletingOutfit:
@@ -79,4 +81,12 @@ export const toast = {
 		'An error has occurred while sending your feedback.',
 	anErrorHasOccurredWhileCreatingProfile:
 		'An error has occurred while creating your profile.',
+	anErrorHasOccurredWhileFetchingClothingItems:
+		'An error has occurred while fetching clothing items.',
+	anErrorHasOccurredWhileFetchingForeignClothingItems:
+		'An error has occurred while fetching foreign clothing items.',
+	anErrorHasOccurredWhileFetchingOutfits:
+		'An error has occurred while fetching outfits.',
+	anErrorHasOccurredWhileFetchingForeignOutfits:
+		'An error has occurred while fetching foreign outfits.',
 };

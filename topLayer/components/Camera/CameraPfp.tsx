@@ -11,11 +11,11 @@ const CameraPfp = (): ReactElement => {
 	const setPfpUrl = usePhotoUpdate();
 
 	const updateProfilePicture = (image: string): void => {
+		navigation.goBack();
 		setPfpUrl({
 			type: 'new photo',
 			image: image,
 		});
-		navigation.goBack();
 	};
 
 	const CameraComponents: React.FC = () => (

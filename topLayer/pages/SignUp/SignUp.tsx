@@ -1,22 +1,15 @@
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
 import Button from '../../components/Button/Button';
 import GlobalStyles from '../../constants/GlobalStyles';
-import { baseUrl } from '../../utils/apiUtils';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
-import { toast } from '../../constants/GlobalStrings';
 import { defaultFormUser } from '../../constants/baseUsers';
 import { Loading } from '../../components/Loading/Loading';
 import { useUpdateUser } from '../../Contexts/UserContext';
 import { usePhoto } from '../../Contexts/CameraContext';
 import SettingsFields from '../../components/Settings/SettingsFields';
 import { View } from 'react-native';
-import { type formUser } from '../../types/User';
+import { type User, type formUser } from '../../types/User';
+import { EndpointSignup } from '../../endpoints/authentication';
 
 const SignUp: React.FC = () => {
 	const updateUser = useUpdateUser();
@@ -33,7 +26,7 @@ const SignUp: React.FC = () => {
 		defaultValues: { ...defaultFormUser },
 	});
 
-	const onSubmit = (values: formUser): void => {
+	const signUp = (values: formUser): void => {
 		const formValues: formUser = {
 			first_name: values.first_name,
 			last_name: values.last_name,
@@ -44,32 +37,17 @@ const SignUp: React.FC = () => {
 			private_option: values.private_option,
 		};
 
-		const onSubmitInner = async (): Promise<void> => {
-			setIsLoading(true); // Start loading
-			try {
-				const { data: userData, status } = await axios.post(
-					`${baseUrl}/signup`,
-					formValues
-				);
-
-				if (status === 200) {
-					updateUser({
-						type: 'change user',
-						user: userData.data,
-					});
-				} else {
-					throw new Error(`An Sign Up Error Has Occurred: ${status}`);
-				}
-
-				showSuccessToast(toast.yourProfileHasBeenCreated);
-				setIsLoading(false); // Stop loading on success
-			} catch (err: unknown) {
-				setIsLoading(false); // Stop loading on error
-				showErrorToast(toast.anErrorHasOccurredWhileCreatingProfile);
-				axiosEndpointErrorHandler(err);
-			}
+		const successFunc = (data: User): void => {
+			updateUser({
+				type: 'change user',
+				user: data,
+			});
 		};
-		void onSubmitInner();
+
+		setIsLoading(true); // Start loading
+		void EndpointSignup(formValues, successFunc).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (
@@ -84,7 +62,7 @@ const SignUp: React.FC = () => {
 			<Button
 				text="Sign up"
 				onPress={() => {
-					void handleSubmit(onSubmit)();
+					void handleSubmit(signUp)();
 				}}
 				style={{
 					position: 'absolute',

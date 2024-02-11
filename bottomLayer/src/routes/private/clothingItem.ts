@@ -69,6 +69,7 @@ router.post('/', (req: Request, res: Response): void => {
 
 			responseCallbackPost(null, res, 'Clothing Item: ' + ciid);
 		} catch (error) {
+			console.log('Private Create Clothing Item Error: ', error);
 			responseCallbackPost(error, res);
 		}
 	};
@@ -104,6 +105,7 @@ router.delete('/:ciid', (req: Request, res: Response): void => {
 				deleteItem.rowCount
 			);
 		} catch (error) {
+			console.log('Private Private Delete Clothing Item Error: ', error);
 			responseCallbackDelete(error, ciid, res, 'Clothing Item');
 		} finally {
 			(await client).release();
@@ -154,6 +156,7 @@ router.put('/:ciid', (req: Request, res: Response): void => {
 				updateResult.rowCount
 			);
 		} catch (error) {
+			console.log('Private Update Clothing Item Error: ', error);
 			responseCallbackUpdate(error, ciid, res, 'Clothing Item');
 		}
 	};
@@ -209,6 +212,7 @@ router.delete('/', (req: Request, res: Response): void => {
 				deleteClothingItems.rowCount
 			);
 		} catch (error) {
+			console.log('Private Deleting All Clothing Items Error: ', error);
 			responseCallbackDeleteAll(error, res, 'Clothing Item');
 		}
 	};

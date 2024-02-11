@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { type markedUser, type User } from '../../types/User';
 import ProfileCell from './ProfileCell';
 import { nullUser } from '../../constants/baseUsers';
-import { getForeignUser2 } from '../../endpoints/getUser';
+import { EndpointGetUserPublic } from 'endpoints/public/user';
 
 interface FetchProfileCellPropsType {
 	userID: string;
@@ -36,7 +36,7 @@ const FetchProfileCell = ({
 	};
 
 	useEffect(() => {
-		void getForeignUser2(userID, setUserFunc);
+		void EndpointGetUserPublic(userID, setUserFunc);
 	}, []);
 
 	return (

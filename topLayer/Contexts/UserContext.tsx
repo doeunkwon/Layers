@@ -8,8 +8,10 @@ import React, {
 	useContext,
 } from 'react';
 import { useImmerReducer } from 'use-immer';
-import { updateUser } from '../endpoints/getUser';
 import { nullUser } from '../constants/baseUsers';
+import { EndpointGetUserPrivate } from '../endpoints/private/user';
+import { base64Prefix } from '../utils/Base64Prefix';
+import { photos } from '../endpoints/General/pictureProcessor';
 
 interface UserProviderProps {
 	children: ReactNode;
@@ -58,7 +60,7 @@ export const UserProvider = ({ children }: UserProviderProps): ReactElement => {
 	const [tasks, dispatch] = useImmerReducer(userReducer, nullUser);
 
 	useEffect(() => {
-		void updateUser(dispatch);
+		void EndpointGetUserPrivate(dispatch);
 	}, []);
 	return (
 		<UserContext.Provider value={tasks}>
@@ -103,7 +105,12 @@ const setUserProps = (draft: User, action: UserReducerProps): User => {
 		draft.following = action.following;
 	}
 	if (action.profile_picture !== null && action.profile_picture !== undefined) {
-		draft.profile_picture = action.profile_picture;
+		photos.delete(draft.uid);
+		if (action.profile_picture === '') {
+			draft.profile_picture = '';
+		} else {
+			draft.profile_picture = `${base64Prefix}${action.profile_picture}`;
+		}
 	}
 	return draft;
 };

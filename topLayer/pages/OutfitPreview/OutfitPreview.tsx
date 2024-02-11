@@ -5,17 +5,9 @@ import React, {
 	useContext,
 	type ReactElement,
 } from 'react';
-import { baseUrl } from '../../utils/apiUtils';
-import axios from 'axios';
-import GlobalStyles from '../../constants/GlobalStyles';
 import StackedTextbox from '../../components/Textbox/StackedTextbox';
 import { type UserClothing } from '../../types/Clothing';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
-import { toast, match as matchHeading } from '../../constants/GlobalStrings';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
+import { match as matchHeading } from '../../constants/GlobalStrings';
 import {
 	type RouteProp,
 	useNavigation,
@@ -30,7 +22,8 @@ import { emptyClothing } from '../../constants/Clothing';
 import { MainPageContext } from '../../pages/Main/MainPage';
 import { type RouteTypes } from '../../types/Routes';
 import OutfitBlockLayout from '../../components/Outfit/OutfitBlockLayout';
-
+import GlobalStyles from '../../constants/GlobalStyles';
+import { EndpointCreateOutfit } from 'endpoints/private/outfit';
 const OutfitPreview = (): ReactElement => {
 	const { setShouldRefreshMainPage } = useContext(MainPageContext);
 
@@ -79,46 +72,46 @@ const OutfitPreview = (): ReactElement => {
 		setData(rawData.filter(Boolean));
 	}, [rawData]);
 
-	const onSubmit = (): void => {
-		const clothingItems = [
+	const createOutfit = (): void => {
+		const clothingItems: string[] = [];
+		if (
 			match.previewData.outerwear !== null &&
 			match.previewData.outerwear !== undefined
-				? match.previewData.outerwear.ciid
-				: null,
-			match.previewData.tops !== null && match.previewData.tops !== undefined
-				? match.previewData.tops.ciid
-				: null,
+		) {
+			clothingItems.push(match.previewData.outerwear.ciid);
+		}
+		if (
+			match.previewData.tops !== null &&
+			match.previewData.tops !== undefined
+		) {
+			clothingItems.push(match.previewData.tops.ciid);
+		}
+		if (
 			match.previewData.bottoms !== null &&
 			match.previewData.bottoms !== undefined
-				? match.previewData.bottoms.ciid
-				: null,
-			match.previewData.shoes !== null && match.previewData.shoes !== undefined
-				? match.previewData.shoes.ciid
-				: null,
-		].filter((item) => item !== null);
+		) {
+			clothingItems.push(match.previewData.bottoms.ciid);
+		}
+		if (
+			match.previewData.shoes !== null &&
+			match.previewData.shoes !== undefined
+		) {
+			clothingItems.push(match.previewData.shoes.ciid);
+		}
 
-		const onSubmitInner = async (): Promise<void> => {
-			try {
-				const response = await axios.post(`${baseUrl}/api/private/outfits`, {
-					title: match.matchName,
-					clothing_items: clothingItems,
-				});
-
-				setIsLoading(false); // Stop loading
-				if (response.status === 200) {
-					navigation.goBack();
-					setShouldRefreshMainPage(true);
-					showSuccessToast(toast.yourOutfitHasBeenCreated);
-				} else {
-					showErrorToast(toast.anErrorHasOccurredWhileCreatingOutfit);
-				}
-			} catch (error) {
-				setIsLoading(false); // Stop loading
-				axiosEndpointErrorHandler(error);
-			}
+		const input = {
+			title: match.matchName,
+			clothing_items: clothingItems,
 		};
+		const successFunc = (): void => {
+			navigation.goBack();
+			setShouldRefreshMainPage(true);
+		};
+
 		setIsLoading(true); // Start loading
-		void onSubmitInner();
+		void EndpointCreateOutfit(input, successFunc).finally(() => {
+			setIsLoading(false);
+		});
 	};
 	return (
 		<View style={styles.container}>
@@ -127,7 +120,7 @@ const OutfitPreview = (): ReactElement => {
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
 				rightButtonAction={() => {
-					onSubmit();
+					createOutfit();
 				}}
 			/>
 			<View style={styles.containerInner}>

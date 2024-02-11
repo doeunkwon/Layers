@@ -1,5 +1,5 @@
 import { ClothingTypes } from '../../constants/Enums';
-import { Sizes } from '../../types/Clothing';
+import { type Sizes } from '../../types/Clothing';
 
 export const setClothingTypeSize = (category: string): Sizes[] => {
 	if (category === ClothingTypes.outerwear || category === ClothingTypes.tops) {

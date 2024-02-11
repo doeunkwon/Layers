@@ -5,15 +5,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '../../components/Header/Header';
 import { StackNavigation, StepOverTypes } from '../../constants/Enums';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
-import { baseUrl } from '../../utils/apiUtils';
 import { settings, toast } from '../../constants/GlobalStrings';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
-import { handleLogout } from '../../endpoints/getUser';
+import { showSuccessToast } from '../../components/Toasts/Toasts';
 import { useUpdateUser, useUser } from '../../Contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -22,6 +15,11 @@ import SettingsFields from '../../components/Settings/SettingsFields';
 import { Loading } from '../../components/Loading/Loading';
 import Button from '../../components/Button/Button';
 import { type formUser } from '../../types/User';
+import {
+	EndpointDeleteUser,
+	EndpointUpdateUser,
+} from '../../endpoints/private/user';
+import { EndpointLogout } from '../../endpoints/authentication';
 
 const SettingsPage: React.FC = () => {
 	const data = useUser();
@@ -97,37 +95,22 @@ const SettingsPage: React.FC = () => {
 		if (Object.keys(updatedFields).length === 0) {
 			return;
 		}
-		setIsLoading(true); // Start loading
-		try {
-			const response = await axios.put(
-				`${baseUrl}/api/private/users`,
-				updatedFields,
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			);
 
-			if (response.status === 200) {
-				refreshUser({
-					type: 'change fields',
-					...updatedFields,
-				});
-				if (updatedFields.profile_picture !== undefined) {
-					profile_picture.current = photo;
-				}
-				navigation.goBack();
-				showSuccessToast(toast.yourProfileHasBeenUpdated);
-				setIsLoading(false); // Stop loading on success
-			} else {
-				throw new Error('An error has occurred');
+		const successFunc = (): void => {
+			refreshUser({
+				type: 'change fields',
+				...updatedFields,
+			});
+			if (updatedFields.profile_picture !== undefined) {
+				profile_picture.current = photo;
 			}
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			showErrorToast(toast.anErrorHasOccurredWhileUpdatingProfile);
-			axiosEndpointErrorHandler(error);
-		}
+			navigation.goBack();
+		};
+
+		setIsLoading(true); // Start loading
+		void EndpointUpdateUser(updatedFields, successFunc).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	const confirmDeletion = (): void => {
@@ -140,32 +123,25 @@ const SettingsPage: React.FC = () => {
 			{
 				text: settings.delete,
 				onPress: () => {
-					void handleDelete();
+					void deleteUser();
 				},
 				style: 'destructive',
 			},
 		]);
 	};
 
-	const handleDelete = async (): Promise<void> => {
+	const deleteUser = async (): Promise<void> => {
+		const successFunc = (): void => {
+			refreshUser({
+				type: 'logout',
+			});
+			showSuccessToast(toast.yourProfileHasBeenDeleted);
+		};
+
 		setIsLoading(true);
-		try {
-			const deleteUserResponse = await axios.delete(
-				`${baseUrl}/api/private/users/`
-			);
-			if (deleteUserResponse.status === 200) {
-				refreshUser({
-					type: 'logout',
-				});
-				showSuccessToast(toast.yourProfileHasBeenDeleted);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileDeletingProfile);
-			}
+		void EndpointDeleteUser(successFunc).finally(() => {
 			setIsLoading(false);
-		} catch (error) {
-			setIsLoading(false);
-			axiosEndpointErrorHandler(error);
-		}
+		});
 	};
 
 	return (
@@ -175,7 +151,7 @@ const SettingsPage: React.FC = () => {
 				leftButton={true}
 				leftStepOverType={StepOverTypes.logout}
 				leftButtonAction={() => {
-					void handleLogout(refreshUser);
+					void EndpointLogout(refreshUser);
 				}}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.update}

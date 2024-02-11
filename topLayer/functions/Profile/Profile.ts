@@ -1,4 +1,4 @@
-import { UserAllItems2, type UserAllItems } from '../../types/AllItems';
+import { type UserAllItems2, type UserAllItems } from '../../types/AllItems';
 import { type UserClothing } from '../../types/Clothing';
 import { type UserOutfit } from '../../types/Outfit';
 import { CategoryToIndex, StackNavigation } from '../../constants/Enums';
@@ -27,7 +27,7 @@ export const handleCategoryChange = (
 
 export const handleForeignItemPress = (
 	item: UserClothing | UserOutfit,
-	navigation: NativeStackNavigationProp<StackTypes>
+	navigation: StackNavigationProp<StackTypes>
 ): void => {
 	if ('oid' in item) {
 		navigation.navigate(StackNavigation.OutfitViewPage, {
@@ -42,7 +42,7 @@ export const handleForeignItemPress = (
 
 export const handleItemChange = (
 	item: UserClothing | UserOutfit,
-	navigation: NativeStackNavigationProp<StackTypes>
+	navigation: StackNavigationProp<StackTypes>
 ): void => {
 	if ('oid' in item) {
 		navigation.navigate(StackNavigation.OutfitPage, {

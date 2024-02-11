@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { baseUrl } from '../../utils/apiUtils';
 import { View, StyleSheet, Pressable, Alert } from 'react-native';
 import React, { useState, useContext, type ReactElement } from 'react';
 import { StepOverTypes } from '../../constants/Enums';
@@ -12,15 +10,14 @@ import { useForm } from 'react-hook-form';
 import Icon from 'react-native-remix-icon';
 import Header from '../../components/Header/Header';
 import { MainPageContext } from '../../pages/Main/MainPage';
-import { toast, itemEdit } from '../../constants/GlobalStrings';
-import { axiosEndpointErrorHandler } from '../../utils/ErrorHandlers';
+import { itemEdit } from '../../constants/GlobalStrings';
 import { Loading } from '../../components/Loading/Loading';
-import {
-	showErrorToast,
-	showSuccessToast,
-} from '../../components/Toasts/Toasts';
 import { areArraysEqual } from '../../functions/General/array';
 import ItemFields from '../../components/Item/ItemFields';
+import {
+	EndpointDeleteItem,
+	EndpointUpdateItem,
+} from 'endpoints/private/clothingItem';
 
 interface ItemEditPropsType {
 	clothingItem: UserClothing;
@@ -55,14 +52,14 @@ const ItemEdit = ({
 			{
 				text: itemEdit.delete,
 				onPress: () => {
-					void handleDelete();
+					void deleteItem();
 				},
 				style: 'destructive',
 			},
 		]);
 	};
 
-	const handleUpdate = async (values: editableClothingTypes): Promise<void> => {
+	const UpdateItem = async (values: editableClothingTypes): Promise<void> => {
 		const dataToUpdate: Partial<editableClothingTypes> = {};
 
 		// Add fields to dataToUpdate only if they have been set
@@ -78,57 +75,34 @@ const ItemEdit = ({
 		if (!areArraysEqual(values.color, clothingItem.color)) {
 			dataToUpdate.color = values.color;
 		}
-
 		if (Object.keys(dataToUpdate).length === 0) {
 			return;
 		}
 
-		setIsLoading(true); // Start loading
-		try {
-			const response = await axios.put(
-				`${baseUrl}/api/private/clothing_items/${clothingItem.ciid}`,
-				dataToUpdate,
-				{
-					headers: {
-						'Content-Type': 'application/json',
-					},
-				}
-			);
-			if (response.status === 200) {
-				setShouldRefreshMainPage(true);
-				navigateToProfile();
-				showSuccessToast(toast.yourItemHasBeenUpdated);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileUpdatingItem);
-			}
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigateToProfile();
+		};
 
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		setIsLoading(true); // Start loading
+		void EndpointUpdateItem(
+			dataToUpdate,
+			clothingItem.ciid,
+			successFunc
+		).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
-	const handleDelete = async (): Promise<void> => {
+	const deleteItem = async (): Promise<void> => {
+		const successFunc = (): void => {
+			setShouldRefreshMainPage(true);
+			navigateToProfile();
+		};
 		setIsLoading(true); // Start loading
-		try {
-			const response = await axios.delete(
-				`${baseUrl}/api/private/clothing_items/${clothingItem.ciid}`
-			);
-
-			if (response.status === 200) {
-				setShouldRefreshMainPage(true);
-				navigateToProfile();
-				showSuccessToast(toast.yourItemHasBeenDeleted);
-			} else {
-				showErrorToast(toast.anErrorHasOccurredWhileDeletingItem);
-				throw new Error('An error has occurred while deleting outfit');
-			}
-			setIsLoading(false); // Stop loading on success
-		} catch (error) {
-			setIsLoading(false); // Stop loading on error
-			axiosEndpointErrorHandler(error);
-		}
+		void EndpointDeleteItem(clothingItem.ciid, successFunc).finally(() => {
+			setIsLoading(false);
+		});
 	};
 
 	return (
@@ -139,7 +113,7 @@ const ItemEdit = ({
 				leftButton={true}
 				rightButton={true}
 				rightStepOverType={StepOverTypes.done}
-				rightButtonAction={handleSubmit(handleUpdate)}
+				rightButtonAction={handleSubmit(UpdateItem)}
 			/>
 			<ItemFields
 				control={control}

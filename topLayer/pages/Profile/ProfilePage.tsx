@@ -1,29 +1,22 @@
-import React from 'react';
+import React, { type ReactElement } from 'react';
 import { StackNavigation } from '../../constants/Enums';
-import { Stack } from '../../utils/StackNavigation';
 import Profile from './Profile';
 import SettingsPage from './SettingsPage';
 import { NavigationContainer } from '@react-navigation/native';
-import ItemCamera from '../../components/Camera/ItemCamera';
 import CameraPfp from '../../components/Camera/CameraPfp';
 import OutfitPage from '../OutfitView/OutfitPage';
 import ItemPage from '../../pages/ItemView/ItemPage';
+import { Stack } from '../../utils/StackNavigation';
+import ItemCamera from '../../components/Camera/ItemCamera';
 
-const ProfilePage: React.FC = () => {
+const ProfilePage = (): ReactElement => {
 	return (
 		<NavigationContainer independent={true}>
-			<Stack.Navigator>
-				<Stack.Screen
-					options={{
-						headerShown: false,
-					}}
-					name={StackNavigation.Profile}
-					component={Profile}
-				/>
+			<Stack.Navigator screenOptions={{ headerShown: false }}>
+				<Stack.Screen name={StackNavigation.Profile} component={Profile} />
 				<Stack.Group
 					screenOptions={{
 						presentation: 'modal',
-						headerShown: false,
 					}}
 				>
 					<Stack.Screen
@@ -35,6 +28,7 @@ const ProfilePage: React.FC = () => {
 						name={StackNavigation.OutfitPage}
 						component={OutfitPage}
 					/>
+
 					<Stack.Group
 						screenOptions={{
 							presentation: 'fullScreenModal',
@@ -44,12 +38,12 @@ const ProfilePage: React.FC = () => {
 						}}
 					>
 						<Stack.Screen
-							name={StackNavigation.ItemCamera}
-							component={ItemCamera}
-						/>
-						<Stack.Screen
 							name={StackNavigation.CameraPfp}
 							component={CameraPfp}
+						/>
+						<Stack.Screen
+							name={StackNavigation.ItemCamera}
+							component={ItemCamera}
 						/>
 					</Stack.Group>
 				</Stack.Group>

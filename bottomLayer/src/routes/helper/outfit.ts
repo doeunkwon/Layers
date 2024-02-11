@@ -29,6 +29,7 @@ export const getOutfitById = async (
 
 		responseCallbackGet(null, result, res, 'Outfits');
 	} catch (error) {
+		console.log('Get Outfit By Id Error: ', error);
 		responseCallbackGet(error, null, res);
 	}
 };
@@ -131,6 +132,7 @@ export const getOutfitByIdCate = async (
 
 		responseCallbackGet(null, outfits, res, 'Outfits');
 	} catch (error) {
+		console.log('Get Outfit By Id Cate Error: ', error);
 		responseCallbackGet(error, null, res);
 	}
 };
@@ -152,6 +154,7 @@ export const getAllOutfits = async (
 
 		responseCallbackGetAll(outfits, res, 'Outfits');
 	} catch (error) {
+		console.log('Get All Outfits Error: ', error);
 		responseCallbackGet(error, null, res);
 	} finally {
 		if (client !== null) {
@@ -237,6 +240,7 @@ export const getAllOutfitsCate = async (
 
 		responseCallbackGet(null, outfits, res, 'Outfits');
 	} catch (error) {
+		console.log('Get All Outfits Cate Error: ', error);
 		responseCallbackGet(error, null, res);
 	} finally {
 		if (client !== null) {

@@ -1,45 +1,12 @@
-import React, { type ReactElement, useState } from 'react';
+import React, { type ReactElement } from 'react';
 import CameraComponent from './Camera';
 import ItemCreate from '../../pages/ItemView/ItemCreate';
-import { Stack, type StackTypes } from '../../utils/StackNavigation';
-import { useNavigation } from '@react-navigation/native';
+import { Stack } from '../../utils/StackNavigation';
 import { StackNavigation } from '../../constants/Enums';
-import { type NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { emptyClothing } from '../../constants/Clothing';
-
-const dummyId = 'createID: ';
-let createCount = 0;
 
 const ItemCamera = (): ReactElement => {
-	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
-
-	const [clothingItem, setClothingItem] = useState({ ...emptyClothing });
-
-	const cameraFunction = (image: string): void => {
-		createCount += 1;
-		const newId = dummyId + createCount.toString();
-		setClothingItem({
-			...clothingItem,
-			image_url: image,
-			ciid: newId,
-		});
-		navigation.navigate(StackNavigation.ItemCreate, {});
-	};
-
-	const redirectToProfile = (): void => {
-		navigation.navigate(StackNavigation.Profile, {});
-	};
-
-	const ItemCreateComponent: React.FC = () => (
-		<ItemCreate
-			clothingItem={clothingItem}
-			navigateToProfile={redirectToProfile}
-		/>
-	);
-
-	const CameraComponents: React.FC = () => (
-		<CameraComponent cameraFunction={cameraFunction} />
-	);
+	const ItemCreateComponent: React.FC = () => <ItemCreate />;
+	const CameraComponents: React.FC = () => <CameraComponent mode={1} />;
 
 	return (
 		<Stack.Navigator
@@ -48,16 +15,14 @@ const ItemCamera = (): ReactElement => {
 				contentStyle: { backgroundColor: 'black', opacity: 1 },
 			}}
 		>
-			<Stack.Group>
-				<Stack.Screen
-					name={StackNavigation.CameraComponents}
-					component={CameraComponents}
-				/>
-				<Stack.Screen
-					name={StackNavigation.ItemCreate}
-					component={ItemCreateComponent}
-				/>
-			</Stack.Group>
+			<Stack.Screen
+				name={StackNavigation.CameraComponents}
+				component={CameraComponents}
+			/>
+			<Stack.Screen
+				name={StackNavigation.ItemCreate}
+				component={ItemCreateComponent}
+			/>
 		</Stack.Navigator>
 	);
 };

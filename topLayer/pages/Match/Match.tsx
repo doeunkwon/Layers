@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/Header/Header';
 import Selector from './Selector';
 import Button from '../../components/Button/Button';
@@ -28,7 +29,6 @@ import { emptyClothing } from '../../constants/Clothing';
 
 const Match: React.FC = () => {
 	const { allItems } = useContext(MainPageContext);
-	console.log('allItems match: ', allItems[1].data);
 
 	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const [selectedIndexes, setSelectedIndexes] =

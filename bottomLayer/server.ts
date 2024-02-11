@@ -6,7 +6,7 @@ import {
 } from './src/routes/endpoints';
 import session from 'express-session';
 import passport from 'passport';
-import express from 'express';
+import express, { json, urlencoded } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import ConnectFileStore from 'session-file-store';
 import timeout from 'connect-timeout';
@@ -16,8 +16,8 @@ const app = express();
 const FileStore = ConnectFileStore(session);
 require('dotenv').config();
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb' }));
+app.use(json({ limit: '10mb' }));
+app.use(urlencoded({ limit: '10mb' }));
 app.use(timeout(5000));
 
 app.use(

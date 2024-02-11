@@ -15,19 +15,18 @@ import { type UserOutfit } from '../../types/Outfit';
 import { type UserClothing } from '../../types/Clothing';
 import { getAllClothingItems, getAllOutfits } from '../../endpoints/wardrobe';
 import { type UserAllItems } from '../../types/AllItems';
-import { type NativeSyntheticEvent } from 'react-native';
 import { allUserItems } from '../../functions/Profile/Profile';
 
 export const MainPageContext = createContext({
 	navigationArray: [() => {}],
 	allItems: [] as UserAllItems[],
 	setShouldRefreshMainPage: (() => {}) as Dispatch<SetStateAction<boolean>>,
+	isLoading: 2,
 });
 
 const MainPage: React.FC = () => {
-	const [refresh, setRefresh] = useState(false);
+	const [isLoading, setIsLoading] = useState(2); // Add loading state
 	const [shouldRefreshMainPage, setShouldRefreshMainPage] = useState(true);
-	let prevPage = 1;
 	const [allOutfits, setAllOutfits] = useState<UserOutfit[]>([]);
 	const [allOuterwear, setAllOuterwear] = useState<UserClothing[]>([]);
 	const [allTops, setAllTops] = useState<UserClothing[]>([]);
@@ -46,12 +45,13 @@ const MainPage: React.FC = () => {
 	// fetched all the outfits and clothings
 	useEffect(() => {
 		if (shouldRefreshMainPage) {
-			void getAllOutfits(setAllOutfits);
+			void getAllOutfits(setAllOutfits, setIsLoading);
 			void getAllClothingItems(
 				setAllOuterwear,
 				setAllTops,
 				setAllBottoms,
-				setAllShoes
+				setAllShoes,
+				setIsLoading
 			);
 		}
 		if (shouldRefreshMainPage) {
@@ -70,30 +70,16 @@ const MainPage: React.FC = () => {
 		ref.current?.setPage(2);
 	};
 
-	const onPageScroll = (
-		event: NativeSyntheticEvent<Readonly<{ position: number }>>
-	): void => {
-		const { position } = event.nativeEvent;
-		if (prevPage === 2) {
-			setRefresh(!refresh);
-		}
-		prevPage = position;
-	};
-
 	return (
 		<MainPageContext.Provider
 			value={{
 				navigationArray: [navigateToProfile, navigateToMatch, navigateToFind],
 				allItems: allItems,
 				setShouldRefreshMainPage: setShouldRefreshMainPage,
+				isLoading: isLoading,
 			}}
 		>
-			<PagerView
-				style={styles.pager}
-				ref={ref}
-				initialPage={1}
-				onPageSelected={onPageScroll}
-			>
+			<PagerView style={styles.pager} ref={ref} initialPage={1}>
 				<View collapsable={false}>
 					<MatchPage />
 				</View>

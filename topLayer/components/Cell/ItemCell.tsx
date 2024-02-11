@@ -1,6 +1,9 @@
 import React, { memo, type ReactElement } from 'react';
-import { Image, type ImageStyle, Pressable, StyleSheet } from 'react-native';
+import { type ImageStyle, Pressable, StyleSheet, View } from 'react-native';
 import GlobalStyles from '../../constants/GlobalStyles';
+import MemoImage from '../../components/Image/memoImage';
+import Icon from 'react-native-remix-icon';
+import { photos } from '../../endpoints/General/pictureProcessor';
 
 interface ItemCellPropsType {
 	imageUrl: string;
@@ -15,9 +18,20 @@ const ItemCell = ({
 	disablePress = true,
 	imageStyle,
 	onPress,
-	base64,
 }: ItemCellPropsType): ReactElement => {
-	const url = base64 === true ? `data:image/jpeg;base64,${imageUrl}` : imageUrl;
+	// console.log('Itemcell Initial URL: ', imageUrl.substring(0, 100));
+	let url = imageUrl ?? '';
+	if (!url.startsWith('data')) {
+		const localUrl = photos.get(url);
+		// console.log('local url: ', localUrl?.substring(0, 100));
+		if (localUrl !== undefined) {
+			url = localUrl;
+		} else {
+			url = '';
+		}
+	}
+
+	// console.log('Itemcell URL: ', url.substring(0, 100));
 
 	return (
 		<Pressable
@@ -25,11 +39,17 @@ const ItemCell = ({
 			disabled={disablePress}
 			onPress={onPress}
 		>
-			<Image
-				source={{ uri: url }}
-				style={[styles.image, imageStyle]}
-				resizeMode="contain"
-			/>
+			{url !== '' ? (
+				<MemoImage source={url} style={{ ...imageStyle, ...styles.image }} />
+			) : (
+				<View style={{ ...imageStyle, ...styles.image }}>
+					<Icon
+						name={GlobalStyles.icons.shirtOutline}
+						color={GlobalStyles.colorPalette.primary[300]}
+						size={GlobalStyles.sizing.icon.regular}
+					/>
+				</View>
+			)}
 		</Pressable>
 	);
 };

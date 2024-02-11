@@ -43,21 +43,15 @@ const OutfitPage = (): ReactElement => {
 	);
 
 	return (
-		<Stack.Navigator>
+		<Stack.Navigator screenOptions={{ headerShown: false }}>
 			<Stack.Group>
 				<Stack.Screen
 					name={StackNavigation.OutfitView}
 					component={OutfitViewComponent}
-					options={{
-						headerShown: false,
-					}}
 				/>
 				<Stack.Screen
 					name={StackNavigation.OutfitEdit}
 					component={OutfitEditComponent}
-					options={{
-						headerShown: false,
-					}}
 				/>
 			</Stack.Group>
 		</Stack.Navigator>

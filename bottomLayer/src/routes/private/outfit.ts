@@ -30,6 +30,7 @@ router.post('/', (req: Request, res: Response): void => {
 
 			responseCallbackPost(null, res, 'Outfit');
 		} catch (error) {
+			console.log('Private Create Outfit Error: ', error);
 			responseCallbackPost(error, res);
 		}
 	};
@@ -55,6 +56,7 @@ router.delete('/:outfitId', (req: Request, res: Response): void => {
 				deleteOutfit.rowCount
 			);
 		} catch (error) {
+			console.log('Private Delete Outfit Error: ', error);
 			responseCallbackDelete(error, outfitId, res, 'Outfit');
 		}
 	};
@@ -103,6 +105,7 @@ router.put('/:oid', (req: Request, res: Response): void => {
 			// responds with successful update even when no changes are made
 			responseCallbackUpdate(null, oid, res, 'Outfit', updateOutfit.rowCount);
 		} catch (error) {
+			console.log('Private Update Outfit Error: ', error);
 			responseCallbackUpdate(error, oid, res, 'Outfit');
 		}
 	};
@@ -152,6 +155,7 @@ router.delete('/', (req: Request, res: Response): void => {
 
 			responseCallbackDeleteAll(null, res, 'Outfit', deleteOutfits.rowCount);
 		} catch (error) {
+			console.log('Private Delete All User Outfits Error: ', error);
 			responseCallbackDeleteAll(error, res, 'Outfit');
 		}
 	};

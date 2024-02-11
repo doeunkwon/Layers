@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React, { type ReactElement, useContext } from 'react';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { useNavigation } from '@react-navigation/native';
@@ -82,28 +82,26 @@ const Header: React.FC<HeaderPropType> = ({
 	};
 
 	return (
-		<SafeAreaView>
-			<View style={styles.header}>
-				{leftButton === true
-					? headerButtons({
-							type: leftStepOverType,
-							left: true,
-							handlePress: handleLeftPress,
-							disabled: false,
-						})
-					: null}
+		<View style={styles.header}>
+			{leftButton === true
+				? headerButtons({
+						type: leftStepOverType,
+						left: true,
+						handlePress: handleLeftPress,
+						disabled: false,
+					})
+				: null}
 
-				{rightButton === true
-					? headerButtons({
-							type: rightStepOverType,
-							left: false,
-							handlePress: handleRightPress,
-							disabled: rightButtonDisabled,
-						})
-					: null}
-				{TextRender()}
-			</View>
-		</SafeAreaView>
+			{rightButton === true
+				? headerButtons({
+						type: rightStepOverType,
+						left: false,
+						handlePress: handleRightPress,
+						disabled: rightButtonDisabled,
+					})
+				: null}
+			{TextRender()}
+		</View>
 	);
 };
 

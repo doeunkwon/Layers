@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState, useContext, type ReactElement } from 'react';
 import { StyleSheet, type FlatList, type ViewToken } from 'react-native';
 import Navbar from '../../components/Bar/Navbar';
 import {
@@ -21,10 +21,11 @@ import {
 	handleItemChange,
 } from '../../functions/Profile/Profile';
 import { type UserAllItems } from '../../types/AllItems';
+import { Loading } from '../../components/Loading/Loading';
 
-const Profile: React.FC = () => {
+const Profile = (): ReactElement => {
 	const data = useUser();
-	const { allItems } = useContext(MainPageContext);
+	const { allItems, isLoading } = useContext(MainPageContext);
 
 	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 	const flatListRef = useRef<FlatList<UserAllItems>>(null);
@@ -48,22 +49,27 @@ const Profile: React.FC = () => {
 		navigation.navigate(StackNavigation.Settings, {});
 	};
 
+	// console.log('user pp: ', data.profile_picture.substring(0, 100));
 	return (
 		<SafeAreaView style={styles.container}>
 			<Navbar />
 			<ProfileHeading user={data} profilePicturePress={toggleSettingsModal} />
-			<CategoryComponent
-				allItems={allItems}
-				selectedCategory={selectedCategory}
-				flatListRef={flatListRef}
-				handleCategoryChange={(category: string) => {
-					handleCategoryChange(category, flatListRef, setSelectedCategory);
-				}}
-				handleItemChange={(item: UserClothing | UserOutfit) => {
-					handleItemChange(item, navigation);
-				}}
-				handleViewableItemsChanged={handleViewableItemsChanged}
-			/>
+			{isLoading > 0 ? (
+				<Loading />
+			) : (
+				<CategoryComponent
+					allItems={allItems}
+					selectedCategory={selectedCategory}
+					flatListRef={flatListRef}
+					handleCategoryChange={(category: string) => {
+						handleCategoryChange(category, flatListRef, setSelectedCategory);
+					}}
+					handleItemChange={(item: UserClothing | UserOutfit) => {
+						handleItemChange(item, navigation);
+					}}
+					handleViewableItemsChanged={handleViewableItemsChanged}
+				/>
+			)}
 		</SafeAreaView>
 	);
 };

@@ -1,9 +1,6 @@
 import React, { useState, useRef, type ReactElement } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
-import axios from 'axios';
 import ProfileCell from '../../components/Cell/ProfileCell';
-import { baseUrl } from '../../utils/apiUtils';
 import {
 	type markedPrivateUser,
 	type markedUser,
@@ -12,6 +9,8 @@ import {
 import SearchBar from './SearchBar';
 import GlobalStyles from '../../constants/GlobalStyles';
 import { screenHeight } from '../../utils/modalMaxShow';
+import { Loading } from '../../components/Loading/Loading';
+import { EndpointAllSearch } from '../../endpoints/private/search';
 
 interface SearchBarPropsType {
 	placeholder: string;
@@ -24,6 +23,7 @@ const SearchUsers = ({
 	handleEmptyString,
 	handleNonEmptyString,
 }: SearchBarPropsType): ReactElement => {
+	const [isLoading, setIsLoading] = useState(0); // Add loading state
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState<
 		Array<markedUser | markedPrivateUser>
@@ -33,19 +33,13 @@ const SearchUsers = ({
 	// Create an instance of AbortController
 	const abortController = useRef(new AbortController());
 	const allSearch = async (text: string): Promise<void> => {
-		try {
-			const { data, status } = await axios.get<{
-				data: Array<markedUser | markedPrivateUser>;
-			}>(`${baseUrl}/api/private/search/${text}`, {
-				signal: abortController.current.signal,
-			});
-			if (status === 200) {
-				setSearchResults(data.data);
-			}
-		} catch (error) {
-			axiosEndpointErrorHandlerNoAlert(error);
-			setSearchResults([]);
-		}
+		setIsLoading((n) => n + 1);
+		const successFunc = (data: Array<markedUser | markedPrivateUser>): void => {
+			setSearchResults(data);
+			setIsLoading((n) => n + 1);
+		};
+
+		void EndpointAllSearch(text, successFunc, abortController.current.signal);
 	};
 
 	const handleMarking = (
@@ -70,9 +64,11 @@ const SearchUsers = ({
 
 	const handleSearch = (text: string): void => {
 		abortController.current.abort();
+
 		setSearchQuery(text);
 		if (text === '') {
 			setSearchResults([]);
+			setIsLoading(0);
 			if (handleEmptyString != null) {
 				handleEmptyString(userRelations.current);
 			}
@@ -118,19 +114,25 @@ const SearchUsers = ({
 
 			{whiteSpaceBG()}
 
-			<FlatList
-				data={searchResults}
-				renderItem={renderProfile}
-				keyExtractor={(item) => item.uid}
-				showsVerticalScrollIndicator={false}
-				ListHeaderComponent={<View style={{ height: 35 }} />}
-				ListFooterComponent={() => {
-					if (searchQuery === '') {
-						return null;
-					}
-					return <View style={{ height: screenHeight * 0.13 }} />;
-				}}
-			/>
+			{isLoading === 1 ? (
+				<View style={{ height: '100%' }}>
+					<Loading />
+				</View>
+			) : (
+				<FlatList
+					data={searchResults}
+					renderItem={renderProfile}
+					keyExtractor={(item) => item.uid}
+					showsVerticalScrollIndicator={false}
+					ListHeaderComponent={<View style={{ height: 35 }} />}
+					ListFooterComponent={() => {
+						if (searchQuery === '') {
+							return null;
+						}
+						return <View style={{ height: screenHeight * 0.13 }} />;
+					}}
+				/>
+			)}
 		</View>
 	);
 };
