@@ -23,7 +23,7 @@ const MemoImage = ({
 		}
 	}
 
-	console.log('memoimage final url: ', url.substring(0, 100));
+	// console.log('memoimage final url: ', url.substring(0, 100));
 
 	return (
 		<Image

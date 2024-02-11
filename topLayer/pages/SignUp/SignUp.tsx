@@ -9,7 +9,7 @@ import { usePhoto } from '../../Contexts/CameraContext';
 import SettingsFields from '../../components/Settings/SettingsFields';
 import { View } from 'react-native';
 import { type User, type formUser } from '../../types/User';
-import { EndpointSignup } from 'endpoints/authentication';
+import { EndpointSignup } from '../../endpoints/authentication';
 
 const SignUp: React.FC = () => {
 	const updateUser = useUpdateUser();

@@ -88,7 +88,6 @@ export const outfitPictureProcessor = async (
 		asyncManager.addListener('proceed', listener);
 	});
 	for (const outfit of outfits) {
-		console.log('outfit: ', outfit);
 		void asyncHandlerOutfit(outfit, asyncManager);
 	}
 	await asyncTrigger;

@@ -19,11 +19,11 @@ const ItemCell = ({
 	imageStyle,
 	onPress,
 }: ItemCellPropsType): ReactElement => {
-	console.log('Itemcell Initial URL: ', imageUrl.substring(0, 100));
+	// console.log('Itemcell Initial URL: ', imageUrl.substring(0, 100));
 	let url = imageUrl ?? '';
 	if (!url.startsWith('data')) {
 		const localUrl = photos.get(url);
-		console.log('local url: ', localUrl?.substring(0, 100));
+		// console.log('local url: ', localUrl?.substring(0, 100));
 		if (localUrl !== undefined) {
 			url = localUrl;
 		} else {
@@ -31,7 +31,7 @@ const ItemCell = ({
 		}
 	}
 
-	console.log('Itemcell URL: ', url.substring(0, 100));
+	// console.log('Itemcell URL: ', url.substring(0, 100));
 
 	return (
 		<Pressable

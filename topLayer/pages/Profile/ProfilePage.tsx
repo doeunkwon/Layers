@@ -7,13 +7,9 @@ import CameraPfp from '../../components/Camera/CameraPfp';
 import OutfitPage from '../OutfitView/OutfitPage';
 import ItemPage from '../../pages/ItemView/ItemPage';
 import { Stack } from '../../utils/StackNavigation';
-import ItemCreate from '../../pages/ItemView/ItemCreate';
-import CameraComponent from '../../components/Camera/Camera';
 import ItemCamera from '../../components/Camera/ItemCamera';
 
 const ProfilePage = (): ReactElement => {
-	const CameraComponents: React.FC = () => <CameraComponent mode={1} />;
-
 	return (
 		<NavigationContainer independent={true}>
 			<Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -41,17 +37,12 @@ const ProfilePage = (): ReactElement => {
 							gestureDirection: 'vertical',
 						}}
 					>
-						{/* <Stack.Screen */}
-						{/* 	name={StackNavigation.ItemCreate} */}
-						{/* 	component={ItemCreate} */}
-						{/* /> */}
-
 						<Stack.Screen
 							name={StackNavigation.CameraPfp}
 							component={CameraPfp}
 						/>
 						<Stack.Screen
-							name={StackNavigation.CameraComponents}
+							name={StackNavigation.ItemCamera}
 							component={ItemCamera}
 						/>
 					</Stack.Group>

@@ -30,7 +30,7 @@ const Navbar = (): ReactElement => {
 			<View style={styles.icons}>
 				<Pressable
 					onPress={() => {
-						navigation.navigate(StackNavigation.CameraComponents, {});
+						navigation.navigate(StackNavigation.ItemCamera, {});
 					}}
 				>
 					<Icon

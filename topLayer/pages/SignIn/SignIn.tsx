@@ -7,7 +7,7 @@ import { Loading } from '../../components/Loading/Loading';
 import { useUpdateUser } from '../../Contexts/UserContext';
 import LoginFields from '../../components/Settings/LogInFields';
 import { type loginUser, type User } from '../../types/User';
-import { EndpointLogin } from 'endpoints/authentication';
+import { EndpointLogin } from '../../endpoints/authentication';
 
 const SignIn: React.FC = () => {
 	const updateUser = useUpdateUser();

@@ -1,4 +1,4 @@
-import { base64Prefix } from 'utils/Base64Prefix';
+import { base64Prefix } from '../../utils/Base64Prefix';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
 
 export const photos = new Map<string, string>();
@@ -9,7 +9,6 @@ export const pictureProcessor = async (
 	id: string
 ): Promise<string> => {
 	try {
-		console.log('base64 url: ', url.substring(0, 100));
 		if (url !== '' && photos.get(id) === undefined) {
 			photos.set(id, `${base64Prefix}${url}`);
 		}

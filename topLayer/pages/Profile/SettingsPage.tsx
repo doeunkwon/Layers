@@ -29,7 +29,6 @@ const SettingsPage: React.FC = () => {
 	const { first_name, last_name, email, username, private_option } = data;
 	const profile_picture = useRef(data.profile_picture);
 
-	console.log('settings pp: ', profile_picture);
 	const [isLoading, setIsLoading] = useState(false); // Add loading state
 	const navigation = useNavigation<NativeStackNavigationProp<StackTypes>>();
 

@@ -19,11 +19,11 @@ const ProfilePicture = ({
 	size = GlobalStyles.sizing.pfp.regular,
 	border = false,
 }: ProfilePicturePropsType): ReactElement => {
-	console.log('profile picture image: ', imageUrl?.substring(0, 100));
+	// console.log('profile picture image: ', imageUrl?.substring(0, 100));
 	let url = imageUrl ?? '';
 	if (!url.startsWith('data')) {
 		const localUrl = photos.get(url);
-		console.log('local url: ', localUrl?.substring(0, 100));
+		// console.log('local url: ', localUrl?.substring(0, 100));
 		if (localUrl !== undefined) {
 			url = localUrl;
 		} else {
@@ -31,7 +31,7 @@ const ProfilePicture = ({
 		}
 	}
 
-	console.log('profile picture final image: ', url.substring(0, 100));
+	// console.log('profile picture final image: ', url.substring(0, 100));
 
 	return (
 		<>

@@ -33,7 +33,7 @@ import {
 import { userFieldRules } from '../../constants/userConstraints';
 import { usePhotoUpdate } from '../../Contexts/CameraContext';
 import { type formUser } from '../../types/User';
-import { base64Prefix } from 'utils/Base64Prefix';
+import { base64Prefix } from '../../utils/Base64Prefix';
 
 interface SettingsFieldsType {
 	control: Control<formUser>;

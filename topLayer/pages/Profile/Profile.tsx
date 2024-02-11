@@ -49,6 +49,7 @@ const Profile = (): ReactElement => {
 		navigation.navigate(StackNavigation.Settings, {});
 	};
 
+	// console.log('user pp: ', data.profile_picture.substring(0, 100));
 	return (
 		<SafeAreaView style={styles.container}>
 			<Navbar />

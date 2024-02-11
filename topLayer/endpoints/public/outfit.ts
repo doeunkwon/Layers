@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Methods, Routers } from '../constants';
 import { type UserOutfit } from '../../types/Outfit';
 import { axiosEndpointErrorHandlerNoAlert } from '../../utils/ErrorHandlers';
+import { outfitPictureProcessor } from '../General/Specialized/pictureProcessors';
 
 export const EndpointGetForeignAllOutfits = async (
 	uid: string,
@@ -17,8 +18,8 @@ export const EndpointGetForeignAllOutfits = async (
 			url: url,
 		});
 		if (status === 200) {
-			// const outfit = await outfitPictureProcessor(data.data);
-			successFunc(data.data);
+			const outfits = await outfitPictureProcessor(data.data);
+			successFunc(outfits);
 		} else {
 			throw new Error(
 				`An Error Has Occurred -- Fetching User Outfits, User -- ${uid}: ${status}`
