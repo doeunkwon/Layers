@@ -11,7 +11,7 @@ Layers is a minimalistic wardrobe app that lets you upload clothing items, remov
 
 ## Why?
 
-### Fashion speaks volumes.
+### Fashion is one of the most powerful channels for self-expression.
 Every person possesses a unique fashion identity, often unbeknownst to them. Recognizing that many, myself included, struggle to express themselves through fashion, three friends and I embarked on creating Layers. This app simplifies the process of curating and executing your ideal wardrobe, making it easier for people to dress well and feel confident.
 
 ### Digitizing wardrobes is a game-changer.
