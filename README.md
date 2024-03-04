@@ -21,5 +21,7 @@ By digitizing wardrobes, Layers transforms a traditionally inefficient task (man
 <p align="center">
   <img width="800" src="https://github.com/doeunkwon/Layers/assets/88988886/85c95dbd-e755-4b1f-9b6c-812f7e931c2b.png">
 </p>
-
 <br>
+
+### Note
+I have created a completely new UI design for this app, which I will share soon. The design shown in the above screenshots was used for our MVP and was heavily inspired by Andrew Chornomorets' <a href='https://www.behance.net/gallery/144250751/Digital-Closet-Mobile-App?tracking_source=search_projects|digital+wardrobe&l=37'>digital wardrobe design project</a>.
