@@ -32,7 +32,7 @@ Layers digitizes your clothing items with remarkable ease.
 The design shown in the above screenshots was used for our MVP and was heavily inspired by Andrew Chornomorets' <a href='https://www.behance.net/gallery/144250751/Digital-Closet-Mobile-App?tracking_source=search_projects|digital+wardrobe&l=37'>digital wardrobe design project</a>.
 
 ### New designs that never reached production.
-Here are four screenshots. I can provide the complete design file upon request.
+Here are four screenshots.
 <p align="center">
   <img width="800" src="https://github.com/doeunkwon/Layers/assets/88988886/8554b646-50fc-4479-93cf-745b19e9c5ad">
 </p>
