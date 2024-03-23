@@ -38,7 +38,7 @@ Here are four screenshots.
 </p>
 In this design iteration, I focused on:
 <ul>
-  <li><b>Colors:</b> I muted unnecessary colors to help users focus on the important elements, such as the clothing items and outfits."</li>
+  <li><b>Colors:</b> I muted unnecessary colors to help users focus on the important elements, such as the clothing items and outfits.</li>
   <li><b>Spacing:</b> I minimized unnecessary whitespace and elements to maximize visibility of important content, such as outfit pictures, outfit matching pages, and wardrobe views. Specifically, I removed unnecessary header titles and buttons that obstructed important content.</li>
   <li><b>Expressivity:</b> My initial design lacked expressivity, which is crucial in a digital wardrobe app. Therefore, I focused on enhancing user expressiveness, including features such as adding custom clothing categories, uploading pictures of oneself wearing outfits, close-up shots of clothing items, and tags for individual items.</li>
 </ul>
