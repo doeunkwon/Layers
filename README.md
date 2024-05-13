@@ -26,6 +26,14 @@ Layers digitizes your clothing items with remarkable ease.
 </p>
 <br>
 
+## Early Version Demo
+
+https://github.com/doeunkwon/Layers/assets/88988886/97f86584-8a3f-47c4-9c43-a135de8ee4ca
+
+https://github.com/doeunkwon/Layers/assets/88988886/b460d021-5f88-43c8-8e4b-e316948a0d56
+
+https://github.com/doeunkwon/Layers/assets/88988886/e2e08ab5-bc07-49b9-9723-709334215212
+
 ## Design
 
 ### Much credit goes to the talented Andrew Chornomorets.
