@@ -5,7 +5,7 @@
   <img width="800" src="https://github.com/doeunkwon/Layers/assets/88988886/0cc20e9e-7733-427d-b186-6ad903d119d2.png">
 </p>
 
-Layers is a minimalistic wardrobe app that lets you upload clothing items, remove backgrounds, and mix and match pieces to build your ideal wardrobe effortlessly. It's the perfect tool for streamlining your style and planning outfits with ease.
+Layers is a minimalistic wardrobe app that lets you upload clothing items, remove backgrounds, and mix and match pieces to build your ideal wardrobe effortlessly. It's the perfect tool for streamlining your style and planning outfits with ease. **Message me if you'd like to try out Layers!**
 
 ## Motive
 
